@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const exphbs = require('express-handlebars');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const busboy = require('busboy');
 const crypto = require('crypto');
 
 function generateAuthToken() {
@@ -70,6 +71,35 @@ app.get('/register', (req, res) => {
 
 app.get('/login', (req, res) => {
     res.render('login');
+});
+
+app.get('/upload', requireAuth, (req, res) => {
+    res.render('upload');
+});
+
+app.post('/upload', requireAuth, (req, res) => {
+    bb = busboy({ headers: req.headers });
+
+    bb.on('file', (name, file, info) => {
+        console.log(name, file, info);
+        console.log(file);
+
+        file.on('data', (data) => {
+            console.log(`File ${name} got ${data.length} bytes`);
+        });
+
+        file.on('close', () => {
+            console.log(`File ${name} done`);
+        });
+    });
+
+    bb.on('close', () => {
+        console.log('Done parsing form!');
+        res.writeHead(303, { Connection: 'close', Location: '/' });
+        res.end();
+    })
+
+    req.pipe(bb);
 });
 
 app.post('/login', (req, res) => {
