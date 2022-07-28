@@ -42,6 +42,7 @@ function requireAuth(req, res, next) {
 const users = [
     // This user is added to the array to avoid creating a new user on each restart
     {
+        username: 'alice',
         firstName: 'Alice',
         lastName: 'Henderson',
         email: 'alice@example.com',
@@ -86,7 +87,7 @@ app.post('/upload', requireAuth, (req, res) => {
         const { filename, encoding } = info;
 
         const dir = path.join(__dirname, 'uploads',
-        req.user.firstName.toLowerCase());
+        req.user.username.toLowerCase());
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
         }
@@ -156,7 +157,8 @@ app.post('/logout', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-    const { email, firstName, lastName, password, confirmPassword } = req.body;
+    const { username, email, firstName, lastName, password, confirmPassword }
+        = req.body;
 
     // Check if the password and confirm password fields match
     if (password === confirmPassword) {
@@ -175,6 +177,7 @@ app.post('/register', (req, res) => {
 
         // Store user into the database if you are using one
         users.push({
+            username,
             firstName,
             lastName,
             email,
