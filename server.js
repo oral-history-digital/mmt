@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const busboy = require('busboy');
 const crypto = require('crypto');
+const fs = require('fs');
+const path = require('node:path');
 
 function generateAuthToken() {
     return crypto.randomBytes(30).toString('hex');
@@ -81,11 +83,22 @@ app.post('/upload', requireAuth, (req, res) => {
     bb = busboy({ headers: req.headers });
 
     bb.on('file', (name, file, info) => {
+        const { filename, encoding } = info;
+
+        const dir = path.join(__dirname, 'uploads',
+        req.user.firstName.toLowerCase());
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+        }
+
+        const stream = fs.createWriteStream(path.join(dir, filename));
+
+        file.pipe(stream);
+
         console.log(name, file, info);
         console.log(file);
 
         file.on('data', (data) => {
-            console.log(`File ${name} got ${data.length} bytes`);
         });
 
         file.on('close', () => {
