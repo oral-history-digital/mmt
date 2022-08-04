@@ -1,11 +1,11 @@
-{{#if message}}
-    <div class="{{messageClass}}" role="alert">
-        {{message}}
-    </div>
-{{/if}}
-
 <section class="section">
     <h1 class="title">Login</h1>
+
+    {{#if message}}
+        <div class="{{messageClass}}" role="alert">
+            {{message}}
+        </div>
+    {{/if}}
 
     <form method="POST" action="/login">
         <div class="field">
@@ -13,13 +13,14 @@
             <div class="control">
                 <input name="email" type="email" class="input" id="exampleInputEmail1" placeholder="Enter email">
             </div>
-            <p class="help">Please enter your email.</p>
         </div>
-        <div class="">
+        <div class="field">
             <label class="label" for="exampleInputPassword1">Password</label>
-            <input name="password" type="password" class="input" id="exampleInputPassword1" placeholder="Password">
+            <div class="control">
+                <input name="password" type="password" class="input" id="exampleInputPassword1" placeholder="Password">
+            </div>
         </div>
-        <div class="mt-4">
+        <div class="field">
             <button type="submit" class="button is-primary">Login</button>
         </div>
     </form>

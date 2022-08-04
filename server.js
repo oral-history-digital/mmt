@@ -18,12 +18,17 @@ function getHashedPassword(password) {
     return hash;
 }
 
+function getDirectoryName(user) {
+    return path.join(__dirname, 'uploads', user.username.toLowerCase());
+}
+
 function injectUser(req, res, next) {
     // Get auth token from the cookies
     const authToken = req.cookies['AuthToken'];
 
     // Inject the user to the request
     req.user = authTokens[authToken];
+    res.locals.signedIn = req.user ? true : false;
 
     next();
 }
@@ -65,19 +70,32 @@ app.engine('hbs', exphbs.engine({extname: '.hbs'}));
 app.set('view engine', 'hbs');
 
 app.get('/', (req, res) => {
-    res.render('home', { signedIn: req.user ? true : false });
+    res.render('home');
 });
 
 app.get('/register', (req, res) => {
-    res.render('register', { signedIn: req.user ? true : false });
+    res.render('register');
 });
 
 app.get('/login', (req, res) => {
-    res.render('login', { signedIn: req.user ? true : false });
+    res.render('login');
+});
+
+app.get('/files', requireAuth, (req, res) => {
+    const dir = getDirectoryName(req.user);
+
+    let files = [];
+
+    if (fs.existsSync(dir)) {
+        files = fs.readdirSync(dir);
+        console.log(files);
+    }
+
+    res.render('files', { files });
 });
 
 app.get('/upload', requireAuth, (req, res) => {
-    res.render('upload', { signedIn: req.user ? true : false });
+    res.render('upload');
 });
 
 app.post('/upload', requireAuth, (req, res) => {
@@ -86,8 +104,7 @@ app.post('/upload', requireAuth, (req, res) => {
     bb.on('file', (name, file, info) => {
         const { filename, encoding } = info;
 
-        const dir = path.join(__dirname, 'uploads',
-        req.user.username.toLowerCase());
+        const dir = getDirectoryName(req.user);
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
         }
@@ -134,12 +151,11 @@ app.post('/login', (req, res) => {
         res.cookie('AuthToken', authToken);
 
         // Redirect user to the protected page
-        res.redirect('/protected');
+        res.redirect('/');
     } else {
         res.render('login', {
             message: 'Invalid username or password',
             messageClass: 'alert-danger',
-            signedIn: req.user ? true : false,
         });
     }
 });
@@ -188,19 +204,17 @@ app.post('/register', (req, res) => {
         res.render('login', {
             message: 'Registration Complete. Please login to continue.',
             messageClass: 'alert-success',
-            signedIn: req.user ? true : false,
         });
     } else {
         res.render('register', {
             message: 'Password does not match.',
             messageClass: 'alert-danger',
-            signedIn: req.user ? true : false,
         });
     }
 });
 
 app.get('/protected', requireAuth, (req, res) => {
-    res.render('protected', { signedIn: req.user ? true : false });
+    res.render('protected');
 });
 
 

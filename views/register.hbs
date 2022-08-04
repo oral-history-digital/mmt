@@ -1,49 +1,62 @@
-<div class="row justify-content-md-center" style="margin-top: 30px">
-    <div class="col-md-4">
+<section class="section">
+    <h1 class="title">Sign up</h1>
 
-        {{#if message}}
-            <div class="alert {{messageClass}}" role="alert">
-                {{message}}
-            </div>
-        {{/if}}
+    {{#if message}}
+        <div class="{{messageClass}}" role="alert">
+            {{message}}
+        </div>
+    {{/if}}
 
-        <form method="POST" action="/register">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input name="username" type="text" class="form-control"
+    <form method="POST" action="/register">
+        <div class="field">
+            <label class="label" for="username">Username</label>
+            <div class="control">
+                <input name="username" type="text" class="input"
                     id="username" required pattern="[A-Za-z0-9_-]{4,12}">
-                <small id="usernameHelpBlock" class="form-text text-muted">
-                    Your username must be 4-12 characters long, can contain letters, numbers, and the - and _ characters.
-                </small>
             </div>
+            <p class="help">
+                Your username must be 4–12 characters long, can contain letters, numbers, and the - and _ characters.
+            </p>
+        </div>
 
-            <div class="form-group">
-                <label for="firstNameInput">First Name</label>
-                <input name="firstName" type="text" class="form-control" id="firstNameInput">
+        <div class="field">
+            <label class="label" for="firstNameInput">First Name</label>
+            <div class="control">
+                <input name="firstName" type="text" class="input" id="firstNameInput">
             </div>
+        </div>
 
-            <div class="form-group">
-                <label for="lastNameInput">Last Name</label>
-                <input name="lastName" type="text" class="form-control" id="lastNameInput">
+        <div class="field">
+            <label class="label" for="lastNameInput">Last Name</label>
+            <div class="control">
+                <input name="lastName" type="text" class="input" id="lastNameInput">
             </div>
+        </div>
 
-            <div class="form-group">
-                <label for="emailInput">Email address</label>
-                <input name="email" type="email" class="form-control" id="emailInput" placeholder="Enter email">
+        <div class="field">
+            <label class="label" for="emailInput">Email address</label>
+            <div class="control">
+                <input name="email" type="email" class="input" id="emailInput" placeholder="Enter email">
             </div>
+        </div>
 
-            <div class="form-group">
-                <label for="passwordInput">Password</label>
-                <input name="password" type="password" class="form-control" id="passwordInput" placeholder="Password">
+        <div class="field">
+            <label class="label" for="passwordInput">Password</label>
+            <div class="control">
+                <input name="password" type="password" class="input" id="passwordInput" placeholder="Password">
             </div>
+        </div>
 
-            <div class="form-group">
-                <label for="confirmPasswordInput">Confirm Password</label>
-                <input name="confirmPassword" type="password" class="form-control" id="confirmPasswordInput"
+        <div class="field">
+            <label class="label" for="confirmPasswordInput">Confirm Password</label>
+            <div class="control">
+                <input name="confirmPassword" type="password" class="input" id="confirmPasswordInput"
                     placeholder="Re-enter your password here">
             </div>
+        </div>
 
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form>
-    </div>
-</div>
+        <div class="field">
+            <button type="submit" class="button is-primary">Sign up</button>
+        </div>
+    </form>
+</section>
