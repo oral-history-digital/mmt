@@ -164,8 +164,4 @@ module.exports = function addRoutes(app) {
             });
         }
     });
-
-    app.get('/protected', requireAuth, (req, res) => {
-        res.render('protected');
-    });
 };
