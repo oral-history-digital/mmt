@@ -69,15 +69,15 @@ app.get('/', (req, res) => {
 });
 
 app.get('/register', (req, res) => {
-    res.render('register');
+    res.render('register', { signedIn: req.user ? true : false });
 });
 
 app.get('/login', (req, res) => {
-    res.render('login');
+    res.render('login', { signedIn: req.user ? true : false });
 });
 
 app.get('/upload', requireAuth, (req, res) => {
-    res.render('upload');
+    res.render('upload', { signedIn: req.user ? true : false });
 });
 
 app.post('/upload', requireAuth, (req, res) => {
@@ -138,7 +138,8 @@ app.post('/login', (req, res) => {
     } else {
         res.render('login', {
             message: 'Invalid username or password',
-            messageClass: 'alert-danger'
+            messageClass: 'alert-danger',
+            signedIn: req.user ? true : false,
         });
     }
 });
@@ -186,18 +187,20 @@ app.post('/register', (req, res) => {
 
         res.render('login', {
             message: 'Registration Complete. Please login to continue.',
-            messageClass: 'alert-success'
+            messageClass: 'alert-success',
+            signedIn: req.user ? true : false,
         });
     } else {
         res.render('register', {
             message: 'Password does not match.',
-            messageClass: 'alert-danger'
+            messageClass: 'alert-danger',
+            signedIn: req.user ? true : false,
         });
     }
 });
 
 app.get('/protected', requireAuth, (req, res) => {
-    res.render('protected');
+    res.render('protected', { signedIn: req.user ? true : false });
 });
 
 

@@ -1,17 +1,7 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Simple Authentication App</a>
-</nav>
+<h1 class="title">
+    OHD Files
+</h1>
 
-<div style="margin-top: 30px">
-    <form method="POST" action="/logout">
-        {{#unless signedIn}}
-            <a class="btn btn-primary btn-lg active" href="/login">Login</a>
-            <a class="btn btn-primary btn-lg active" href="/register">Register</a>
-        {{/unless}}
-        {{#if signedIn}}
-            <button class="btn btn-primary btn-lg active" type="submit">
-                Logout
-            </button>
-        {{/if}}
-    </form>
-</div>
+<p class="subtitle">
+    The upload and download app of OHD
+</p>
