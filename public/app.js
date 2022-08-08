@@ -6,7 +6,9 @@
 
 const fileInput = document.getElementById('file-input');
 
-fileInput.addEventListener('change', handleFileChange);
+if (fileInput) {
+    fileInput.addEventListener('change', handleFileChange);
+}
 
 
 function handleFileChange(event) {
@@ -16,6 +18,31 @@ function handleFileChange(event) {
     console.log(firstFile);
 
     const req = new XMLHttpRequest();
+    req.open('POST', '/upload');
+
+    const formData = new FormData();
+    formData.append('files', firstFile, firstFile.name);
+
+    req.addEventListener('load', (event) => {
+        console.log('transaction completed');
+    });
+
+    req.addEventListener('progress', (event) => {
+        // The progress event is for the response!
+        console.log(event.lengthComputable, event.loaded, event.total);
+    });
+
+    const uploadObject = req.upload;
+    console.log(uploadObject);
+    uploadObject.addEventListener('progress', (event) => {
+        console.log(event.lengthComputable, event.loaded, event.total);
+    });
+
+    uploadObject.addEventListener('load', (event) => {
+        console.log('upload complete');
+    });
+
+    req.send(formData);
 
     console.log(req);
 }
