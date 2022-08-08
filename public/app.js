@@ -10,6 +10,8 @@ if (fileInput) {
     fileInput.addEventListener('change', handleFileChange);
 }
 
+let currentRequest = null;
+
 
 function handleFileChange(event) {
     fileInput.disabled = true;
@@ -20,6 +22,7 @@ function handleFileChange(event) {
     console.log(firstFile);
 
     const req = new XMLHttpRequest();
+    currentRequest = req;
     req.open('POST', '/upload');
 
     const formData = new FormData();
@@ -45,7 +48,7 @@ function handleFileChange(event) {
 
             const progressBar = document.getElementById('progress-bar');
 
-            progressBar.value = percentage;
+            progressBar.value = event.loaded;
             progressBar.innerHTML = `${percentage}%`;
         }
     });
@@ -55,6 +58,7 @@ function handleFileChange(event) {
 
         fileInput.value = null;
         fileInput.disabled = false;
+        currentRequest = null;
 
         removeProgressBar(firstFile.name);
     });
@@ -67,6 +71,11 @@ function handleFileChange(event) {
 }
 
 function addProgressBar(file) {
+    const progressDiv = document.createElement('div');
+    progressDiv.className = 'mr-5';
+    progressDiv.style.flexGrow = 1;
+
+
     const filename = file.name;
     const filesize = Math.round(file.size / 1024);
 
@@ -74,7 +83,6 @@ function addProgressBar(file) {
     const message = document.createElement('p');
 
     message.id = 'progress-bar-message';
-    message.className = 'mt-5';
     message.innerHTML = `Uploading file <b>${filename}</b> with ${filesize.toLocaleString()}KiB…`;
 
 
@@ -84,17 +92,32 @@ function addProgressBar(file) {
 
     progressBar.id = 'progress-bar';
     progressBar.className = 'progress is-primary mt-3';
-    progressBar.max = 100;
+    progressBar.max = file.size;
     progressBar.value = 0;
     progressBar.innerHTML = '0%';
 
-    container.append(message);
-    container.append(progressBar);
+    const abortButton = document.createElement('button');
+    abortButton.innerHTML = 'Abort';
+    abortButton.type = 'button';
+    abortButton.className = 'button';
+    abortButton.style.marginLeft = 'auto';
+
+    abortButton.addEventListener('click', (event) => {
+        currentRequest.abort();
+        currentRequest = null;
+        fileInput.value = null;
+        fileInput.disabled = false;
+
+        removeProgressBar();
+    });
+
+    progressDiv.append(message);
+    progressDiv.append(progressBar);
+    container.append(progressDiv);
+    container.append(abortButton);
 }
 
-function removeProgressBar(filename) {
-    const progressBar = document.getElementById('progress-bar');
-    progressBar.remove();
-    const message = document.getElementById('progress-bar-message');
-    message.innerHTML = `File <b>${filename}</b> uploaded. <a href="/files">See files.</a>`;
+function removeProgressBar() {
+    const container = document.getElementById('progress-bar-container');
+    container.innerHTML = '';
 }
