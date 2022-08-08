@@ -27,3 +27,5 @@ const host = 'localhost';
 app.listen(port, host, () => {
     console.log(`App listening on http://${host}:${port}`);
 });
+
+export const viteNodeApp = app;
