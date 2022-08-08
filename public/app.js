@@ -59,20 +59,23 @@ function handleFileChange(event) {
         removeProgressBar(firstFile.name);
     });
 
-    addProgressBar(firstFile.name);
+    addProgressBar(firstFile);
 
     req.send(formData);
 
     console.log(req);
 }
 
-function addProgressBar(filename) {
-    const container = document.getElementById('progress-bar-container');
+function addProgressBar(file) {
+    const filename = file.name;
+    const filesize = Math.round(file.size / 1024);
 
+    const container = document.getElementById('progress-bar-container');
     const message = document.createElement('p');
+
     message.id = 'progress-bar-message';
     message.className = 'mt-5';
-    message.innerHTML = `Uploading file <b>${filename}…</b>`;
+    message.innerHTML = `Uploading file <b>${filename}</b> with ${filesize.toLocaleString()}KiB…`;
 
 
     const progressBar = document.createElement('progress');
