@@ -9,7 +9,7 @@ const routes = require('./routes');
 
 const app = express();
 
-app.use(express.static('public'));
+app.use(express.static('public', { maxAge: '1m' }));
 app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());

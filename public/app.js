@@ -12,6 +12,8 @@ if (fileInput) {
 
 
 function handleFileChange(event) {
+    fileInput.disabled = true;
+
     const files = event.target.files;
     const firstFile = files[0];
 
@@ -33,6 +35,7 @@ function handleFileChange(event) {
     });
 
     const uploadObject = req.upload;
+
     console.log(uploadObject);
     uploadObject.addEventListener('progress', (event) => {
         console.log(event.lengthComputable, event.loaded, event.total);
@@ -40,6 +43,9 @@ function handleFileChange(event) {
 
     uploadObject.addEventListener('load', (event) => {
         console.log('upload complete');
+
+        fileInput.value = null;
+        fileInput.disabled = false;
     });
 
     req.send(formData);
