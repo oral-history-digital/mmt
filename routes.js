@@ -34,20 +34,38 @@ module.exports = function addRoutes(app) {
     });
 
     app.get('/files', requireAuth, (req, res) => {
-        const dir = getDirectoryName(req.user);
-
-        let files = [];
-
-        if (fs.existsSync(dir)) {
-            files = fs.readdirSync(dir);
-            console.log(files);
+        const uploadDir = getDirectoryName(req.user, 'upload');
+        let uploadFiles = [];
+        if (fs.existsSync(uploadDir)) {
+            uploadFiles = fs.readdirSync(uploadDir);
         }
 
-        res.render('files', { files });
+        const downloadDir = getDirectoryName(req.user, 'download');
+        let downloadFiles = [];
+        if (fs.existsSync(downloadDir)) {
+            downloadFiles = fs.readdirSync(downloadDir);
+        }
+
+        res.render('files', {
+            uploadFiles,
+            downloadFiles: downloadFiles.map(filename => ({
+                name: filename,
+                encoded: encodeURIComponent(filename),
+            })),
+        });
     });
 
     app.get('/upload', requireAuth, (req, res) => {
         res.render('upload');
+    });
+
+    app.get('/download', requireAuth, (req, res) => {
+        const filename = decodeURIComponent(req.query.filename);
+
+        const downloadDir = getDirectoryName(req.user, 'download');
+        const filepath = path.join(downloadDir, filename);
+
+        res.download(filepath);
     });
 
     app.post('/upload', requireAuth, (req, res) => {
