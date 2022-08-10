@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Layout from './Layout';
 import Files from './Files';
 import Home from './Home';
-import Upload from './Upload';
+import { Upload } from '../modules/upload';
 import Login from './Login';
 import SignUp from './SignUp';
 

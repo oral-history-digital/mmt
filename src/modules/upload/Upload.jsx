@@ -1,7 +1,12 @@
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { addUpload, removeUpload } from './actions';
+import ProgressBar from './ProgressBar';
+import { getUploads } from './selectors';
 
 export default function Upload() {
-    const [upload, setUpload] = useState(null);
+    const dispatch = useDispatch();
+    const allUploads = useSelector(getUploads);
 
     function handleFileChange(event) {
         const files = event.target.files;
@@ -44,30 +49,30 @@ export default function Upload() {
 
         uploadObject.addEventListener('progress', (event) => {
             if (event.lengthComputable) {
-                setUpload(prev => ({
-                    ...prev,
-                    value: event.loaded,
-                    percentage: Math.round(100 / event.total * event.loaded),
-                }));
+                //setUpload(prev => ({
+                //    ...prev,
+                //    value: event.loaded,
+                //    percentage: Math.round(100 / event.total * event.loaded),
+                //}));
             }
         });
 
         uploadObject.addEventListener('load', (event) => {
             console.log('upload complete');
 
-            setUpload(null);
+            //dispatch(removeUpload(0));
         });
 
-        setUpload(preparedUpload);
+        dispatch(addUpload(preparedUpload));
 
         req.send(formData);
 
         console.log(req);
     }
 
-    function abortUpload() {
-        upload.request.abort();
-        setUpload(null);
+    function abortUpload(id) {
+        allUploads[id].request.abort();
+        dispatch(removeUpload(id));
     }
 
     return (
@@ -83,6 +88,7 @@ export default function Upload() {
                             name="files"
                             id="file-input"
                             accept="video/*,audio/*"
+                            multiple
                             onChange={handleFileChange}
                         />
                         <span className="file-cta">
@@ -97,34 +103,9 @@ export default function Upload() {
                 </div>
             </form>
 
-            {upload && (
-                <div
-                    id="progress-bar-container"
-                    className="mt-5"
-                    style={{ display: 'flex', alignItems: 'center'}}
-                >
-                    <div className="mr-5" style={{ flexGrow: 1 }}>
-                        <p>
-                            Uploading file <b>{upload.filename}</b> with {upload.sizeInKb.toLocaleString()}KiB…
-                        </p>
-                        <progress
-                            className="progress is-primary mt-3"
-                            max={upload.total}
-                            value={upload.value}
-                        >
-                            {upload.percentage}%
-                        </progress>
-                    </div>
-                    <button
-                        type="button"
-                        className="button"
-                        style={{ marginLeft: 'auto' }}
-                        onClick={abortUpload}
-                    >
-                        Abort
-                    </button>
-                </div>
-            )}
+            {Object.values(allUploads).map(upload => (
+                <ProgressBar key={upload.id} upload={upload} />
+            ))}
         </section>
     );
 }
