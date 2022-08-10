@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addUpload, removeUpload } from './actions';
+import { addUpload, uploadProgress, removeUpload } from './actions';
 import ProgressBar from './ProgressBar';
 import { getUploads } from './selectors';
 
@@ -10,13 +10,15 @@ export default function Upload() {
 
     function handleFileChange(event) {
         const files = event.target.files;
-        const firstFile = files[0];
+        for (let i = 0; i < files.length; i++) {
+            addFile(files.item(i));
+        }
+    }
 
-
-        const filename = firstFile.name;
-        const total = firstFile.size;
+    function addFile(file) {
+        const filename = file.name;
+        const total = file.size;
         const sizeInKb = Math.round(total / 1024);
-
 
         const req = new XMLHttpRequest();
 
@@ -29,11 +31,10 @@ export default function Upload() {
             sizeInKb,
         };
 
-
         req.open('POST', 'http://localhost:3000/upload');
 
         const formData = new FormData();
-        formData.append('files', firstFile, firstFile.name);
+        formData.append('files', file, file.name);
 
         req.addEventListener('load', (event) => {
             console.log('transaction completed');
@@ -45,12 +46,9 @@ export default function Upload() {
 
         const uploadObject = req.upload;
 
-        console.log(uploadObject);
-
         uploadObject.addEventListener('progress', (event) => {
             if (event.lengthComputable) {
-                //setUpload(prev => ({
-                //    ...prev,
+                //dispatch(uploadProgress({
                 //    value: event.loaded,
                 //    percentage: Math.round(100 / event.total * event.loaded),
                 //}));
@@ -63,9 +61,8 @@ export default function Upload() {
             //dispatch(removeUpload(0));
         });
 
-        dispatch(addUpload(preparedUpload));
-
         req.send(formData);
+        dispatch(addUpload(preparedUpload));
 
         console.log(req);
     }

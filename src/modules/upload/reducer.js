@@ -23,6 +23,8 @@ const upload = (state = initialState, action) => {
                     id,
                 },
             };
+        case UPLOAD_PROGRESS:
+
         default:
             return state;
     }
