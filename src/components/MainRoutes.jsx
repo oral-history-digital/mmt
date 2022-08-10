@@ -4,6 +4,8 @@ import Layout from './Layout';
 import Files from './Files';
 import Home from './Home';
 import Upload from './Upload';
+import Login from './Login';
+import SignUp from './SignUp';
 
 export default function MainRoutes() {
     return (
@@ -12,6 +14,8 @@ export default function MainRoutes() {
                 <Route index element={<Home />} />
                 <Route path="files" element={<Files />} />
                 <Route path="upload" element={<Upload />} />
+                <Route path="login" element={<Login />} />
+                <Route path="sign-up" element={<SignUp />} />
             </Route>
         </Routes>
     );

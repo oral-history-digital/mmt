@@ -39,12 +39,12 @@ export default function PrimaryNav({
                                 </form>
                             ) : (
                                 <>
-                                    <a className="button is-primary" href="/register">
+                                    <Link className="button is-primary" to="/sign-up">
                                         <strong>Sign up</strong>
-                                    </a>
-                                    <a className="button is-light" href="/login">
+                                    </Link>
+                                    <Link className="button is-light" to="/login">
                                         Log in
-                                    </a>
+                                    </Link>
                                 </>
                             )}
                         </div>
