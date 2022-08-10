@@ -1,12 +1,13 @@
-import PrimaryNav from './components/PrimaryNav';
-
+import { BrowserRouter } from 'react-router-dom';
 import 'bulma/css/bulma.min.css';
+
+import MainRoutes from './components/MainRoutes';
 
 function App() {
   return (
-    <div className="container">
-      <PrimaryNav signedIn />
-    </div>
+    <BrowserRouter>
+      <MainRoutes />
+    </BrowserRouter>
   )
 }
 

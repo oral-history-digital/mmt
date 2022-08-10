@@ -1,46 +1,48 @@
+import { Link } from 'react-router-dom';
+
 export default function PrimaryNav({
     signedIn = false,
 }) {
     return (
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="/">
+        <nav className="navbar" role="navigation" aria-label="main navigation">
+            <div className="navbar-brand">
+                <Link className="navbar-item" to="/">
                     <strong>OHD Files</strong>
-                </a>
+                </Link>
 
-                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                 </a>
             </div>
 
-            <div id="navbarBasicExample" class="navbar-menu">
-                <div class="navbar-start">
-                    <a class="navbar-item" href="/files">
+            <div id="navbarBasicExample" className="navbar-menu">
+                <div className="navbar-start">
+                    <Link className="navbar-item" to="/files">
                         Files
-                    </a>
+                    </Link>
 
-                    <a class="navbar-item" href="/upload">
+                    <Link className="navbar-item" to="/upload">
                         Upload
-                    </a>
+                    </Link>
                 </div>
 
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="buttons">
+                <div className="navbar-end">
+                    <div className="navbar-item">
+                        <div className="buttons">
                             {signedIn ? (
                                 <form method="POST" action="/logout">
-                                    <button class="button" type="submit">
+                                    <button className="button" type="submit">
                                         Logout
                                     </button>
                                 </form>
                             ) : (
                                 <>
-                                    <a class="button is-primary" href="/register">
+                                    <a className="button is-primary" href="/register">
                                         <strong>Sign up</strong>
                                     </a>
-                                    <a class="button is-light" href="/login">
+                                    <a className="button is-light" href="/login">
                                         Log in
                                     </a>
                                 </>
