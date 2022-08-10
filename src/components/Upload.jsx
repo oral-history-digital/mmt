@@ -25,7 +25,7 @@ export default function Upload() {
         };
 
 
-        req.open('POST', '/upload');
+        req.open('POST', 'http://localhost:3000/upload');
 
         const formData = new FormData();
         formData.append('files', firstFile, firstFile.name);
@@ -105,7 +105,7 @@ export default function Upload() {
                 >
                     <div className="mr-5" style={{ flexGrow: 1 }}>
                         <p>
-                            Uploading file <b>${upload.filename}</b> with ${upload.sizeInKb.toLocaleString()}KiB…
+                            Uploading file <b>{upload.filename}</b> with {upload.sizeInKb.toLocaleString()}KiB…
                         </p>
                         <progress
                             className="progress is-primary mt-3"

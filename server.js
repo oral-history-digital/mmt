@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const exphbs = require('express-handlebars');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const helmet = require('helmet');
@@ -11,6 +12,7 @@ const routes = require('./routes');
 
 const app = express();
 
+app.use(cors());
 app.use(helmet());
 app.use(express.static('public', { maxAge: '1m' }));
 app.use(morgan('combined'));
