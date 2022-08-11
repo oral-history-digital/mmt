@@ -1,6 +1,7 @@
 const busboy = require('busboy');
 const fs = require('fs');
 const path = require('node:path');
+const bodyParser = require('body-parser');
 
 const generateAuthToken = require('./generateAuthToken');
 const getHashedPassword = require('./getHashedPassword');
@@ -17,6 +18,24 @@ const users = [
         email: 'alice@example.com',
         // This is the SHA256 hash for value of `password`
         password: 'XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg='
+    },
+];
+
+let nextId = 1;
+
+function createId() {
+    return nextId++;
+}
+
+const files = [
+    {
+        id: 0,
+        size: 32838722,
+        type: 'audio/mpeg',
+        lastModified: 1639519391407,
+        name: 'police-story.mp4',
+        transferred: 0,
+        status: 'pending',
     },
 ];
 
@@ -66,6 +85,21 @@ module.exports = function addRoutes(app) {
         const filepath = path.join(downloadDir, filename);
 
         res.download(filepath);
+    });
+
+    app.post('/files', bodyParser.json(), (req, res) => {
+        console.log('BODY', req.body);
+
+        const id = createId();
+        const newFile = {
+            id,
+            name: req.body.name,
+            size: req.body.size,
+            type: req.body.type,
+            lastModified: req.body.lastModified,
+        };
+
+        res.json(newFile);
     });
 
     app.post('/upload', (req, res) => {

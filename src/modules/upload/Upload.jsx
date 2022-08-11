@@ -4,14 +4,36 @@ import { addUpload, uploadProgress, removeUpload } from './actions';
 import ProgressBar from './ProgressBar';
 import { getUploads } from './selectors';
 
+async function registerFile(data) {
+    const res = await fetch('http://localhost:3000/files', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+
+    return res.json();
+}
+
+
 export default function Upload() {
     const dispatch = useDispatch();
     const allUploads = useSelector(getUploads);
 
     function handleFileChange(event) {
         const files = event.target.files;
+
         for (let i = 0; i < files.length; i++) {
-            addFile(files.item(i));
+            const file = files.item(i);
+            console.log(file);
+            registerFile({
+                name: file.name,
+                size: file.size,
+                type: file.type,
+                lastModified: file.lastModified,
+            });
+            //addFile(file);
         }
     }
 
