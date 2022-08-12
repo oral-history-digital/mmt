@@ -35,7 +35,7 @@ const files = [
         lastModified: 1639519391407,
         name: 'police-story.mp4',
         transferred: 0,
-        status: 'pending',
+        state: 'pending',
     },
 ];
 
@@ -52,7 +52,10 @@ module.exports = function addRoutes(app) {
         res.render('login');
     });
 
-    app.get('/files', requireAuth, (req, res) => {
+    app.get('/files', (req, res) => {
+        res.json(files);
+
+
         const uploadDir = getDirectoryName(req.user, 'upload');
         let uploadFiles = [];
         if (fs.existsSync(uploadDir)) {
@@ -97,7 +100,10 @@ module.exports = function addRoutes(app) {
             size: req.body.size,
             type: req.body.type,
             lastModified: req.body.lastModified,
+            state: 'pending',
         };
+
+        files.push(newFile);
 
         res.json(newFile);
     });
