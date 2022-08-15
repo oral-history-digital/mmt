@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import useSWR, { useSWRConfig } from 'swr';
+
 
 import useFiles from '../../hooks/useFiles';
 import { addUpload, uploadProgress, removeUpload } from './actions';
@@ -11,6 +13,7 @@ const requests = {};
 
 export default function Upload() {
     const { files, error } = useFiles();
+    const { mutate } = useSWRConfig();
 
     const [progress, setProgress] = useState({});
 
@@ -31,6 +34,8 @@ export default function Upload() {
                 lastModified: file.lastModified,
             });
 
+            mutate('http://localhost:3000/files');
+
             addFile(file, id);
         }
     }
@@ -47,7 +52,7 @@ export default function Upload() {
 
         setProgress(prev => ({
             ...prev,
-            id: 0,
+            [id]: 0,
         }));
 
         request.open('POST', 'http://localhost:3000/upload');
@@ -67,7 +72,7 @@ export default function Upload() {
             if (event.lengthComputable) {
                 setProgress(prev => ({
                     ...prev,
-                    id: event.loaded,
+                    [id]: event.loaded,
                 }));
 
                 //dispatch(uploadProgress({
@@ -82,7 +87,7 @@ export default function Upload() {
 
             setProgress(prev => ({
                 ...prev,
-                id: total,
+                [id]: total,
             }));
         });
 
@@ -129,7 +134,12 @@ export default function Upload() {
             </form>
 
             {Object.keys(progress).map(id => {
-                const file = files.find(file => file.id === id);
+                console.log(progress, files);
+
+                const file = files.find(file => file.id === Number.parseInt(id));
+                if (!file) {
+                    return null;
+                }
 
                 console.log(files, id);
                 const percentage = 100 / file.size * progress[id];

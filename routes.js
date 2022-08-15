@@ -27,7 +27,7 @@ function createId() {
     return nextId++;
 }
 
-const files = [
+const filesDB = [
     {
         id: 0,
         size: 32838722,
@@ -53,7 +53,8 @@ module.exports = function addRoutes(app) {
     });
 
     app.get('/files', (req, res) => {
-        res.json(files);
+        console.log(filesDB);
+        res.json(filesDB);
 
 
         const uploadDir = getDirectoryName(req.user, 'upload');
@@ -101,7 +102,8 @@ module.exports = function addRoutes(app) {
             state: 'pending',
         };
 
-        files.push(newFile);
+        filesDB.push(newFile);
+        console.log(filesDB);
 
         res.json(newFile);
     });
@@ -133,7 +135,7 @@ module.exports = function addRoutes(app) {
             });
 
             file.on('close', () => {
-                const file = files.find(f => f.id = id);
+                const file = filesDB.find(f => f.id === id);
                 if (file) {
                     file.state = 'complete';
                 }

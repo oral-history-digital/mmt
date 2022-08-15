@@ -10,8 +10,6 @@ const helmet = require('helmet');
 const injectUser = require('./injectUser');
 const routes = require('./routes');
 
-console.log(process);
-
 const app = express();
 
 app.use(cors());
