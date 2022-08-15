@@ -85,6 +85,8 @@ export default function Upload() {
         uploadObject.addEventListener('load', (event) => {
             console.log('upload complete');
 
+            mutate('http://localhost:3000/files');
+
             setProgress(prev => ({
                 ...prev,
                 [id]: total,
@@ -92,6 +94,8 @@ export default function Upload() {
         });
 
         request.send(formData);
+
+        mutate('http://localhost:3000/files');
 
         console.log(request);
     }
