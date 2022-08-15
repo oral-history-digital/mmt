@@ -96,9 +96,8 @@ export default function Upload() {
         console.log(request);
     }
 
-    function abortUpload(id) {
-        allUploads[id].request.abort();
-        dispatch(removeUpload(id));
+    function handleAbort(id) {
+        requests[id]?.abort();
     }
 
     if (!files) {
@@ -149,6 +148,7 @@ export default function Upload() {
                         key={id}
                         id={id}
                         percentage={percentage}
+                        onAbort={handleAbort}
                     />
                 );
             })}

@@ -122,6 +122,11 @@ module.exports = function addRoutes(app) {
         bb.on('file', (name, file, info) => {
             const { filename, encoding } = info;
 
+            const fileInDB = filesDB.find(f => f.id === id);
+            if (fileInDB) {
+                fileInDB.state = 'uploading';
+            }
+
             const dir = getDirectoryName({ username: 'alice' });
             if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir, { recursive: true });

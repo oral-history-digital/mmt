@@ -30,6 +30,7 @@ export default function UploadedFiles() {
                         <td>
                             <span className={classNames('tag', {
                                 'is-lite': file.state === 'pending',
+                                'is-warning': file.state === 'uploading',
                                 'is-success': file.state === 'complete',
                             })}>
                                 {file.state}
