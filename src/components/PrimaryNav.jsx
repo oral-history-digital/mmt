@@ -19,7 +19,7 @@ export default function PrimaryNav({
 
             <div id="navbarBasicExample" className="navbar-menu">
                 <div className="navbar-start">
-                    <Link className="navbar-item" to="/files">
+                    <Link className="navbar-item" to="/files/uploaded">
                         Files
                     </Link>
 

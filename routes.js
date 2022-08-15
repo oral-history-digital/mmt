@@ -35,7 +35,7 @@ const files = [
         lastModified: 1639519391407,
         name: 'police-story.mp4',
         transferred: 0,
-        state: 'pending',
+        state: 'complete',
     },
 ];
 
