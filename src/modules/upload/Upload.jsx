@@ -13,7 +13,9 @@ async function registerFile(data) {
         body: JSON.stringify(data),
     });
 
-    return res.json();
+    const json = await res.json();
+
+    return json.id;
 }
 
 
@@ -21,23 +23,27 @@ export default function Upload() {
     const dispatch = useDispatch();
     const allUploads = useSelector(getUploads);
 
-    function handleFileChange(event) {
+    async function handleFileChange(event) {
         const files = event.target.files;
 
         for (let i = 0; i < files.length; i++) {
             const file = files.item(i);
             console.log(file);
-            registerFile({
+
+            const id = await registerFile({
                 name: file.name,
                 size: file.size,
                 type: file.type,
                 lastModified: file.lastModified,
             });
-            //addFile(file);
+
+            addFile(file, id);
         }
     }
 
-    function addFile(file) {
+    function addFile(file, id) {
+        console.log(`uploading file ${id}`);
+
         const filename = file.name;
         const total = file.size;
         const sizeInKb = Math.round(total / 1024);
@@ -56,6 +62,7 @@ export default function Upload() {
         req.open('POST', 'http://localhost:3000/upload');
 
         const formData = new FormData();
+        formData.append('id', id);
         formData.append('files', file, file.name);
 
         req.addEventListener('load', (event) => {

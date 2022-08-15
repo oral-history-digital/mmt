@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 import useFiles from '../hooks/useFiles';
 
 export default function Files() {
@@ -32,7 +34,14 @@ export default function Files() {
                             <td>{(Math.round(file.size / 1024 / 1024)).toLocaleString()} MB</td>
                             <td>{file.type}</td>
                             <td>{(new Date(file.lastModified)).toLocaleDateString()}</td>
-                            <td><span class="tag is-lite">{file.state}</span></td>
+                            <td>
+                                <span className={classNames('tag', {
+                                    'is-lite': file.state === 'pending',
+                                    'is-success': file.state === 'complete',
+                                })}>
+                                    {file.state}
+                                </span>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

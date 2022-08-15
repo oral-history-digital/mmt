@@ -91,8 +91,6 @@ module.exports = function addRoutes(app) {
     });
 
     app.post('/files', bodyParser.json(), (req, res) => {
-        console.log('BODY', req.body);
-
         const id = createId();
         const newFile = {
             id,
@@ -109,7 +107,15 @@ module.exports = function addRoutes(app) {
     });
 
     app.post('/upload', (req, res) => {
+        let id;
+
         bb = busboy({ headers: req.headers });
+
+        bb.on('field', (name, val, info) => {
+            if (name === 'id') {
+                id = Number.parseInt(val);
+            }
+        });
 
         bb.on('file', (name, file, info) => {
             const { filename, encoding } = info;
@@ -123,13 +129,14 @@ module.exports = function addRoutes(app) {
 
             file.pipe(stream);
 
-            console.log(name, file, info);
-            console.log(file);
-
             file.on('data', (data) => {
             });
 
             file.on('close', () => {
+                const file = files.find(f => f.id = id);
+                if (file) {
+                    file.state = 'complete';
+                }
                 console.log(`File ${name} done`);
             });
         });

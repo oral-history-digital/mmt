@@ -18,6 +18,7 @@
     "body-parser": "^1.20.0",
     "bulma": "^0.9.4",
     "busboy": "^1.6.0",
+    "classnames": "^2.3.1",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
