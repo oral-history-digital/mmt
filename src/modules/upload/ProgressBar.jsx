@@ -1,5 +1,6 @@
 export default function ProgressBar({
-    upload,
+    id,
+    percentage,
     onAbort,
 }) {
     return (
@@ -9,21 +10,21 @@ export default function ProgressBar({
         >
             <div className="mr-5" style={{ flexGrow: 1 }}>
                 <p>
-                    Uploading file <b>{upload.filename}</b> with {upload.sizeInKb.toLocaleString()}KiB…
+                    Uploading file with KiB…
                 </p>
                 <progress
                     className="progress is-primary mt-3"
-                    max={upload.total}
-                    value={upload.value}
+                    max={100}
+                    value={percentage}
                 >
-                    {upload.percentage}%
+                    {percentage}%
                 </progress>
             </div>
             <button
                 type="button"
                 className="button"
                 style={{ marginLeft: 'auto' }}
-                onClick={() => onAbort(upload.id)}
+                onClick={() => onAbort(id)}
             >
                 Abort
             </button>

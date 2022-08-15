@@ -1,25 +1,19 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import useFiles from '../../hooks/useFiles';
 import { addUpload, uploadProgress, removeUpload } from './actions';
 import ProgressBar from './ProgressBar';
 import { getUploads } from './selectors';
+import registerFile from './registerFile';
 
-async function registerFile(data) {
-    const res = await fetch('http://localhost:3000/files', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    });
-
-    const json = await res.json();
-
-    return json.id;
-}
-
+const requests = {};
 
 export default function Upload() {
+    const { files, error } = useFiles();
+
+    const [progress, setProgress] = useState({});
+
     const dispatch = useDispatch();
     const allUploads = useSelector(getUploads);
 
@@ -46,37 +40,36 @@ export default function Upload() {
 
         const filename = file.name;
         const total = file.size;
-        const sizeInKb = Math.round(total / 1024);
 
-        const req = new XMLHttpRequest();
+        const request = new XMLHttpRequest();
 
-        const preparedUpload = {
-            request: req,
-            filename,
-            value: 0,
-            percentage: 0,
-            total,
-            sizeInKb,
-        };
+        requests[id] = request;
 
-        req.open('POST', 'http://localhost:3000/upload');
+        setProgress(prev => ({
+            ...prev,
+            id: 0,
+        }));
+
+        request.open('POST', 'http://localhost:3000/upload');
 
         const formData = new FormData();
         formData.append('id', id);
         formData.append('files', file, file.name);
 
-        req.addEventListener('load', (event) => {
+        request.addEventListener('load', (event) => {
+            // TODO: Should we mark the file as accepted by the server here?
             console.log('transaction completed');
         });
 
-        req.addEventListener('progress', (event) => {
-            // The progress event is for the response!
-        });
-
-        const uploadObject = req.upload;
+        const uploadObject = request.upload;
 
         uploadObject.addEventListener('progress', (event) => {
             if (event.lengthComputable) {
+                setProgress(prev => ({
+                    ...prev,
+                    id: event.loaded,
+                }));
+
                 //dispatch(uploadProgress({
                 //    value: event.loaded,
                 //    percentage: Math.round(100 / event.total * event.loaded),
@@ -87,18 +80,24 @@ export default function Upload() {
         uploadObject.addEventListener('load', (event) => {
             console.log('upload complete');
 
-            //dispatch(removeUpload(0));
+            setProgress(prev => ({
+                ...prev,
+                id: total,
+            }));
         });
 
-        req.send(formData);
-        dispatch(addUpload(preparedUpload));
+        request.send(formData);
 
-        console.log(req);
+        console.log(request);
     }
 
     function abortUpload(id) {
         allUploads[id].request.abort();
         dispatch(removeUpload(id));
+    }
+
+    if (!files) {
+        return null;
     }
 
     return (
@@ -129,9 +128,20 @@ export default function Upload() {
                 </div>
             </form>
 
-            {Object.values(allUploads).map(upload => (
-                <ProgressBar key={upload.id} upload={upload} />
-            ))}
+            {Object.keys(progress).map(id => {
+                const file = files.find(file => file.id === id);
+
+                console.log(files, id);
+                const percentage = 100 / file.size * progress[id];
+
+                return (
+                    <ProgressBar
+                        key={id}
+                        id={id}
+                        percentage={percentage}
+                    />
+                );
+            })}
         </section>
     );
 }
