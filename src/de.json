@@ -1,6 +1,25 @@
 {
     "translation": {
         "modules": {
+            "files": {
+                "downloadable_files": "Dateien zum Herunterladen",
+                "states": {
+                    "pending": "bevorstehend",
+                    "uploading": "beim Hochladen",
+                    "complete": "vollständig"
+                },
+                "table": {
+                    "id": "ID",
+                    "filename": "Dateiname",
+                    "size": "Größe",
+                    "type": "Typ",
+                    "updated_at": "Zuletzt geändert",
+                    "state": "Zustand"
+                },
+                "title": "Dateien",
+                "uploaded_files": "Hochgeladene Dateien"
+
+            },
             "layout": {
                 "home": {
                     "title": "OHD Files",

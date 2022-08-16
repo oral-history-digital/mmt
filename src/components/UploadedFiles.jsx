@@ -1,22 +1,23 @@
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 import useFiles from '../hooks/useFiles';
 
 export default function UploadedFiles() {
     const { files, error } = useFiles();
 
-    console.log(files);
+    const { t } = useTranslation();
 
     return (
         <table className="table">
             <thead>
                 <tr>
-                    <td>ID</td>
-                    <td>Filename</td>
-                    <td>Size</td>
-                    <td>Type</td>
-                    <td>Updated at</td>
-                    <td>State</td>
+                    <td>{t('modules.files.table.id')}</td>
+                    <td>{t('modules.files.table.filename')}</td>
+                    <td>{t('modules.files.table.size')}</td>
+                    <td>{t('modules.files.table.type')}</td>
+                    <td>{t('modules.files.table.updated_at')}</td>
+                    <td>{t('modules.files.table.state')}</td>
                 </tr>
             </thead>
             <tbody>
@@ -33,7 +34,7 @@ export default function UploadedFiles() {
                                 'is-warning': file.state === 'uploading',
                                 'is-success': file.state === 'complete',
                             })}>
-                                {file.state}
+                                {t(`modules.files.states.${file.state}`)}
                             </span>
                         </td>
                     </tr>

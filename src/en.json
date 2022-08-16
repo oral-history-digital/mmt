@@ -1,6 +1,25 @@
 {
     "translation": {
         "modules": {
+            "files": {
+                "downloadable_files": "Downloadable Files",
+                "states": {
+                    "pending": "pending",
+                    "uploading": "uploading",
+                    "complete": "complete"
+                },
+                "table": {
+                    "id": "ID",
+                    "filename": "Filename",
+                    "size": "Size",
+                    "type": "Type",
+                    "updated_at": "Updated at",
+                    "state": "State"
+                },
+                "title": "Files",
+                "uploaded_files": "Uploadable Files"
+
+            },
             "layout": {
                 "home": {
                     "title": "OHD Files",

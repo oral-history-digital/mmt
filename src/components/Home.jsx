@@ -9,7 +9,7 @@ export default function Home() {
                 {t('modules.layout.home.title')}
             </h1>
 
-            <p className="subtitle">
+            <p className="subtitle mt-5">
                 {t('modules.layout.home.subtitle')}
             </p>
         </section>
