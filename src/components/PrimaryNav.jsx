@@ -43,7 +43,7 @@ export default function PrimaryNav({
                 <div className="navbar-end">
                     {numActiveUploads > 0 && (
                         <div className="navbar-item">
-                            {t('uploadWithCount', { count: numActiveUploads })}…
+                            {t('modules.layout.primary-nav.uploadWithCount', { count: numActiveUploads })}…
                         </div>
                     )}
                     <div className="navbar-item">
