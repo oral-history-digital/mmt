@@ -9,9 +9,12 @@ export const addUpload = (data) => ({
     payload: data,
 });
 
-export const uploadProgress = (progressInfo) => ({
+export const uploadProgress = (id, transferredBytes) => ({
     type: UPLOAD_PROGRESS,
-    payload: progressInfo,
+    payload: {
+        id,
+        transferredBytes,
+    },
 });
 
 export const removeUpload = (id) => ({

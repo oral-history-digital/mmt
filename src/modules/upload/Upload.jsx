@@ -1,7 +1,5 @@
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useSWR, { useSWRConfig } from 'swr';
-
 
 import useFiles from '../../hooks/useFiles';
 import { addUpload, uploadProgress, removeUpload } from './actions';
@@ -15,8 +13,6 @@ export default function Upload() {
     const { files, error } = useFiles();
     const { mutate } = useSWRConfig();
 
-    const [progress, setProgress] = useState({});
-
     const dispatch = useDispatch();
     const allUploads = useSelector(getUploads);
 
@@ -25,7 +21,6 @@ export default function Upload() {
 
         for (let i = 0; i < files.length; i++) {
             const file = files.item(i);
-            console.log(file);
 
             const id = await registerFile({
                 name: file.name,
@@ -50,9 +45,10 @@ export default function Upload() {
 
         requests[id] = request;
 
-        setProgress(prev => ({
-            ...prev,
-            [id]: 0,
+        dispatch(addUpload({
+            id,
+            transferred: 0,
+            total,
         }));
 
         request.open('POST', 'http://localhost:3000/upload');
@@ -70,15 +66,7 @@ export default function Upload() {
 
         uploadObject.addEventListener('progress', (event) => {
             if (event.lengthComputable) {
-                setProgress(prev => ({
-                    ...prev,
-                    [id]: event.loaded,
-                }));
-
-                //dispatch(uploadProgress({
-                //    value: event.loaded,
-                //    percentage: Math.round(100 / event.total * event.loaded),
-                //}));
+                dispatch(uploadProgress(id, event.loaded));
             }
         });
 
@@ -87,10 +75,7 @@ export default function Upload() {
 
             mutate('http://localhost:3000/files');
 
-            setProgress(prev => ({
-                ...prev,
-                [id]: total,
-            }));
+            dispatch(uploadProgress(id, total));
         });
 
         request.send(formData);
@@ -136,16 +121,9 @@ export default function Upload() {
                 </div>
             </form>
 
-            {Object.keys(progress).map(id => {
-                console.log(progress, files);
-
-                const file = files.find(file => file.id === Number.parseInt(id));
-                if (!file) {
-                    return null;
-                }
-
-                console.log(files, id);
-                const percentage = 100 / file.size * progress[id];
+            {Object.keys(allUploads).map(id => {
+                const upload = allUploads[id];
+                const percentage = 100 / upload.total * upload.transferred;
 
                 return (
                     <ProgressBar

@@ -1,8 +1,17 @@
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
+import { getUploads } from '../modules/upload/selectors';
 
 export default function PrimaryNav({
     signedIn = false,
 }) {
+    const uploads = Object.values(useSelector(getUploads));
+
+    const numActiveUploads = uploads.filter(
+        upload => upload.total !== upload.transferred
+    ).length;
+
     return (
         <nav className="navbar" role="navigation" aria-label="main navigation">
             <div className="navbar-brand">
@@ -29,6 +38,13 @@ export default function PrimaryNav({
                 </div>
 
                 <div className="navbar-end">
+                    {numActiveUploads > 0 && (
+                        <div className="navbar-item">
+                            {numActiveUploads}
+                            {' '}
+                            {numActiveUploads === 1 ? 'active upload…' : 'active uploads…'}
+                        </div>
+                    )}
                     <div className="navbar-item">
                         <div className="buttons">
                             {signedIn ? (
