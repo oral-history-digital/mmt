@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { getUploads } from '../modules/upload/selectors';
+import GlobalProgress from './GlobalProgress';
 
 export default function PrimaryNav({
     signedIn = false,
@@ -11,9 +12,15 @@ export default function PrimaryNav({
 
     const uploads = Object.values(useSelector(getUploads));
 
-    const numActiveUploads = uploads.filter(
+    const activeUploads = uploads.filter(
         upload => upload.total !== upload.transferred
-    ).length;
+    );
+    const numActiveUploads = activeUploads.length;
+
+    const sumRatios = activeUploads.reduce(
+        (acc, upload) => acc + upload.transferred / upload.total, 0
+    );
+    const avgRatio = activeUploads.length > 0 ? sumRatios / activeUploads.length : 0;
 
     return (
         <nav className="navbar" role="navigation" aria-label="main navigation">
@@ -43,7 +50,10 @@ export default function PrimaryNav({
                 <div className="navbar-end">
                     {numActiveUploads > 0 && (
                         <div className="navbar-item">
-                            {t('modules.layout.primary-nav.uploadWithCount', { count: numActiveUploads })}…
+                            <GlobalProgress
+                                numItems={numActiveUploads}
+                                percentage={avgRatio * 100}
+                            />
                         </div>
                     )}
                     <div className="navbar-item">
