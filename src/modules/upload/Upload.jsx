@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import useSWR, { useSWRConfig } from 'swr';
+import { useTranslation } from 'react-i18next';
 
 import useFiles from '../../hooks/useFiles';
 import { addUpload, uploadProgress, removeUpload } from './actions';
@@ -10,6 +11,7 @@ import registerFile from './registerFile';
 const requests = {};
 
 export default function Upload() {
+    const { t } = useTranslation();
     const { files, error } = useFiles();
     const { mutate } = useSWRConfig();
 
@@ -95,7 +97,9 @@ export default function Upload() {
 
     return (
         <section className="section">
-            <h1 className="title">Upload files</h1>
+            <h1 className="title">
+                {t('modules.upload.title')}
+            </h1>
 
             <form method="post" action="/upload" encType="multipart/form-data">
                 <div className="file">
@@ -114,7 +118,7 @@ export default function Upload() {
                                 <i className="fas fa-upload"></i>
                             </span>
                             <span className="file-label">
-                                Choose files…
+                                {t('modules.upload.select_files')}
                             </span>
                         </span>
                     </label>

@@ -1,0 +1,25 @@
+{
+    "translation": {
+        "modules": {
+            "layout": {
+                "home": {
+                    "title": "OHD Files",
+                    "subtitle": "Die OHD-Anwendung für Datei-Uploads und -Downloads"
+                },
+                "primary-nav": {
+                    "files": "Dateien",
+                    "upload": "Hochladen",
+                    "sign-up": "Registrieren",
+                    "login": "Anmelden",
+                    "logout": "Abmelden",
+                    "uploadWithCount_one": "{{count}} Upload",
+                    "uploadWithCount_other": "{{count}} Uploads"
+                }
+            },
+            "upload": {
+                "title": "Dateien hochladen",
+                "select_files": "Dateien auswählen…"
+            }
+        }
+    }
+}

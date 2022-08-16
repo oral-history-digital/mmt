@@ -1,0 +1,25 @@
+{
+    "translation": {
+        "modules": {
+            "layout": {
+                "home": {
+                    "title": "OHD Files",
+                    "subtitle": "The upload and download app of OHD"
+                },
+                "primary-nav": {
+                    "files": "Dateien",
+                    "upload": "Hochladen",
+                    "sign-up": "Sign up",
+                    "login": "Login",
+                    "logout": "Logout",
+                    "uploadWithCount_one": "{{count}} upload",
+                    "uploadWithCount_other": "{{count}} uploads"
+                }
+            },
+            "upload": {
+                "title": "Upload Files",
+                "select_files": "Select files…"
+            }
+        }
+    }
+}

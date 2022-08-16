@@ -1,11 +1,14 @@
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import { getUploads } from '../modules/upload/selectors';
 
 export default function PrimaryNav({
     signedIn = false,
 }) {
+    const { t } = useTranslation();
+
     const uploads = Object.values(useSelector(getUploads));
 
     const numActiveUploads = uploads.filter(
@@ -29,20 +32,18 @@ export default function PrimaryNav({
             <div id="navbarBasicExample" className="navbar-menu">
                 <div className="navbar-start">
                     <Link className="navbar-item" to="/files/uploaded">
-                        Files
+                        {t('modules.layout.primary-nav.files')}
                     </Link>
 
                     <Link className="navbar-item" to="/upload">
-                        Upload
+                        {t('modules.layout.primary-nav.upload')}
                     </Link>
                 </div>
 
                 <div className="navbar-end">
                     {numActiveUploads > 0 && (
                         <div className="navbar-item">
-                            {numActiveUploads}
-                            {' '}
-                            {numActiveUploads === 1 ? 'active upload…' : 'active uploads…'}
+                            {t('uploadWithCount', { count: numActiveUploads })}…
                         </div>
                     )}
                     <div className="navbar-item">
@@ -50,16 +51,18 @@ export default function PrimaryNav({
                             {signedIn ? (
                                 <form method="POST" action="/logout">
                                     <button className="button" type="submit">
-                                        Logout
+                                        {t('modules.layout.primary-nav.logout')}
                                     </button>
                                 </form>
                             ) : (
                                 <>
                                     <Link className="button is-primary" to="/sign-up">
-                                        <strong>Sign up</strong>
+                                        <strong>
+                                            {t('modules.layout.primary-nav.sign-up')}
+                                        </strong>
                                     </Link>
                                     <Link className="button is-light" to="/login">
-                                        Log in
+                                        {t('modules.layout.primary-nav.login')}
                                     </Link>
                                 </>
                             )}

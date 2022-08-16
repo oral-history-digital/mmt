@@ -1,12 +1,16 @@
+import { useTranslation } from 'react-i18next';
+
 export default function Home() {
+    const { t } = useTranslation();
+
     return (
         <section className="section">
             <h1 className="title">
-                OHD Files
+                {t('modules.layout.home.title')}
             </h1>
 
             <p className="subtitle">
-                The upload and download app of OHD
+                {t('modules.layout.home.subtitle')}
             </p>
         </section>
     );
