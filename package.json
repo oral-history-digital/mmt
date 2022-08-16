@@ -26,6 +26,7 @@
     "express-handlebars": "^6.0.6",
     "helmet": "^5.1.1",
     "i18next": "^21.9.1",
+    "mime-types": "^2.1.35",
     "morgan": "^1.10.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",

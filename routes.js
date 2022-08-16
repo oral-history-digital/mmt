@@ -2,6 +2,7 @@ const busboy = require('busboy');
 const fs = require('fs');
 const path = require('node:path');
 const bodyParser = require('body-parser');
+const mime = require('mime-types');
 
 const generateAuthToken = require('./generateAuthToken');
 const getHashedPassword = require('./getHashedPassword');
@@ -57,13 +58,13 @@ module.exports = function addRoutes(app) {
         res.json(filesDB);
 
 
-        const uploadDir = getDirectoryName(req.user, 'upload');
+        const uploadDir = getDirectoryName(req.user.username, 'upload');
         let uploadFiles = [];
         if (fs.existsSync(uploadDir)) {
             uploadFiles = fs.readdirSync(uploadDir);
         }
 
-        const downloadDir = getDirectoryName(req.user, 'download');
+        const downloadDir = getDirectoryName(req.user.username, 'download');
         let downloadFiles = [];
         if (fs.existsSync(downloadDir)) {
             downloadFiles = fs.readdirSync(downloadDir);
@@ -78,6 +79,36 @@ module.exports = function addRoutes(app) {
         });
     });
 
+    app.get('/downloadable-files', (req, res) => {
+        const downloadDir = getDirectoryName('alice', 'download');
+
+        let downloadFiles = [];
+        if (fs.existsSync(downloadDir)) {
+            downloadFiles = fs.readdirSync(downloadDir);
+        }
+
+        const filesResult = downloadFiles.map(name => {
+            const filePath = path.join(downloadDir, name);
+
+            const fd = fs.openSync(filePath, 'r');
+            const info = fs.fstatSync(fd);
+            const size = info.size;
+            const type = mime.lookup(filePath);
+
+            console.log(info);
+
+            return {
+                name,
+                encoded: encodeURIComponent(name),
+                size,
+                type,
+                lastModified: info.mtimeMs,
+            };
+        });
+
+        res.json(filesResult);
+    });
+
     app.get('/upload', requireAuth, (req, res) => {
         res.render('upload');
     });
@@ -85,7 +116,7 @@ module.exports = function addRoutes(app) {
     app.get('/download', requireAuth, (req, res) => {
         const filename = decodeURIComponent(req.query.filename);
 
-        const downloadDir = getDirectoryName(req.user, 'download');
+        const downloadDir = getDirectoryName(req.user.username, 'download');
         const filepath = path.join(downloadDir, filename);
 
         res.download(filepath);
@@ -127,7 +158,7 @@ module.exports = function addRoutes(app) {
                 fileInDB.state = 'uploading';
             }
 
-            const dir = getDirectoryName({ username: 'alice' });
+            const dir = getDirectoryName('alice');
             if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir, { recursive: true });
             }
