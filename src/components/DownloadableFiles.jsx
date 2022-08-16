@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
+import { downloadEndPoint } from '../modules/api';
 import useDownloadableFiles from '../hooks/useDownloadableFiles';
 
 export default function DownloadableFiles() {
@@ -22,7 +23,7 @@ export default function DownloadableFiles() {
                     <tr key={file.name}>
                         <td>
                             <a
-                                href={`http://localhost:3000/download?filename=${file.encoded}`}
+                                href={`${downloadEndPoint}?filename=${file.encoded}`}
                                 download
                             >
                                 {file.name}

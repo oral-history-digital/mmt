@@ -1,10 +1,9 @@
 import useSWR from 'swr';
 
-const fetcher = (...args) => fetch(...args).then(res => res.json());
+import { fetcher, downloadableFilesEndPoint } from '../modules/api';
 
 export default function useDownloadableFiles() {
-    const { data, error } = useSWR('http://localhost:3000/downloadable-files',
-        fetcher);
+    const { data, error } = useSWR(downloadableFilesEndPoint, fetcher);
 
     return {
       files: data || [],

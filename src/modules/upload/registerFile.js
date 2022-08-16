@@ -1,5 +1,7 @@
+import { filesEndPoint } from '../../modules/api';
+
 export default async function registerFile(data) {
-    const res = await fetch('http://localhost:3000/files', {
+    const res = await fetch(filesEndPoint, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

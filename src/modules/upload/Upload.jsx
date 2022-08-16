@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import useSWR, { useSWRConfig } from 'swr';
 import { useTranslation } from 'react-i18next';
 
+import { filesEndPoint, uploadEndPoint } from '../../modules/api';
 import useFiles from '../../hooks/useFiles';
 import { addUpload, uploadProgress, removeUpload } from './actions';
 import ProgressBar from './ProgressBar';
@@ -31,7 +32,7 @@ export default function Upload() {
                 lastModified: file.lastModified,
             });
 
-            mutate('http://localhost:3000/files');
+            mutate(filesEndPoint);
 
             addFile(file, id);
         }
@@ -53,7 +54,7 @@ export default function Upload() {
             total,
         }));
 
-        request.open('POST', 'http://localhost:3000/upload');
+        request.open('POST', uploadEndPoint);
 
         const formData = new FormData();
         formData.append('id', id);
@@ -75,14 +76,14 @@ export default function Upload() {
         uploadObject.addEventListener('load', (event) => {
             console.log('upload complete');
 
-            mutate('http://localhost:3000/files');
+            mutate(filesEndPoint);
 
             dispatch(uploadProgress(id, total));
         });
 
         request.send(formData);
 
-        mutate('http://localhost:3000/files');
+        mutate(filesEndPoint);
 
         console.log(request);
     }
