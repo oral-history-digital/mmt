@@ -7,8 +7,6 @@ var router = express.Router();
 function verify(username, password, done) {
     // Just a dummy. Always return the same user.
 
-    console.log('verify');
-
     const user = {
         username: 'alice',
         firstName: 'Alice',
@@ -23,6 +21,24 @@ function verify(username, password, done) {
 
 passport.use(new LocalStrategy(verify));
 
+
+passport.serializeUser(function(user, cb) {
+    process.nextTick(function() {
+        cb(null, {
+            username: user.username,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+        });
+    });
+});
+
+passport.deserializeUser(function(user, cb) {
+    process.nextTick(function() {
+        return cb(null, user);
+    });
+});
+
 passport.serializeUser(function(user,done){
     done(null, user);
 });
@@ -34,9 +50,9 @@ passport.deserializeUser(function(user,done){
 router.post('/login',
     passport.authenticate('local'),
     function(req, res) {
-        res.json({
-            message: 'succcess',
-        });
+        const user = req.user;
+
+        res.json(user);
     }
 );
 

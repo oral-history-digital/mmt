@@ -7,6 +7,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const helmet = require('helmet');
+const session = require('express-session');
+const passport = require('passport');
 
 const injectUser = require('./injectUser');
 const routes = require('./routes');
@@ -24,8 +26,14 @@ app.use(cookieParser());
 app.use(injectUser);
 app.use(compression());
 
-app.engine('hbs', exphbs.engine({extname: '.hbs'}));
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false,
+}));
+app.use(passport.authenticate('session'));
 
+app.engine('hbs', exphbs.engine({extname: '.hbs'}));
 app.set('view engine', 'hbs');
 
 routes(app);
