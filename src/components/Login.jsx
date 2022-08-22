@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { login } from '../modules/auth';
 
 export default function Login() {
+    const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useDispatch();
@@ -41,6 +43,10 @@ export default function Login() {
             .then(data => {
                 console.log(data);
                 dispatch(login(data));
+                const locale = data.locale;
+                if (locale) {
+                    i18n.changeLanguage(locale);
+                }
                 navigate(from, { replace: true });
             });
     }

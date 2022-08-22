@@ -3,6 +3,7 @@ import useSWR, { useSWRConfig } from 'swr';
 import { useTranslation } from 'react-i18next';
 
 import { filesEndPoint, uploadEndPoint } from '../../modules/api';
+import { RequireAuth } from '../../modules/auth';
 import useFiles from '../../hooks/useFiles';
 import { addUpload, uploadProgress, removeUpload } from './actions';
 import ProgressBar from './ProgressBar';
@@ -97,48 +98,50 @@ export default function Upload() {
     }
 
     return (
-        <section className="section">
-            <h1 className="title">
-                {t('modules.upload.title')}
-            </h1>
+        <RequireAuth>
+            <section className="section">
+                <h1 className="title">
+                    {t('modules.upload.title')}
+                </h1>
 
-            <form method="post" action="/upload" encType="multipart/form-data">
-                <div className="file">
-                    <label className="file-label">
-                        <input
-                            className="file-input"
-                            type="file"
-                            name="files"
-                            id="file-input"
-                            accept="video/*,audio/*"
-                            multiple
-                            onChange={handleFileChange}
+                <form method="post" action="/upload" encType="multipart/form-data">
+                    <div className="file">
+                        <label className="file-label">
+                            <input
+                                className="file-input"
+                                type="file"
+                                name="files"
+                                id="file-input"
+                                accept="video/*,audio/*"
+                                multiple
+                                onChange={handleFileChange}
+                            />
+                            <span className="file-cta">
+                                <span className="file-icon">
+                                    <i className="fas fa-upload"></i>
+                                </span>
+                                <span className="file-label">
+                                    {t('modules.upload.select_files')}
+                                </span>
+                            </span>
+                        </label>
+                    </div>
+                </form>
+
+                {Object.keys(allUploads).map(id => {
+                    const upload = allUploads[id];
+                    const percentage = 100 / upload.total * upload.transferred;
+
+                    return (
+                        <ProgressBar
+                            key={id}
+                            id={id}
+                            percentage={percentage}
+                            onAbort={handleAbort}
                         />
-                        <span className="file-cta">
-                            <span className="file-icon">
-                                <i className="fas fa-upload"></i>
-                            </span>
-                            <span className="file-label">
-                                {t('modules.upload.select_files')}
-                            </span>
-                        </span>
-                    </label>
-                </div>
-            </form>
-
-            {Object.keys(allUploads).map(id => {
-                const upload = allUploads[id];
-                const percentage = 100 / upload.total * upload.transferred;
-
-                return (
-                    <ProgressBar
-                        key={id}
-                        id={id}
-                        percentage={percentage}
-                        onAbort={handleAbort}
-                    />
-                );
-            })}
-        </section>
+                    );
+                })}
+            </section>
+        </RequireAuth>
     );
 }

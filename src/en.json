@@ -1,6 +1,11 @@
 {
     "translation": {
         "modules": {
+            "auth": {
+                "profile": {
+                    "title": "Profile"
+                }
+            },
             "files": {
                 "downloadable_files": "Downloadable Files",
                 "states": {

@@ -13,7 +13,8 @@ function verify(username, password, done) {
         lastName: 'Henderson',
         email: 'alice@example.com',
         // This is the SHA256 hash for value of `password`
-        password: 'XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg='
+        password: 'XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=',
+        locale: 'en',
     };
 
     return done(null, user);
