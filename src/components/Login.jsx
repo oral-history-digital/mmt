@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import { login } from '../modules/auth';
 
 export default function Login() {
+    const navigate = useNavigate();
+    const location = useLocation();
     const dispatch = useDispatch();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
+    const from = location.state?.from?.pathname || '/';
 
     function handleUsernameChange(event) {
         setUsername(event.target.value);
@@ -36,6 +41,7 @@ export default function Login() {
             .then(data => {
                 console.log(data);
                 dispatch(login(data));
+                navigate(from, { replace: true });
             });
     }
 

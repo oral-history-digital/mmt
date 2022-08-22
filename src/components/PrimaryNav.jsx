@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -8,6 +8,7 @@ import GlobalProgress from './GlobalProgress';
 import { Avatar } from '../modules/auth';
 
 export default function PrimaryNav() {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const isLoggedIn = useSelector(getIsLoggedIn);
     const { t } = useTranslation();
@@ -33,6 +34,7 @@ export default function PrimaryNav() {
             .then(data => {
                 console.log(data);
                 dispatch(logout());
+                navigate('/');
             });
     }
 
