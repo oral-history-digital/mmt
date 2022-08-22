@@ -50,10 +50,25 @@ passport.deserializeUser(function(user,done){
 router.post('/login',
     passport.authenticate('local'),
     function(req, res) {
-        const user = req.user;
+        const user = { ...req.user };
+        delete user.password;
 
         res.json(user);
     }
 );
+
+router.post('/logout', function(req, res) {
+    req.logout(function(err) {
+        if (err) {
+            res.json({
+                message: 'failure',
+            });
+        }
+
+        res.json({
+            message: 'success',
+        });
+    });
+});
 
 module.exports = router;

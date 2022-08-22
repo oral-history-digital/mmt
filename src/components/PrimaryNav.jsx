@@ -1,13 +1,15 @@
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { getUploads } from '../modules/upload/selectors';
+import { getIsLoggedIn, logout } from '../modules/auth';
 import GlobalProgress from './GlobalProgress';
+import { Avatar } from '../modules/auth';
 
-export default function PrimaryNav({
-    signedIn = false,
-}) {
+export default function PrimaryNav() {
+    const dispatch = useDispatch();
+    const isLoggedIn = useSelector(getIsLoggedIn);
     const { t } = useTranslation();
 
     const uploads = Object.values(useSelector(getUploads));
@@ -21,6 +23,18 @@ export default function PrimaryNav({
         (acc, upload) => acc + upload.transferred / upload.total, 0
     );
     const avgRatio = activeUploads.length > 0 ? sumRatios / activeUploads.length : 0;
+
+    function handleLogoutRequest() {
+        fetch('http://localhost:3000/logout', {
+            method: 'POST',
+            credentials: 'include',
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                dispatch(logout());
+            });
+    }
 
     return (
         <nav className="navbar" role="navigation" aria-label="main navigation">
@@ -58,12 +72,15 @@ export default function PrimaryNav({
                     )}
                     <div className="navbar-item">
                         <div className="buttons">
-                            {signedIn ? (
-                                <form method="POST" action="/logout">
-                                    <button className="button" type="submit">
-                                        {t('modules.layout.primary-nav.logout')}
-                                    </button>
-                                </form>
+                            <Avatar />
+                            {isLoggedIn ? (
+                                <button
+                                    type="button"
+                                    className="button"
+                                    onClick={handleLogoutRequest}
+                                >
+                                    {t('modules.layout.primary-nav.logout')}
+                                </button>
                             ) : (
                                 <>
                                     <Link className="button is-primary" to="/sign-up">

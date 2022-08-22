@@ -1,6 +1,11 @@
 const apiHost = import.meta.env.VITE_API_HOST;
 
-export const fetcher = (...args) => fetch(...args).then(res => res.json());
+const options = {
+    credentials: 'include',
+};
+
+export const fetcher = (url) => fetch(url, options)
+    .then(res => res.json());
 
 export const baseUrl = `${apiHost}/`;
 export const downloadEndPoint = `${apiHost}/download`;

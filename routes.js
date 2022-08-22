@@ -188,19 +188,6 @@ module.exports = function addRoutes(app) {
         req.pipe(bb);
     });
 
-    app.post('/logout', (req, res) => {
-        const authToken = req.cookies['AuthToken'];
-
-        console.log(authToken);
-
-        if (authToken) {
-            delete authTokens[authToken];
-            res.clearCookie('AuthToken');
-        }
-
-        res.redirect('/');
-    });
-
     app.post('/register', (req, res) => {
         const { username, email, firstName, lastName, password, confirmPassword }
             = req.body;
