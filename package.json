@@ -2,12 +2,11 @@
   "name": "ohd-files",
   "version": "1.0.0",
   "engines": {
-    "node": "14.19.0"
+    "node": "^14 || ^16"
   },
   "description": "",
   "main": "server.js",
   "scripts": {
-    "build": "vite build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -23,9 +22,5 @@
     "morgan": "^1.10.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0"
-  },
-  "devDependencies": {
-    "vite": "^2.9.14",
-    "vite-plugin-node": "^1.0.0"
   }
 }
