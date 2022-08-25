@@ -1,6 +1,7 @@
 var express = require('express');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+const getHashedPassword = require('../utilities/getHashedPassword');
 
 var router = express.Router();
 
@@ -19,15 +20,17 @@ const users = [
 function verify(username, password, done) {
     // Just a dummy. Always return the same user.
 
-    const user = {
-        username: 'alice',
-        firstName: 'Alice',
-        lastName: 'Henderson',
-        email: 'alice@example.com',
-        // This is the SHA256 hash for value of `password`
-        password: 'XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=',
-        locale: 'en',
-    };
+    const user = users.find(u => u.email === username);
+
+    if (!user) {
+        return done(null, false, { message: 'Incorrect username or password'});
+    }
+
+    const hashedPassword = getHashedPassword(password);
+
+    if (user.password !== hashedPassword) {
+        return done(null, false, { message: 'Incorrect username or password'});
+    }
 
     return done(null, user);
 }
@@ -97,20 +100,26 @@ router.post('/sign-up', (req, res) => {
 
     const hashedPassword = getHashedPassword(password);
 
-    // Store user into the database if you are using one
-    users.push({
+    const user = {
         username,
         firstName,
         lastName,
         email,
-        password: hashedPassword
-    });
+        password: hashedPassword,
+    };
 
-    res.json({
-        username,
-        firstName,
-        lastName,
-        email,
+    // Store user into the database if you are using one
+    users.push(user);
+
+    req.login(user, (err) => {
+        if (err) {
+            return next(err);
+        }
+
+        const userWithoutPassword = {...user};
+        delete userWithoutPassword.password;
+
+        return res.json(userWithoutPassword);
     });
 });
 

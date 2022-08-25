@@ -5,8 +5,8 @@ const bodyParser = require('body-parser');
 const path = require('node:path');
 const mime = require('mime-types');
 
-const getDirectoryName = require('../getDirectoryName');
-const requireAuth = require('../requireAuth');
+const getDirectoryName = require('../utilities/getDirectoryName');
+const requireAuth = require('../middleware/requireAuth');
 
 const router = express.Router();
 

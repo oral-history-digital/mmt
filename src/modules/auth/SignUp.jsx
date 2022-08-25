@@ -1,7 +1,13 @@
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+
+import { login } from './actions';
 
 export default function SignUp() {
     const { t } = useTranslation();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     function handleFormSubmit(event) {
         event.preventDefault();
