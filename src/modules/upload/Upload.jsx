@@ -46,6 +46,7 @@ export default function Upload() {
         const total = file.size;
 
         const request = new XMLHttpRequest();
+        request.withCredentials = true;
 
         requests[id] = request;
 

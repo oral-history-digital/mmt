@@ -29,7 +29,9 @@ const filesDB = [
 ];
 
 
-router.post('/files', bodyParser.json(), (req, res) => {
+router.post('/files', bodyParser.json(), requireAuth, (req, res) => {
+    // TODO: Add user, files are global at the moment.
+
     const id = createId();
     const newFile = {
         id,
@@ -46,7 +48,7 @@ router.post('/files', bodyParser.json(), (req, res) => {
     res.json(newFile);
 });
 
-router.post('/upload', (req, res) => {
+router.post('/upload', requireAuth, (req, res) => {
     let id;
 
     bb = busboy({ headers: req.headers });
@@ -65,7 +67,8 @@ router.post('/upload', (req, res) => {
             fileInDB.state = 'uploading';
         }
 
-        const dir = getDirectoryName('alice');
+        const username = req.user.username;
+        const dir = getDirectoryName(username);
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
         }
@@ -95,8 +98,8 @@ router.post('/upload', (req, res) => {
     req.pipe(bb);
 });
 
-router.get('/files', (req, res) => {
-    console.log(filesDB);
+router.get('/files', requireAuth, (req, res) => {
+    console.log(req.user);
     res.json(filesDB);
 
 
@@ -111,18 +114,11 @@ router.get('/files', (req, res) => {
     if (fs.existsSync(downloadDir)) {
         downloadFiles = fs.readdirSync(downloadDir);
     }
-
-    res.render('files', {
-        uploadFiles,
-        downloadFiles: downloadFiles.map(filename => ({
-            name: filename,
-            encoded: encodeURIComponent(filename),
-        })),
-    });
 });
 
-router.get('/downloadable-files', (req, res) => {
-    const downloadDir = getDirectoryName('alice', 'download');
+router.get('/downloadable-files', requireAuth, (req, res) => {
+    const username = req.user.username;
+    const downloadDir = getDirectoryName(username, 'download');
 
     let downloadFiles = [];
     if (fs.existsSync(downloadDir)) {
