@@ -84,44 +84,34 @@ router.post('/logout', function(req, res) {
     });
 });
 
-router.post('/register', (req, res) => {
-    const { username, email, firstName, lastName, password, confirmPassword }
-        = req.body;
+router.post('/sign-up', (req, res) => {
+    const { username, email, firstName, lastName, password } = req.body;
 
-    // Check if the password and confirm password fields match
-    if (password === confirmPassword) {
-
-        // Check if user with the same email is also registered
-        if (users.find(user => user.email === email)) {
-            res.render('register', {
-                message: 'User already registered.',
-                messageClass: 'alert-danger'
-            });
-
-            return;
-        }
-
-        const hashedPassword = getHashedPassword(password);
-
-        // Store user into the database if you are using one
-        users.push({
-            username,
-            firstName,
-            lastName,
-            email,
-            password: hashedPassword
+    // Check if user with the same email is also registered
+    if (users.find(user => user.email === email)) {
+        res.json({
+            message: 'already registered',
         });
-
-        res.render('login', {
-            message: 'Registration Complete. Please login to continue.',
-            messageClass: 'alert-success',
-        });
-    } else {
-        res.render('register', {
-            message: 'Password does not match.',
-            messageClass: 'alert-danger',
-        });
+        return;
     }
+
+    const hashedPassword = getHashedPassword(password);
+
+    // Store user into the database if you are using one
+    users.push({
+        username,
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword
+    });
+
+    res.json({
+        username,
+        firstName,
+        lastName,
+        email,
+    });
 });
 
 module.exports = router;

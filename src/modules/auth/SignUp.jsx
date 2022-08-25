@@ -3,15 +3,47 @@ import { useTranslation } from 'react-i18next';
 export default function SignUp() {
     const { t } = useTranslation();
 
+    function handleFormSubmit(event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const formElements = form.elements;
+
+        if (formElements.password.value !== formElements.confirmPassword.value) {
+            return;
+        }
+
+        const data = {
+            username: formElements.username.value,
+            firstName: formElements.firstName.value,
+            lastName: formElements.lastName.value,
+            email: formElements.email.value,
+            password: formElements.password.value,
+        };
+
+        fetch('http://localhost:3000/sign-up', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                dispatch(login(data));
+                navigate('/');
+            });
+    }
+
     return (
         <section className="section">
             <h1 className="title">
                 {t('modules.auth.sign_up.title')}
             </h1>
 
-            <form method="POST" action="/register">
+            <form onSubmit={handleFormSubmit}>
                 <div className="field">
-                    <label className="label" for="username">
+                    <label className="label" htmlFor="username">
                         {t('modules.auth.sign_up.username')}
                     </label>
                     <div className="control">
@@ -30,7 +62,7 @@ export default function SignUp() {
                 </div>
 
                 <div className="field">
-                    <label className="label" for="firstNameInput">
+                    <label className="label" htmlFor="firstNameInput">
                         {t('modules.auth.sign_up.first_name')}
                     </label>
                     <div className="control">
@@ -45,7 +77,7 @@ export default function SignUp() {
                 </div>
 
                 <div className="field">
-                    <label className="label" for="lastNameInput">
+                    <label className="label" htmlFor="lastNameInput">
                         {t('modules.auth.sign_up.last_name')}
                     </label>
                     <div className="control">
@@ -60,7 +92,7 @@ export default function SignUp() {
                 </div>
 
                 <div className="field">
-                    <label className="label" for="emailInput">
+                    <label className="label" htmlFor="emailInput">
                         {t('modules.auth.sign_up.email')}
                     </label>
                     <div className="control">
@@ -75,7 +107,7 @@ export default function SignUp() {
                 </div>
 
                 <div className="field">
-                    <label className="label" for="passwordInput">
+                    <label className="label" htmlFor="passwordInput">
                         {t('modules.auth.sign_up.password')}
                     </label>
                     <div className="control">
@@ -90,7 +122,7 @@ export default function SignUp() {
                 </div>
 
                 <div className="field">
-                    <label className="label" for="confirmPasswordInput">
+                    <label className="label" htmlFor="confirmPasswordInput">
                         {t('modules.auth.sign_up.confirm_password')}
                     </label>
                     <div className="control">
