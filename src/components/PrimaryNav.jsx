@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { GrMultimedia } from 'react-icons/gr';
 
 import { getUploads } from '../modules/upload/selectors';
 import { getIsLoggedIn, logout } from '../modules/auth';
@@ -42,6 +43,7 @@ export default function PrimaryNav() {
         <nav className="navbar" role="navigation" aria-label="main navigation">
             <div className="navbar-brand">
                 <Link className="navbar-item" to="/">
+                    <GrMultimedia className="mr-1" />
                     <strong>OHD Files</strong>
                 </Link>
 
@@ -72,9 +74,13 @@ export default function PrimaryNav() {
                             />
                         </div>
                     )}
+
+                    {isLoggedIn && (
+                        <Avatar className="navbar-item" />
+                    )}
+
                     <div className="navbar-item">
                         <div className="buttons">
-                            <Avatar />
                             {isLoggedIn ? (
                                 <button
                                     type="button"

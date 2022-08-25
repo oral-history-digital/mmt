@@ -11,7 +11,11 @@
                     "submit": "Login"
                 },
                 "profile": {
-                    "title": "Profile"
+                    "title": "Profile",
+                    "username": "Username",
+                    "first_name": "First name",
+                    "last_name": "Last name",
+                    "email": "Email address"
                 },
                 "sign_up": {
                     "title": "Sign Up",

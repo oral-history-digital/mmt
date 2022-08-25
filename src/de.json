@@ -11,7 +11,11 @@
                     "submit": "Anmelden"
                 },
                 "profile": {
-                    "title": "Profil"
+                    "title": "Profil",
+                    "username": "Nutzername",
+                    "first_name": "Vorname",
+                    "last_name": "Nachname",
+                    "email": "E-Mail-Adresse"
                 },
                 "sign_up": {
                     "title": "Registrieren",

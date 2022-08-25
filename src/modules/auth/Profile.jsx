@@ -15,9 +15,19 @@ export default function Profile() {
                     {t('modules.auth.profile.title')}
                 </h1>
 
-                <div>
-                    {user.username}
-                </div>
+                <dl>
+                    <dt><b>{t('modules.auth.profile.username')}</b></dt>
+                    <dd>{user?.username}</dd>
+
+                    <dt><b>{t('modules.auth.profile.first_name')}</b></dt>
+                    <dd>{user?.firstName}</dd>
+
+                    <dt><b>{t('modules.auth.profile.last_name')}</b></dt>
+                    <dd>{user?.lastName}</dd>
+
+                    <dt><b>{t('modules.auth.profile.email')}</b></dt>
+                    <dd>{user?.email}</dd>
+                </dl>
             </section>
         </RequireAuth>
     );
