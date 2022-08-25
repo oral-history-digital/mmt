@@ -2,8 +2,33 @@
     "translation": {
         "modules": {
             "auth": {
+                "login": {
+                    "title": "Login",
+                    "email": "Email address",
+                    "email_placeholder": "Enter email address",
+                    "password": "Password",
+                    "password_placeholder": "Enter password",
+                    "submit": "Login"
+                },
                 "profile": {
                     "title": "Profile"
+                },
+                "sign_up": {
+                    "title": "Sign Up",
+                    "username": "Username",
+                    "username_placeholder": "Enter username",
+                    "username_help": "Your username must be 4–12 characters long, can contain letters, figures, and the - and _ characters.",
+                    "first_name": "First name",
+                    "first_name_placeholder": "Enter first name",
+                    "last_name": "Last name",
+                    "last_name_placeholder": "Enter last name",
+                    "email": "Email address",
+                    "email_placeholder": "Enter email",
+                    "password": "Password",
+                    "password_placeholder": "Enter password",
+                    "confirm_password": "Confirm password",
+                    "confirm_password_placeholder": "Re-enter your password",
+                    "submit": "Sign up"
                 }
             },
             "files": {

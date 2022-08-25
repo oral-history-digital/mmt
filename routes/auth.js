@@ -4,6 +4,18 @@ const LocalStrategy = require('passport-local');
 
 var router = express.Router();
 
+const users = [
+    // This user is added to the array to avoid creating a new user on each restart
+    {
+        username: 'alice',
+        firstName: 'Alice',
+        lastName: 'Henderson',
+        email: 'alice@example.com',
+        // This is the SHA256 hash for value of `password`
+        password: 'XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg='
+    },
+];
+
 function verify(username, password, done) {
     // Just a dummy. Always return the same user.
 
@@ -70,6 +82,46 @@ router.post('/logout', function(req, res) {
             message: 'success',
         });
     });
+});
+
+router.post('/register', (req, res) => {
+    const { username, email, firstName, lastName, password, confirmPassword }
+        = req.body;
+
+    // Check if the password and confirm password fields match
+    if (password === confirmPassword) {
+
+        // Check if user with the same email is also registered
+        if (users.find(user => user.email === email)) {
+            res.render('register', {
+                message: 'User already registered.',
+                messageClass: 'alert-danger'
+            });
+
+            return;
+        }
+
+        const hashedPassword = getHashedPassword(password);
+
+        // Store user into the database if you are using one
+        users.push({
+            username,
+            firstName,
+            lastName,
+            email,
+            password: hashedPassword
+        });
+
+        res.render('login', {
+            message: 'Registration Complete. Please login to continue.',
+            messageClass: 'alert-success',
+        });
+    } else {
+        res.render('register', {
+            message: 'Password does not match.',
+            messageClass: 'alert-danger',
+        });
+    }
 });
 
 module.exports = router;

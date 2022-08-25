@@ -10,9 +10,8 @@ const helmet = require('helmet');
 const session = require('express-session');
 const passport = require('passport');
 
-const injectUser = require('./injectUser');
-const routes = require('./routes');
 const authRouter = require('./routes/auth');
+const uploadRouter = require('./routes/upload');
 
 const app = express();
 
@@ -26,7 +25,6 @@ app.use(morgan('combined'));
 
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(injectUser);
 app.use(compression());
 
 app.use(session({
@@ -39,8 +37,8 @@ app.use(passport.authenticate('session'));
 app.engine('hbs', exphbs.engine({extname: '.hbs'}));
 app.set('view engine', 'hbs');
 
-routes(app);
 app.use('/', authRouter);
+app.use('/', uploadRouter);
 
 const port = 3000;
 const host = 'localhost';

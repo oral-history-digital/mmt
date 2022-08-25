@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { login } from '../modules/auth';
+import { login } from './actions';
 
 export default function Login() {
     const { t, i18n } = useTranslation();
@@ -53,7 +53,9 @@ export default function Login() {
 
     return (
         <section className="section">
-            <h1 className="title">Login</h1>
+            <h1 className="title">
+                {t('modules.auth.login.title')}
+            </h1>
 
             <form onSubmit={handleFormSubmit}>
                 <div className="field">
@@ -61,7 +63,7 @@ export default function Login() {
                         className="label"
                         htmlFor="exampleInputEmail1"
                     >
-                        Email address
+                        {t('modules.auth.login.email')}
                     </label>
                     <div className="control">
                         <input
@@ -69,7 +71,7 @@ export default function Login() {
                             type="email"
                             className="input"
                             id="exampleInputEmail1"
-                            placeholder="Enter email"
+                            placeholder={t('modules.auth.login.email_placeholder')}
                             value={username}
                             onChange={handleUsernameChange}
                         />
@@ -80,7 +82,7 @@ export default function Login() {
                         className="label"
                         htmlFor="exampleInputPassword1"
                     >
-                        Password
+                        {t('modules.auth.login.password')}
                     </label>
                     <div className="control">
                         <input
@@ -88,7 +90,7 @@ export default function Login() {
                             type="password"
                             className="input"
                             id="exampleInputPassword1"
-                            placeholder="Password"
+                            placeholder={t('modules.auth.login.password_placeholder')}
                             value={password}
                             onChange={handlePasswordChange}
                         />
@@ -99,7 +101,7 @@ export default function Login() {
                         type="submit"
                         className="button is-primary"
                     >
-                        Login
+                        {t('modules.auth.login.submit')}
                     </button>
                 </div>
             </form>

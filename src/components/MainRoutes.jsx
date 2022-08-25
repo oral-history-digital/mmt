@@ -6,9 +6,7 @@ import DownloadableFiles from './DownloadableFiles';
 import UploadedFiles from './UploadedFiles';
 import Home from './Home';
 import { Upload } from '../modules/upload';
-import { Profile } from '../modules/auth';
-import Login from './Login';
-import SignUp from './SignUp';
+import { Login, Profile, SignUp } from '../modules/auth';
 
 export default function MainRoutes() {
     return (
