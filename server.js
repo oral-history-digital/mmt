@@ -12,13 +12,17 @@ const passport = require('passport');
 
 const authRouter = require('./routes/auth');
 const uploadRouter = require('./routes/upload');
+const credentials = require('./config').credentials;
 
 const app = express();
 
-app.use(cors({
-    origin: 'http://127.0.0.1:5173',
-    credentials: true,
-}));
+if (credentials.frontend.separate) {
+    app.use(cors({
+        origin: `${credentials.frontend.host}:${credentials.frontend.port}`,
+        credentials: true,
+    }));
+}
+
 app.use(helmet());
 app.use(express.static('public', { maxAge: '1m' }));
 app.use(morgan('combined'));
