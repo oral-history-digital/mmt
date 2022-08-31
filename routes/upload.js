@@ -5,6 +5,9 @@ const bodyParser = require('body-parser');
 const path = require('node:path');
 const mime = require('mime-types');
 
+
+const credentials = require('../config').credentials;
+const emailService = require('../email')(credentials);
 const getDirectoryName = require('../utilities/getDirectoryName');
 const requireAuth = require('../middleware/requireAuth');
 
@@ -86,6 +89,8 @@ router.post('/upload', requireAuth, (req, res) => {
                 file.state = 'complete';
             }
             console.log(`File ${name} done`);
+
+            emailService.send('marc.altmann@cedis.fu-berlin.de', 'File uploaded', "You're file was uploaded.\n\nThank you");
         });
     });
 

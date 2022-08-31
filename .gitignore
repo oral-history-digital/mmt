@@ -14,6 +14,7 @@ dist
 dist-ssr
 *.local
 .exit
+.credentials.development.json
 
 # Editor directories and files
 .vscode/*
