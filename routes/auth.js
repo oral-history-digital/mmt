@@ -32,12 +32,7 @@ passport.use(new LocalStrategy(verify));
 
 passport.serializeUser(function(user, cb) {
     process.nextTick(function() {
-        cb(null, {
-            username: user.username,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-        });
+        cb(null, { id: user._id.toString(), username: user.username });
     });
 });
 
@@ -47,18 +42,10 @@ passport.deserializeUser(function(user, cb) {
     });
 });
 
-passport.serializeUser(function(user,done){
-    done(null, user);
-});
-
-passport.deserializeUser(function(user,done){
-    done(null, user);
-});
-
 router.post('/login',
     passport.authenticate('local'),
     function(req, res) {
-        const user = { ...req.user };
+        const user = { ...req.user._doc };
         delete user.password;
 
         res.json(user);
