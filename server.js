@@ -9,6 +9,8 @@ const compression = require('compression');
 const helmet = require('helmet');
 const session = require('express-session');
 const passport = require('passport');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const authRouter = require('./routes/auth');
 const uploadRouter = require('./routes/upload');
@@ -25,7 +27,18 @@ if (credentials.frontend.separate) {
 
 app.use(helmet());
 app.use(express.static('public', { maxAge: '1m' }));
-app.use(morgan('combined'));
+
+switch(app.get('env')) {
+case 'production':
+    const stream = fs.createWriteStream(path.join(__dirname, 'access.log'),
+        { flags: 'a' });
+    app.use(morgan('combined', { stream }));
+    break;
+case 'development':
+default:
+    app.use(morgan('dev'));
+    break;
+}
 
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -48,5 +61,5 @@ const port = 3000;
 const host = 'localhost';
 
 app.listen(port, host, () => {
-    console.log(`App listening on http://${host}:${port}`);
+    console.log(`Express started in ${app.get('env')} mode at http://${host}:${port}; press Ctrl-C to terminate.`);
 });
