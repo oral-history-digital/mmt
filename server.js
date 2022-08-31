@@ -15,6 +15,7 @@ const path = require('node:path');
 const authRouter = require('./routes/auth');
 const uploadRouter = require('./routes/upload');
 const credentials = require('./config').credentials;
+require('./db');
 
 const app = express();
 

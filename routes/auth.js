@@ -2,25 +2,17 @@ var express = require('express');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const getHashedPassword = require('../utilities/getHashedPassword');
+const db = require('../db');
 
 var router = express.Router();
 
-const users = [
-    // This user is added to the array to avoid creating a new user on each restart
-    {
-        username: 'alice',
-        firstName: 'Alice',
-        lastName: 'Henderson',
-        email: 'alice@example.com',
-        // This is the SHA256 hash for value of `password`
-        password: 'XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg='
-    },
-];
+const users = [];
 
-function verify(username, password, done) {
-    // Just a dummy. Always return the same user.
+async function verify(username, password, done) {
+    const user = await db.getUser(username);
 
-    const user = users.find(u => u.email === username);
+    console.log(username, password);
+    console.log(user);
 
     if (!user) {
         return done(null, false, { message: 'Incorrect username or password'});
