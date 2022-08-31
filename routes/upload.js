@@ -19,22 +19,22 @@ function createId() {
     return nextId++;
 }
 
-const filesDB = [
-    {
-        id: 0,
-        size: 32838722,
-        type: 'audio/mpeg',
-        lastModified: 1639519391407,
-        name: 'police-story.mp4',
-        transferred: 0,
-        state: 'complete',
-    },
-];
-
+const filesDB = {
+    alice: [
+        {
+            id: 0,
+            size: 32838722,
+            type: 'audio/mpeg',
+            lastModified: 1639519391407,
+            name: 'police-story.mp4',
+            transferred: 0,
+            state: 'complete',
+        },
+    ],
+};
 
 router.post('/files', bodyParser.json(), requireAuth, (req, res) => {
-    // TODO: Add user, files are global at the moment.
-
+    const { username } = req.user;
     const id = createId();
     const newFile = {
         id,
@@ -45,13 +45,18 @@ router.post('/files', bodyParser.json(), requireAuth, (req, res) => {
         state: 'pending',
     };
 
-    filesDB.push(newFile);
+    if (!(filesDB.hasOwnProperty(username))) {
+        filesDB[username] = [];
+    }
+
+    filesDB[username].push(newFile);
     console.log(filesDB);
 
     res.json(newFile);
 });
 
 router.post('/upload', requireAuth, (req, res) => {
+    const { username } = req.user;
     let id;
 
     bb = busboy({ headers: req.headers });
@@ -65,12 +70,11 @@ router.post('/upload', requireAuth, (req, res) => {
     bb.on('file', (name, file, info) => {
         const { filename, encoding } = info;
 
-        const fileInDB = filesDB.find(f => f.id === id);
+        const fileInDB = filesDB[username].find(f => f.id === id);
         if (fileInDB) {
             fileInDB.state = 'uploading';
         }
 
-        const username = req.user.username;
         const dir = getDirectoryName(username);
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
@@ -84,7 +88,7 @@ router.post('/upload', requireAuth, (req, res) => {
         });
 
         file.on('close', () => {
-            const file = filesDB.find(f => f.id === id);
+            const file = filesDB[username].find(f => f.id === id);
             if (file) {
                 file.state = 'complete';
             }
@@ -104,25 +108,12 @@ router.post('/upload', requireAuth, (req, res) => {
 });
 
 router.get('/files', requireAuth, (req, res) => {
-    console.log(req.user);
-    res.json(filesDB);
-
-
-    const uploadDir = getDirectoryName(req.user.username, 'upload');
-    let uploadFiles = [];
-    if (fs.existsSync(uploadDir)) {
-        uploadFiles = fs.readdirSync(uploadDir);
-    }
-
-    const downloadDir = getDirectoryName(req.user.username, 'download');
-    let downloadFiles = [];
-    if (fs.existsSync(downloadDir)) {
-        downloadFiles = fs.readdirSync(downloadDir);
-    }
+    const { username } = req.user;
+    res.json(filesDB[username]);
 });
 
 router.get('/downloadable-files', requireAuth, (req, res) => {
-    const username = req.user.username;
+    const { username } = req.user;
     const downloadDir = getDirectoryName(username, 'download');
 
     let downloadFiles = [];
