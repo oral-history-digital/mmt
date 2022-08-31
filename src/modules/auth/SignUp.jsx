@@ -21,8 +21,6 @@ export default function SignUp() {
 
         const data = {
             username: formElements.username.value,
-            firstName: formElements.firstName.value,
-            lastName: formElements.lastName.value,
             email: formElements.email.value,
             password: formElements.password.value,
         };
@@ -65,36 +63,6 @@ export default function SignUp() {
                     <p className="help">
                         {t('modules.auth.sign_up.username_help')}
                     </p>
-                </div>
-
-                <div className="field">
-                    <label className="label" htmlFor="firstNameInput">
-                        {t('modules.auth.sign_up.first_name')}
-                    </label>
-                    <div className="control">
-                        <input
-                            name="firstName"
-                            type="text"
-                            className="input"
-                            id="firstNameInput"
-                            placeholder={t('modules.auth.sign_up.first_name_placeholder')}
-                        />
-                    </div>
-                </div>
-
-                <div className="field">
-                    <label className="label" htmlFor="lastNameInput">
-                        {t('modules.auth.sign_up.last_name')}
-                    </label>
-                    <div className="control">
-                        <input
-                            name="lastName"
-                            type="text"
-                            className="input"
-                            id="lastNameInput"
-                            placeholder={t('modules.auth.sign_up.last_name_placeholder')}
-                        />
-                    </div>
                 </div>
 
                 <div className="field">

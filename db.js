@@ -23,4 +23,7 @@ module.exports = {
     getFiles: async (options = {}) => File.find(options),
     getUsers: async (options = {}) => User.find(options),
     getUser: async (email) => User.findOne({ email }),
+    createUser: async (username, email, password, language) => {
+        return new User({ username, email, password, language }).save();
+    },
 };

@@ -1,5 +1,11 @@
 {
     "translation": {
+        "global": {
+            "languages": {
+                "en": "English",
+                "de": "German"
+            }
+        },
         "modules": {
             "auth": {
                 "login": {
@@ -13,19 +19,14 @@
                 "profile": {
                     "title": "Profile",
                     "username": "Username",
-                    "first_name": "First name",
-                    "last_name": "Last name",
-                    "email": "Email address"
+                    "email": "Email address",
+                    "language": "Language"
                 },
                 "sign_up": {
                     "title": "Sign Up",
                     "username": "Username",
                     "username_placeholder": "Enter username",
                     "username_help": "Your username must be 4–12 characters long, can contain letters, figures, and the - and _ characters.",
-                    "first_name": "First name",
-                    "first_name_placeholder": "Enter first name",
-                    "last_name": "Last name",
-                    "last_name_placeholder": "Enter last name",
                     "email": "Email address",
                     "email_placeholder": "Enter email",
                     "password": "Password",

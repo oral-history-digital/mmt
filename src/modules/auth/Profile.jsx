@@ -15,19 +15,20 @@ export default function Profile() {
                     {t('modules.auth.profile.title')}
                 </h1>
 
-                <dl>
-                    <dt><b>{t('modules.auth.profile.username')}</b></dt>
-                    <dd>{user?.username}</dd>
+                {user && (
+                    <dl>
+                        <dt><b>{t('modules.auth.profile.username')}</b></dt>
+                        <dd>{user.username}</dd>
 
-                    <dt><b>{t('modules.auth.profile.first_name')}</b></dt>
-                    <dd>{user?.firstName}</dd>
+                        <dt><b>{t('modules.auth.profile.email')}</b></dt>
+                        <dd>{user.email}</dd>
 
-                    <dt><b>{t('modules.auth.profile.last_name')}</b></dt>
-                    <dd>{user?.lastName}</dd>
-
-                    <dt><b>{t('modules.auth.profile.email')}</b></dt>
-                    <dd>{user?.email}</dd>
-                </dl>
+                        <dt><b>{t('modules.auth.profile.language')}</b></dt>
+                        <dd>
+                            {t(`global.languages.${user.language}`)}
+                        </dd>
+                    </dl>
+                )}
             </section>
         </RequireAuth>
     );

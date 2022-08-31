@@ -6,13 +6,8 @@ const db = require('../db');
 
 var router = express.Router();
 
-const users = [];
-
 async function verify(username, password, done) {
     const user = await db.getUser(username);
-
-    console.log(username, password);
-    console.log(user);
 
     if (!user) {
         return done(null, false, { message: 'Incorrect username or password'});
@@ -32,7 +27,12 @@ passport.use(new LocalStrategy(verify));
 
 passport.serializeUser(function(user, cb) {
     process.nextTick(function() {
-        cb(null, { id: user._id.toString(), username: user.username });
+        cb(null, {
+            id: user._id.toString(),
+            username: user.username,
+            email: user.email,
+            language: user.language,
+        });
     });
 });
 
@@ -45,9 +45,7 @@ passport.deserializeUser(function(user, cb) {
 router.post('/login',
     passport.authenticate('local'),
     function(req, res) {
-        const user = { ...req.user._doc };
-        delete user.password;
-
+        const user = req.session.passport.user;
         res.json(user);
     }
 );
@@ -66,39 +64,29 @@ router.post('/logout', function(req, res) {
     });
 });
 
-router.post('/sign-up', (req, res) => {
+router.post('/sign-up', async (req, res) => {
     const { username, email, firstName, lastName, password } = req.body;
 
-    // Check if user with the same email is also registered
-    if (users.find(user => user.email === email)) {
-        res.json({
-            message: 'already registered',
-        });
+    const existingUser = await db.getUser(username);
+    if (existingUser) {
+        res.status(400)
+            .json({
+                message: 'already registered',
+            });
         return;
     }
 
     const hashedPassword = getHashedPassword(password);
 
-    const user = {
-        username,
-        firstName,
-        lastName,
-        email,
-        password: hashedPassword,
-    };
-
-    // Store user into the database if you are using one
-    users.push(user);
+    const user = await db.createUser(username, email, hashedPassword, 'en');
 
     req.login(user, (err) => {
         if (err) {
             return next(err);
         }
 
-        const userWithoutPassword = {...user};
-        delete userWithoutPassword.password;
-
-        return res.json(userWithoutPassword);
+        const user = req.session.passport.user;
+        return res.json(user);
     });
 });
 
