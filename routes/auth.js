@@ -6,8 +6,8 @@ const db = require('../db');
 
 var router = express.Router();
 
-async function verify(username, password, done) {
-    const user = await db.getUser(username);
+async function verify(email, password, done) {
+    const user = await db.getUser({ email });
 
     if (!user) {
         return done(null, false, { message: 'Incorrect username or password'});
@@ -65,10 +65,11 @@ router.post('/logout', function(req, res) {
 });
 
 router.post('/sign-up', async (req, res) => {
-    const { username, email, firstName, lastName, password } = req.body;
+    const { username, email, password } = req.body;
 
-    const existingUser = await db.getUser(username);
-    if (existingUser) {
+    const existingUsername = await db.getUser({ username });
+    const existingEmail = await db.getUser({ email });
+    if (existingUsername || existingEmail) {
         res.status(400)
             .json({
                 message: 'already registered',

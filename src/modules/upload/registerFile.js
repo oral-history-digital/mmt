@@ -12,5 +12,5 @@ export default async function registerFile(data) {
 
     const json = await res.json();
 
-    return json.id;
+    return json._id;
 }

@@ -5,39 +5,20 @@ const bodyParser = require('body-parser');
 const path = require('node:path');
 const mime = require('mime-types');
 
-
 const credentials = require('../config').credentials;
 const emailService = require('../email')(credentials);
 const getDirectoryName = require('../utilities/getDirectoryName');
 const requireAuth = require('../middleware/requireAuth');
+const db = require('../db');
 
 const router = express.Router();
 
-let nextId = 1;
-
-function createId() {
-    return nextId++;
-}
-
-const filesDB = {
-    alice: [
-        {
-            id: 0,
-            size: 32838722,
-            type: 'audio/mpeg',
-            lastModified: 1639519391407,
-            name: 'police-story.mp4',
-            transferred: 0,
-            state: 'complete',
-        },
-    ],
-};
-
-router.post('/files', bodyParser.json(), requireAuth, (req, res) => {
+router.post('/files', bodyParser.json(), requireAuth, async (req, res) => {
     const { username } = req.user;
-    const id = createId();
+
+    const user = await db.getUser({ username });
+
     const newFile = {
-        id,
         name: req.body.name,
         size: req.body.size,
         type: req.body.type,
@@ -45,35 +26,38 @@ router.post('/files', bodyParser.json(), requireAuth, (req, res) => {
         state: 'pending',
     };
 
-    if (!(filesDB.hasOwnProperty(username))) {
-        filesDB[username] = [];
-    }
+    const file = user.files.create(newFile);
+    user.files.push(file);
+    user.save(err => {
+        console.log(err);
+    });
 
-    filesDB[username].push(newFile);
-    console.log(filesDB);
+    const _id = file._id;
 
-    res.json(newFile);
+    res.json({
+        ...newFile,
+        _id,
+    });
 });
 
-router.post('/upload', requireAuth, (req, res) => {
-    const { username } = req.user;
+router.post('/upload', requireAuth, async (req, res) => {
+    const { username, email } = req.user;
+    const user = await db.getUser({ username });
+
     let id;
 
     bb = busboy({ headers: req.headers });
 
     bb.on('field', (name, val, info) => {
         if (name === 'id') {
-            id = Number.parseInt(val);
+            id = val;
         }
     });
 
     bb.on('file', (name, file, info) => {
         const { filename, encoding } = info;
 
-        const fileInDB = filesDB[username].find(f => f.id === id);
-        if (fileInDB) {
-            fileInDB.state = 'uploading';
-        }
+        db.updateFileState(user._id, id, 'uploading');
 
         const dir = getDirectoryName(username);
         if (!fs.existsSync(dir)) {
@@ -88,18 +72,15 @@ router.post('/upload', requireAuth, (req, res) => {
         });
 
         file.on('close', () => {
-            const file = filesDB[username].find(f => f.id === id);
-            if (file) {
-                file.state = 'complete';
-            }
+            db.updateFileState(user._id, id, 'complete');
+
             console.log(`File ${name} done`);
 
-            emailService.send('marc.altmann@cedis.fu-berlin.de', 'File uploaded', "You're file was uploaded.\n\nThank you");
+            emailService.send(email, 'File uploaded', "You're file was uploaded.\n\nThank you");
         });
     });
 
     bb.on('close', () => {
-        console.log('Done parsing form!');
         res.writeHead(303, { Connection: 'close', Location: '/files' });
         res.end();
     })
@@ -107,9 +88,11 @@ router.post('/upload', requireAuth, (req, res) => {
     req.pipe(bb);
 });
 
-router.get('/files', requireAuth, (req, res) => {
-    const { username } = req.user;
-    res.json(filesDB[username]);
+router.get('/files', requireAuth, async (req, res) => {
+    const { email } = req.user;
+    const user = await db.getUser({ email });
+
+    res.json(user.files);
 });
 
 router.get('/downloadable-files', requireAuth, (req, res) => {
@@ -128,8 +111,6 @@ router.get('/downloadable-files', requireAuth, (req, res) => {
         const info = fs.fstatSync(fd);
         const size = info.size;
         const type = mime.lookup(filePath);
-
-        console.log(info);
 
         return {
             name,

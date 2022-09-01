@@ -22,8 +22,8 @@ export default function UploadedFiles() {
             </thead>
             <tbody>
                 {files.map(file => (
-                    <tr key={file.id}>
-                        <td>{file.id}</td>
+                    <tr key={file._id}>
+                        <td>{file._id}</td>
                         <td>{file.name}</td>
                         <td>{(Math.round(file.size / 1024 / 1024)).toLocaleString()} MB</td>
                         <td>{file.type}</td>
