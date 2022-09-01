@@ -49,6 +49,7 @@
                     "size": "Größe",
                     "type": "Typ",
                     "updated_at": "Zuletzt geändert",
+                    "checksum": "Prüfsumme",
                     "state": "Zustand"
                 },
                 "title": "Dateien",

@@ -36,5 +36,18 @@ module.exports = {
                 },
             }
         );
-    }
+    },
+    updateFileChecksum: async (userId, fileId, checksum) => {
+        return User.findOneAndUpdate(
+            {
+                '_id': userId,
+                'files._id': fileId,
+            },
+            {
+                '$set': {
+                    'files.$.checksum': checksum,
+                },
+            }
+        );
+    },
 };

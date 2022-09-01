@@ -41,6 +41,7 @@ function seed() {
                     name: 'police-story.mp4',
                     transferred: 0,
                     state: 'complete',
+                    checksum: 'c2f5a99a914f9e6d8595547f2248ddf964a5f921b79c584ce4a031f838b312e3',
                 }),
             ],
         }).save();

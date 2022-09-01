@@ -49,6 +49,7 @@
                     "size": "Size",
                     "type": "Type",
                     "updated_at": "Updated at",
+                    "checksum": "Checksum",
                     "state": "State"
                 },
                 "title": "Files",
