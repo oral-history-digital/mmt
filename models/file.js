@@ -8,7 +8,8 @@ const fileSchema = mongoose.Schema({
     name: String,
     transferred: Number,
     state: String,
-    checksum: String,
+    checksum_server: String,
+    checksum_client: String,
 });
 
 const File = mongoose.model('File', fileSchema);

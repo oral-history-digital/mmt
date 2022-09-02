@@ -41,6 +41,19 @@ router.post('/files', bodyParser.json(), requireAuth, async (req, res) => {
     });
 });
 
+// At the moment, just update client checksum.
+router.put('/files:fileId', bodyParser.json(), requireAuth, async (req, res) => {
+    const { username } = req.user;
+    const { fileId } = req.params;
+    const { checksum_client } = req.body;
+
+    const user = await db.getUser({ username });
+    await db.updateFileAttribute(user._id, fileId, 'checksum_client', checksum_client);
+    const file = user.files.id(fileId);
+
+    res.json(file);
+});
+
 router.post('/upload', requireAuth, async (req, res) => {
     const { username, email } = req.user;
     const user = await db.getUser({ username });
@@ -58,7 +71,7 @@ router.post('/upload', requireAuth, async (req, res) => {
     bb.on('file', (name, file, info) => {
         const { filename, encoding } = info;
 
-        db.updateFileState(user._id, id, 'uploading');
+        db.updateFileAttribute(user._id, id, 'state', 'uploading');
 
         const dir = getDirectoryName(username);
         if (!fs.existsSync(dir)) {
@@ -73,7 +86,7 @@ router.post('/upload', requireAuth, async (req, res) => {
         });
 
         file.on('close', () => {
-            db.updateFileState(user._id, id, 'complete');
+            db.updateFileAttribute(user._id, id, 'state', 'complete');
 
             console.log(`File ${name} done`);
 
@@ -91,7 +104,7 @@ router.post('/upload', requireAuth, async (req, res) => {
                         checksum = match[0];
                         console.log(checksum);
 
-                        db.updateFileChecksum(user._id, id, checksum);
+                        db.updateFileAttribute(user._id, id, 'checksum_server', checksum);
                     }
 
                     // the *entire* stdout and stderr (buffered)

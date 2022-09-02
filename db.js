@@ -24,7 +24,7 @@ module.exports = {
     createUser: async (username, email, password, language) => {
         return new User({ username, email, password, language }).save();
     },
-    updateFileState: async (userId, fileId, state) => {
+    updateFileAttribute: async (userId, fileId, attribute, value) => {
         return User.findOneAndUpdate(
             {
                 '_id': userId,
@@ -32,20 +32,7 @@ module.exports = {
             },
             {
                 '$set': {
-                    'files.$.state': state,
-                },
-            }
-        );
-    },
-    updateFileChecksum: async (userId, fileId, checksum) => {
-        return User.findOneAndUpdate(
-            {
-                '_id': userId,
-                'files._id': fileId,
-            },
-            {
-                '$set': {
-                    'files.$.checksum': checksum,
+                    [`files.$.${attribute}`]: value,
                 },
             }
         );

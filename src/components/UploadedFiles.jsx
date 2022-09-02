@@ -19,7 +19,7 @@ export default function UploadedFiles() {
                         <td>{t('modules.files.table.type')}</td>
                         <td>{t('modules.files.table.updated_at')}</td>
                         <td>{t('modules.files.table.state')}</td>
-                        <td>{t('modules.files.table.checksum')}</td>
+                        <td>{t('modules.files.table.checksum_server')}</td>
                     </tr>
                 </thead>
                 <tbody>
