@@ -4,9 +4,17 @@ import { downloadEndPoint } from '../modules/api';
 import useDownloadableFiles from '../hooks/useDownloadableFiles';
 
 export default function DownloadableFiles() {
-    const { files } = useDownloadableFiles();
+    const { files, error } = useDownloadableFiles();
 
     const { t } = useTranslation();
+
+    if (error) {
+        return (
+            <div class="notification is-warning">
+                {t('global.errors.fetch')}
+            </div>
+        );
+    }
 
     return (
         <table className="table">

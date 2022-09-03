@@ -8,6 +8,14 @@ export default function UploadedFiles() {
 
     const { t } = useTranslation();
 
+    if (error) {
+        return (
+            <div class="notification is-warning">
+                {t('global.errors.fetch')}
+            </div>
+        );
+    }
+
     return (
         <div style={{ overflowX: 'auto' }}>
             <table className="table">

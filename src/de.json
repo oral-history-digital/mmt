@@ -1,6 +1,9 @@
 {
     "translation": {
         "global": {
+            "errors": {
+                "fetch": "Beim Laden der Daten ist ein Fehler aufgetreten."
+            },
             "languages": {
                 "en": "Englisch",
                 "de": "Deutsch"
