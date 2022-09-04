@@ -1,4 +1,4 @@
-const apiHost = import.meta.env.VITE_API_HOST;
+const apiHost = 'http://localhost:3000';
 
 export const baseUrl = `${apiHost}/`;
 export const downloadEndPoint = `${apiHost}/download`;
