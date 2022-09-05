@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
+import { UploadStatus } from '../modules/upload';
 import PrimaryNav from './PrimaryNav';
 
 export default function Layout() {
@@ -7,6 +8,8 @@ export default function Layout() {
         <div className="container">
             <PrimaryNav />
             <Outlet />
+
+            <UploadStatus />
         </div>
     );
 }
