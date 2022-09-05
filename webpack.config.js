@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 module.exports = {
     entry: path.resolve(__dirname, './client/src/index.js'),
@@ -26,12 +27,17 @@ module.exports = {
         port: 4000,
     },
     output: {
-        filename: 'main.js',
+        filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
+        clean: true,
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, 'public', 'index.html'),
+            template: path.join(__dirname, 'client', 'src', 'index.html'),
+        }),
+        new FaviconsWebpackPlugin({
+            logo: path.join(__dirname, 'client', 'src', 'ohd-logo.png'),
+            mode: 'light',
         }),
     ],
 };
