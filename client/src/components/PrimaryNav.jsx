@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { GrMultimedia } from 'react-icons/gr';
 
 import { getUploads } from '../modules/upload/selectors';
-import { getIsLoggedIn, logout } from '../modules/auth';
+import { Avatar, getIsLoggedIn, logout } from '../modules/auth';
+import { logoutEndPoint } from '../modules/api';
 import GlobalProgress from './GlobalProgress';
-import { Avatar } from '../modules/auth';
 
 export default function PrimaryNav() {
     const navigate = useNavigate();
@@ -27,7 +27,7 @@ export default function PrimaryNav() {
     const avgRatio = activeUploads.length > 0 ? sumRatios / activeUploads.length : 0;
 
     function handleLogoutRequest() {
-        fetch('http://localhost:3000/logout', {
+        fetch(logoutEndPoint, {
             method: 'POST',
             credentials: 'include',
         })

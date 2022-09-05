@@ -42,7 +42,7 @@ passport.deserializeUser(function(user, cb) {
     });
 });
 
-router.post('/login',
+router.post('/api/login',
     passport.authenticate('local'),
     function(req, res) {
         const user = req.session.passport.user;
@@ -50,7 +50,7 @@ router.post('/login',
     }
 );
 
-router.post('/logout', function(req, res) {
+router.post('/api/logout', function(req, res) {
     req.logout(function(err) {
         if (err) {
             res.json({
@@ -64,7 +64,7 @@ router.post('/logout', function(req, res) {
     });
 });
 
-router.post('/sign-up', async (req, res) => {
+router.post('/api/sign-up', async (req, res) => {
     const { username, email, password } = req.body;
 
     const existingUsername = await db.getUser({ username });

@@ -14,7 +14,7 @@ const db = require('../db');
 
 const router = express.Router();
 
-router.post('/files', bodyParser.json(), requireAuth, async (req, res) => {
+router.post('/api/files', bodyParser.json(), requireAuth, async (req, res) => {
     const { username } = req.user;
 
     const user = await db.getUser({ username });
@@ -42,7 +42,7 @@ router.post('/files', bodyParser.json(), requireAuth, async (req, res) => {
 });
 
 // At the moment, just update client checksum.
-router.put('/files:fileId', bodyParser.json(), requireAuth, async (req, res) => {
+router.put('/api/files:fileId', bodyParser.json(), requireAuth, async (req, res) => {
     const { username } = req.user;
     const { fileId } = req.params;
     const { checksum_client } = req.body;
@@ -54,7 +54,7 @@ router.put('/files:fileId', bodyParser.json(), requireAuth, async (req, res) => 
     res.json(file);
 });
 
-router.post('/upload', requireAuth, async (req, res) => {
+router.post('/api/upload', requireAuth, async (req, res) => {
     const { username, email } = req.user;
     const user = await db.getUser({ username });
 
@@ -123,14 +123,14 @@ router.post('/upload', requireAuth, async (req, res) => {
     req.pipe(bb);
 });
 
-router.get('/files', requireAuth, async (req, res) => {
+router.get('/api/files', requireAuth, async (req, res) => {
     const { email } = req.user;
     const user = await db.getUser({ email });
 
     res.json(user.files);
 });
 
-router.get('/downloadable-files', requireAuth, (req, res) => {
+router.get('/api/downloadable-files', requireAuth, (req, res) => {
     const { username } = req.user;
     const downloadDir = getDirectoryName(username, 'download');
 
@@ -159,7 +159,7 @@ router.get('/downloadable-files', requireAuth, (req, res) => {
     res.json(filesResult);
 });
 
-router.get('/download', requireAuth, (req, res) => {
+router.get('/api/download', requireAuth, (req, res) => {
     const filename = decodeURIComponent(req.query.filename);
 
     const downloadDir = getDirectoryName(req.user.username, 'download');

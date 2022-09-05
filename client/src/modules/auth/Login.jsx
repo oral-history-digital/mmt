@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+import { loginEndPoint } from '../api';
 import { login } from './actions';
 
 export default function Login() {
@@ -31,7 +32,7 @@ export default function Login() {
             password,
         };
 
-        fetch('http://localhost:3000/login', {
+        fetch(loginEndPoint, {
             method: 'POST',
             credentials: 'include',
             headers: {'Content-Type': 'application/json'},

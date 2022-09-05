@@ -25,6 +25,9 @@ module.exports = {
             directory: path.join(__dirname, 'build'),
         },
         port: 4000,
+        proxy: {
+            '/api': 'http://localhost:3000',
+        },
     },
     output: {
         filename: 'bundle.js',
