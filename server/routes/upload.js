@@ -116,7 +116,7 @@ router.post('/api/upload', requireAuth, async (req, res) => {
     });
 
     bb.on('close', () => {
-        res.writeHead(303, { Connection: 'close', Location: '/files' });
+        res.writeHead(303, { Connection: 'close', Location: '/api/files' });
         res.end();
     })
 
