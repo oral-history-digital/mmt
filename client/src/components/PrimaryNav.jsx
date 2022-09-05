@@ -56,12 +56,12 @@ export default function PrimaryNav() {
 
             <div id="navbarBasicExample" className="navbar-menu">
                 <div className="navbar-start">
-                    <Link className="navbar-item" to="/files/uploaded">
-                        {t('modules.layout.primary-nav.files')}
-                    </Link>
-
                     <Link className="navbar-item" to="/upload">
                         {t('modules.layout.primary-nav.upload')}
+                    </Link>
+
+                    <Link className="navbar-item" to="/download">
+                        {t('modules.layout.primary-nav.download')}
                     </Link>
                 </div>
 

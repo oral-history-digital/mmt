@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
-import { downloadEndPoint } from '../modules/api';
-import useDownloadableFiles from '../hooks/useDownloadableFiles';
+import { downloadEndPoint } from '../api';
+import useDownloadableFiles from '../../hooks/useDownloadableFiles';
 
 export default function DownloadableFiles() {
     const { files, error } = useDownloadableFiles();

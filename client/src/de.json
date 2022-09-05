@@ -39,6 +39,9 @@
                     "submit": "Registrieren"
                 }
             },
+            "download": {
+                "title": "Dateien herunterladen"
+            },
             "files": {
                 "downloadable_files": "Dateien zum Herunterladen",
                 "states": {
@@ -66,8 +69,8 @@
                     "subtitle": "Die OHD-Anwendung für Datei-Uploads und -Downloads"
                 },
                 "primary-nav": {
-                    "files": "Dateien",
                     "upload": "Hochladen",
+                    "download": "Herunterladen",
                     "sign-up": "Registrieren",
                     "login": "Anmelden",
                     "logout": "Abmelden",

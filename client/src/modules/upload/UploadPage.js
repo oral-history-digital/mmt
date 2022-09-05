@@ -1,0 +1,20 @@
+import { useTranslation } from 'react-i18next';
+
+import { RequireAuth } from '../auth';
+import UploadedFiles from './UploadedFiles';
+
+export default function UploadPage() {
+    const { t } = useTranslation();
+
+    return (
+        <RequireAuth>
+            <section className="section">
+                <h1 className="title is-spaced">
+                    {t('modules.upload.title')}
+                </h1>
+
+                {<UploadedFiles />}
+            </section>
+        </RequireAuth>
+    );
+}

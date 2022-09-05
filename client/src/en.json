@@ -39,6 +39,9 @@
                     "submit": "Sign up"
                 }
             },
+            "download": {
+                "title": "Download Files"
+            },
             "files": {
                 "downloadable_files": "Downloadable Files",
                 "states": {
@@ -66,8 +69,8 @@
                     "subtitle": "The upload and download app of OHD"
                 },
                 "primary-nav": {
-                    "files": "Dateien",
-                    "upload": "Hochladen",
+                    "upload": "Upload",
+                    "download": "Download",
                     "sign-up": "Sign up",
                     "login": "Login",
                     "logout": "Logout",

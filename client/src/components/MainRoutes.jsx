@@ -1,23 +1,18 @@
 import { Routes, Route } from 'react-router-dom';
 
-import Layout from './Layout';
-import Files from './Files';
-import DownloadableFiles from './DownloadableFiles';
-import UploadedFiles from './UploadedFiles';
-import Home from './Home';
-import { Upload } from '../modules/upload';
 import { Login, Profile, SignUp } from '../modules/auth';
+import { UploadPage } from '../modules/upload';
+import { DownloadPage } from '../modules/download';
+import Layout from './Layout';
+import Home from './Home';
 
 export default function MainRoutes() {
     return (
         <Routes>
             <Route path="/" element={<Layout />}>
                 <Route index element={<Home />} />
-                <Route path="files" element={<Files />}>
-                    <Route path="uploaded" element={<UploadedFiles />} />
-                    <Route path="downloadable" element={<DownloadableFiles />} />
-                </Route>
-                <Route path="upload" element={<Upload />} />
+                <Route path="upload" element={<UploadPage />} />
+                <Route path="download" element={<DownloadPage />} />
                 <Route path="login" element={<Login />} />
                 <Route path="sign-up" element={<SignUp />} />
                 <Route path="profile" element={<Profile />} />
