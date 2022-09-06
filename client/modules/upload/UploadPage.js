@@ -9,15 +9,17 @@ export default function UploadPage() {
 
     return (
         <RequireAuth>
-            <section className="section">
-                <h1 className="title is-spaced">
-                    {t('modules.upload.title')}
-                </h1>
+            <div className="container">
+                <section className="section">
+                    <h1 className="title is-spaced">
+                        {t('modules.upload.title')}
+                    </h1>
 
-                <UploadButton />
+                    <UploadButton />
 
-                <UploadedFiles className="mt-5" />
-            </section>
+                    <UploadedFiles className="mt-5" />
+                </section>
+            </div>
         </RequireAuth>
     );
 }

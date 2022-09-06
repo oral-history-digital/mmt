@@ -4,14 +4,15 @@ export default function Home() {
     const { t } = useTranslation();
 
     return (
-        <section className="section">
-            <h1 className="title">
-                {t('modules.layout.home.title')}
-            </h1>
-
-            <p className="subtitle mt-5">
-                {t('modules.layout.home.subtitle')}
-            </p>
+        <section class="hero is-primary">
+            <div class="hero-body">
+                <p class="title">
+                    {t('modules.layout.home.title')}
+                </p>
+                <p class="subtitle">
+                    {t('modules.layout.home.subtitle')}
+                </p>
+            </div>
         </section>
     );
 }

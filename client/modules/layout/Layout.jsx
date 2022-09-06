@@ -5,7 +5,7 @@ import PrimaryNav from './PrimaryNav';
 
 export default function Layout() {
     return (
-        <div className="container">
+        <div>
             <PrimaryNav />
             <Outlet />
 
