@@ -10,13 +10,18 @@ export default function Home() {
         <section className="hero is-primary">
             <div className="hero-body">
                 <div className="container">
-                    <GrMultimedia className="Icon--multimedia" />
-                    <p className="title">
-                        {t('modules.layout.home.title')}
-                    </p>
-                    <p className="subtitle">
-                        {t('modules.layout.home.subtitle')}
-                    </p>
+                    <div className="media">
+                        <GrMultimedia className="media-left Icon--multimedia" />
+
+                        <div className="media-content">
+                            <p className="title mt-5">
+                                {t('modules.layout.home.title')}
+                            </p>
+                            <p className="subtitle">
+                                {t('modules.layout.home.subtitle')}
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
