@@ -3,28 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { GrMultimedia } from 'react-icons/gr';
 
-import { getUploads } from '../modules/upload/selectors';
-import { Avatar, getIsLoggedIn, logout } from '../modules/auth';
-import { logoutEndPoint } from '../modules/api';
-import GlobalProgress from './GlobalProgress';
+import { Avatar, getIsLoggedIn, logout } from '../auth';
+import { logoutEndPoint } from '../api';
 
 export default function PrimaryNav() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const isLoggedIn = useSelector(getIsLoggedIn);
     const { t } = useTranslation();
-
-    const uploads = Object.values(useSelector(getUploads));
-
-    const activeUploads = uploads.filter(
-        upload => upload.total !== upload.transferred
-    );
-    const numActiveUploads = activeUploads.length;
-
-    const sumRatios = activeUploads.reduce(
-        (acc, upload) => acc + upload.transferred / upload.total, 0
-    );
-    const avgRatio = activeUploads.length > 0 ? sumRatios / activeUploads.length : 0;
 
     function handleLogoutRequest() {
         fetch(logoutEndPoint, {
@@ -66,15 +52,6 @@ export default function PrimaryNav() {
                 </div>
 
                 <div className="navbar-end">
-                    {numActiveUploads > 0 && (
-                        <div className="navbar-item">
-                            <GlobalProgress
-                                numItems={numActiveUploads}
-                                percentage={avgRatio * 100}
-                            />
-                        </div>
-                    )}
-
                     {isLoggedIn && (
                         <Avatar className="navbar-item" />
                     )}

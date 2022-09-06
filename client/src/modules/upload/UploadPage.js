@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import { RequireAuth } from '../auth';
+import UploadButton from './UploadButton';
 import UploadedFiles from './UploadedFiles';
 
 export default function UploadPage() {
@@ -13,7 +14,9 @@ export default function UploadPage() {
                     {t('modules.upload.title')}
                 </h1>
 
-                {<UploadedFiles />}
+                <UploadButton />
+
+                <UploadedFiles />
             </section>
         </RequireAuth>
     );

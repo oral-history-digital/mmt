@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import 'bulma/css/bulma.min.css';
 
 import configureStore from './configureStore';
-import MainRoutes from './components/MainRoutes';
+import { MainRoutes } from './modules/routing';
 
 function App() {
   return (

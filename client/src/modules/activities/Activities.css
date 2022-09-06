@@ -1,4 +1,4 @@
-.UploadStatus {
+.Activities {
     border-top-left-radius: 0.75rem;
     bottom: 0;
     min-width: 25%;
@@ -10,6 +10,6 @@
     transition: bottom 0.125s;
 }
 
-.UploadStatus.is-small {
+.Activities.is-small {
     bottom: -3rem;
 }

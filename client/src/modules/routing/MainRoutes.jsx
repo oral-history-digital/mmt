@@ -1,10 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
 
-import { Login, Profile, SignUp } from '../modules/auth';
-import { UploadPage } from '../modules/upload';
-import { DownloadPage } from '../modules/download';
-import Layout from './Layout';
-import Home from './Home';
+import { Login, Profile, SignUp } from '../auth';
+import { UploadPage } from '../upload';
+import { DownloadPage } from '../download';
+import { Layout, Home } from '../layout';
 
 export default function MainRoutes() {
     return (
