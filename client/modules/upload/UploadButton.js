@@ -9,7 +9,7 @@ export default function UploadButton() {
     }
 
     return (
-        <div className="file">
+        <div className="file is-boxed">
             <label className="file-label">
                 <input
                     className="file-input"

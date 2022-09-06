@@ -16,7 +16,7 @@ export default function UploadPage() {
 
                 <UploadButton />
 
-                <UploadedFiles />
+                <UploadedFiles className="mt-3" />
             </section>
         </RequireAuth>
     );

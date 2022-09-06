@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 
 module.exports = {
-  entry: path.resolve(__dirname, './client/src/index.js'),
+  entry: path.resolve(__dirname, './client/index.js'),
   module: {
     rules: [
       {
@@ -27,19 +27,21 @@ module.exports = {
     port: 4000,
     proxy: {
       '/api': 'http://localhost:3000'
-    }
+    },
+    historyApiFallback: true
   },
   output: {
+    clean: true,
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    clean: true
+    publicPath: '/'
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'client', 'src', 'index.html')
+      template: path.join(__dirname, 'client', 'index.html')
     }),
     new FaviconsWebpackPlugin({
-      logo: path.join(__dirname, 'client', 'src', 'ohd-logo.png'),
+      logo: path.join(__dirname, 'client', 'ohd-logo.png'),
       mode: 'light'
     })
   ]

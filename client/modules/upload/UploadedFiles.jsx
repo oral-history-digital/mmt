@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next';
 
 import useFiles from '../../hooks/useFiles';
 
-export default function UploadedFiles() {
+export default function UploadedFiles({
+    className,
+}) {
     const { files, error } = useFiles();
 
     const { t } = useTranslation();
@@ -17,7 +19,7 @@ export default function UploadedFiles() {
     }
 
     return (
-        <div style={{ overflowX: 'auto' }}>
+        <div className={className} style={{ overflowX: 'auto' }}>
             <table className="table">
                 <thead>
                     <tr>
