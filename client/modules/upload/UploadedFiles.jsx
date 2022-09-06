@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 
-import useFiles from '../../hooks/useFiles';
+import useFiles from './useFiles';
 
 export default function UploadedFiles({
     className,

@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
-import useSWR, { useSWRConfig } from 'swr';
+import { useSWRConfig } from 'swr';
 import { useTranslation } from 'react-i18next';
 
-import { filesEndPoint, uploadEndPoint } from '../../modules/api';
-import { RequireAuth } from '../../modules/auth';
-import useFiles from '../../hooks/useFiles';
+import { filesEndPoint, uploadEndPoint } from '..//api';
+import { RequireAuth } from '../auth';
 import { addUpload, uploadProgress, removeUpload } from './actions';
 import ProgressBar from './ProgressBar';
 import { getUploads } from './selectors';
 import registerFile from './registerFile';
+import useFiles from './useFiles';
 
 const requests = {};
 
