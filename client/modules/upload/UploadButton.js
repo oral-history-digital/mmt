@@ -36,6 +36,7 @@ export default function UploadButton() {
         const ids = await registerFiles(fileData);
 
         for (let i = 0; i < files.length; i++) {
+            const file = files.item(i);
             addFile(file, ids[i]);
         }
 

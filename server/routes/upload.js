@@ -19,26 +19,31 @@ router.post('/api/files', bodyParser.json(), requireAuth, async (req, res) => {
 
     const user = await db.getUser({ username });
 
-    const newFile = {
-        name: req.body.name,
-        size: req.body.size,
-        type: req.body.type,
-        lastModified: req.body.lastModified,
-        state: 'pending',
-    };
+    const files = req.body.files;
 
-    const file = user.files.create(newFile);
-    user.files.push(file);
+    if (!Array.isArray(files)) {
+        // TODO: Error
+    }
+
+    const ids = files.map(f => {
+        const newFile = {
+            name: f.name,
+            size: f.size,
+            type: f.type,
+            lastModified: f.lastModified,
+            state: 'pending',
+        };
+
+        const file = user.files.create(newFile);
+        user.files.push(file);
+        return file._id;
+    });
+
     user.save(err => {
         console.log(err);
     });
 
-    const _id = file._id;
-
-    res.json({
-        ...newFile,
-        _id,
-    });
+    res.json(ids);
 });
 
 // At the moment, just update client checksum.

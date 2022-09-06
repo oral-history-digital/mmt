@@ -49,7 +49,7 @@ export default function UploadedFiles({
                                     {t(`modules.files.states.${file.state}`)}
                                 </span>
                             </td>
-                            <td>{file.checksum}</td>
+                            <td>{file.checksum_server}</td>
                         </tr>
                     ))}
                 </tbody>
