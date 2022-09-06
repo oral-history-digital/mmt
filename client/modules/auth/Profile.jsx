@@ -10,28 +10,28 @@ export default function Profile() {
 
     return (
         <RequireAuth>
-            <div className="container">
-                <section className="section">
-                    <h1 className="title is-spaced">
-                        {t('modules.auth.profile.title')}
-                    </h1>
+            <section className="section">
+                <div className="container">
+                        <h1 className="title is-spaced">
+                            {t('modules.auth.profile.title')}
+                        </h1>
 
-                    {user && (
-                        <dl>
-                            <dt><b>{t('modules.auth.profile.username')}</b></dt>
-                            <dd>{user.username}</dd>
+                        {user && (
+                            <dl>
+                                <dt><b>{t('modules.auth.profile.username')}</b></dt>
+                                <dd>{user.username}</dd>
 
-                            <dt><b>{t('modules.auth.profile.email')}</b></dt>
-                            <dd>{user.email}</dd>
+                                <dt><b>{t('modules.auth.profile.email')}</b></dt>
+                                <dd>{user.email}</dd>
 
-                            <dt><b>{t('modules.auth.profile.language')}</b></dt>
-                            <dd>
-                                {t(`global.languages.${user.language}`)}
-                            </dd>
-                        </dl>
-                    )}
-                </section>
-            </div>
+                                <dt><b>{t('modules.auth.profile.language')}</b></dt>
+                                <dd>
+                                    {t(`global.languages.${user.language}`)}
+                                </dd>
+                            </dl>
+                        )}
+                </div>
+            </section>
         </RequireAuth>
     );
 }

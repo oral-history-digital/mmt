@@ -40,7 +40,8 @@
                 }
             },
             "download": {
-                "title": "Download Files"
+                "title": "Download Files",
+                "no_files": "You have no files you can download."
             },
             "files": {
                 "downloadable_files": "Downloadable Files",

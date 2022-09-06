@@ -9,8 +9,8 @@ export default function UploadPage() {
 
     return (
         <RequireAuth>
-            <div className="container">
-                <section className="section">
+            <section className="section">
+                <div className="container">
                     <h1 className="title is-spaced">
                         {t('modules.upload.title')}
                     </h1>
@@ -18,8 +18,8 @@ export default function UploadPage() {
                     <UploadButton />
 
                     <UploadedFiles className="mt-5" />
-                </section>
-            </div>
+                </div>
+            </section>
         </RequireAuth>
     );
 }

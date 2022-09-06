@@ -40,7 +40,8 @@
                 }
             },
             "download": {
-                "title": "Dateien herunterladen"
+                "title": "Dateien herunterladen",
+                "no_files": "Es gibt keine Dateien, die Sie herunterladen können."
             },
             "files": {
                 "downloadable_files": "Dateien zum Herunterladen",

@@ -1,0 +1,8 @@
+.Icon--multimedia {
+    color: white;
+    font-size: 6rem;
+}
+
+.Icon--multimedia > path {
+    stroke: white;
+}

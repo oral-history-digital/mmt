@@ -16,6 +16,14 @@ export default function DownloadableFiles() {
         );
     }
 
+    if (files.length === 0) {
+        return (
+            <div class="notification is-info">
+                {t('modules.download.no_files')}
+            </div>
+        );
+    }
+
     return (
         <table className="table">
             <thead>

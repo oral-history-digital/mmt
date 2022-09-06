@@ -51,61 +51,65 @@ export default function Login() {
     }
 
     return (
-        <div className="container">
-            <section className="section">
-                <h1 className="title">
-                    {t('modules.auth.login.title')}
-                </h1>
+        <section className="section">
+            <div className="container">
+                <div className="columns">
+                    <div className="column is-half">
+                        <h1 className="title">
+                            {t('modules.auth.login.title')}
+                        </h1>
 
-                <form onSubmit={handleFormSubmit}>
-                    <div className="field">
-                        <label
-                            className="label"
-                            htmlFor="exampleInputEmail1"
-                        >
-                            {t('modules.auth.login.email')}
-                        </label>
-                        <div className="control">
-                            <input
-                                name="email"
-                                type="email"
-                                className="input"
-                                id="exampleInputEmail1"
-                                placeholder={t('modules.auth.login.email_placeholder')}
-                                value={username}
-                                onChange={handleUsernameChange}
-                            />
-                        </div>
+                        <form onSubmit={handleFormSubmit}>
+                            <div className="field">
+                                <label
+                                    className="label"
+                                    htmlFor="exampleInputEmail1"
+                                >
+                                    {t('modules.auth.login.email')}
+                                </label>
+                                <div className="control">
+                                    <input
+                                        name="email"
+                                        type="email"
+                                        className="input"
+                                        id="exampleInputEmail1"
+                                        placeholder={t('modules.auth.login.email_placeholder')}
+                                        value={username}
+                                        onChange={handleUsernameChange}
+                                    />
+                                </div>
+                            </div>
+                            <div className="field">
+                                <label
+                                    className="label"
+                                    htmlFor="exampleInputPassword1"
+                                >
+                                    {t('modules.auth.login.password')}
+                                </label>
+                                <div className="control">
+                                    <input
+                                        name="password"
+                                        type="password"
+                                        className="input"
+                                        id="exampleInputPassword1"
+                                        placeholder={t('modules.auth.login.password_placeholder')}
+                                        value={password}
+                                        onChange={handlePasswordChange}
+                                    />
+                                </div>
+                            </div>
+                            <div className="field">
+                                <button
+                                    type="submit"
+                                    className="button is-primary"
+                                >
+                                    {t('modules.auth.login.submit')}
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                    <div className="field">
-                        <label
-                            className="label"
-                            htmlFor="exampleInputPassword1"
-                        >
-                            {t('modules.auth.login.password')}
-                        </label>
-                        <div className="control">
-                            <input
-                                name="password"
-                                type="password"
-                                className="input"
-                                id="exampleInputPassword1"
-                                placeholder={t('modules.auth.login.password_placeholder')}
-                                value={password}
-                                onChange={handlePasswordChange}
-                            />
-                        </div>
-                    </div>
-                    <div className="field">
-                        <button
-                            type="submit"
-                            className="button is-primary"
-                        >
-                            {t('modules.auth.login.submit')}
-                        </button>
-                    </div>
-                </form>
-            </section>
-        </div>
+                </div>
+            </div>
+        </section>
     );
 }

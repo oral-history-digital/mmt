@@ -8,15 +8,19 @@ export default function DownloadPage() {
 
     return (
         <RequireAuth>
-            <div className="container">
-                <section className="section">
-                    <h1 className="title is-spaced">
-                        {t('modules.download.title')}
-                    </h1>
+            <section className="section">
+                <div className="container">
+                    <div className="columns">
+                        <div className="column is-two-thirds">
+                            <h1 className="title is-spaced">
+                                {t('modules.download.title')}
+                            </h1>
 
-                    {<DownloadableFiles />}
-                </section>
-            </div>
+                            {<DownloadableFiles />}
+                        </div>
+                    </div>
+                </div>
+            </section>
         </RequireAuth>
     );
 }
