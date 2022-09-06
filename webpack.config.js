@@ -41,7 +41,7 @@ module.exports = {
       template: path.join(__dirname, 'client', 'index.html')
     }),
     new FaviconsWebpackPlugin({
-      logo: path.join(__dirname, 'client', 'ohd-logo.png'),
+      logo: path.join(__dirname, 'client', 'assets', 'ohd-logo.png'),
       mode: 'light'
     })
   ]
