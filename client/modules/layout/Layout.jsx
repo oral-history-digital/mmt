@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom';
 
-import { Activities } from '../activities';
 import PrimaryNav from './PrimaryNav';
 import Footer from './Footer';
+import Sidebar from './Sidebar';
 import './Layout.css';
 
 export default function Layout() {
@@ -18,7 +18,7 @@ export default function Layout() {
 
             <Footer />
 
-            <Activities />
+            <Sidebar />
         </div>
     );
 }

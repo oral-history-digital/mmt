@@ -8,7 +8,7 @@ const userSchema = mongoose.Schema({
     language: String,
     password: String,
     files: [File.schema],
-});
+}, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);
 

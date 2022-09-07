@@ -5,10 +5,8 @@ import { useSWRConfig } from 'swr';
 
 import { filesEndPoint, uploadEndPoint } from '../api';
 import { addUpload, uploadProgress, removeUpload } from './actions';
-import ProgressBar from './ProgressBar';
 import { getUploads } from './selectors';
 import registerFiles from './registerFiles';
-import useFiles from './useFiles';
 
 const requests = {};
 
@@ -69,6 +67,8 @@ export default function UploadButton() {
         request.addEventListener('load', (event) => {
             // TODO: Should we mark the file as accepted by the server here?
             console.log('transaction completed');
+
+            dispatch(removeUpload(id));
         });
 
         const uploadObject = request.upload;

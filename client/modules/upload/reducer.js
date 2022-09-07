@@ -6,6 +6,7 @@ import {
 
 const initialState = {};
 
+let clonedState;
 const upload = (state = initialState, action) => {
     switch (action.type) {
     case ADD_UPLOAD:
@@ -22,6 +23,10 @@ const upload = (state = initialState, action) => {
                 transferred: action.payload.transferredBytes,
             },
         };
+    case REMOVE_UPLOAD:
+        clonedState = {...state};
+        delete clonedState[action.payload];
+        return clonedState;
     default:
         return state;
     }

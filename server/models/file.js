@@ -10,7 +10,7 @@ const fileSchema = mongoose.Schema({
     state: String,
     checksum_server: String,
     checksum_client: String,
-});
+}, { timestamps: true });
 
 const File = mongoose.model('File', fileSchema);
 

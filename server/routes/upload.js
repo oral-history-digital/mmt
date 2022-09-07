@@ -91,6 +91,8 @@ router.post('/api/upload', requireAuth, async (req, res) => {
         });
 
         file.on('close', () => {
+            // TODO: Check if file is complete.
+
             db.updateFileAttribute(user._id, id, 'state', 'complete');
 
             console.log(`File ${name} done`);
@@ -132,7 +134,9 @@ router.get('/api/files', requireAuth, async (req, res) => {
     const { email } = req.user;
     const user = await db.getUser({ email });
 
-    res.json(user.files);
+    const sortedFiles = user.files(sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)));
+
+    res.json(sortedFiles);
 });
 
 router.get('/api/downloadable-files', requireAuth, (req, res) => {
