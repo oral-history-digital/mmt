@@ -11,3 +11,4 @@ export { default as Login } from './Login';
 export { default as Profile } from './Profile';
 export { default as RequireAuth } from './RequireAuth';
 export { default as SignUp } from './SignUp';
+export { default as CheckUser } from './CheckUser';

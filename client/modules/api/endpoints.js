@@ -9,3 +9,4 @@ export const downloadableFilesEndPoint = `${apiHost}/downloadable-files`;
 export const loginEndPoint = `${apiHost}/login`;
 export const logoutEndPoint = `${apiHost}/logout`;
 export const signUpEndPoint = `${apiHost}/sign-up`;
+export const userEndPoint = `${apiHost}/user`;

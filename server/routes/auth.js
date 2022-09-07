@@ -1,7 +1,9 @@
 var express = require('express');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+
 const getHashedPassword = require('../utilities/getHashedPassword');
+const requireAuth = require('../middleware/requireAuth');
 const db = require('../db');
 
 var router = express.Router();
@@ -40,6 +42,11 @@ passport.deserializeUser(function(user, cb) {
     process.nextTick(function() {
         return cb(null, user);
     });
+});
+
+router.get('/api/user', requireAuth, function(req, res) {
+    const user = req.session.passport.user;
+    res.json(user);
 });
 
 router.post('/api/login',
