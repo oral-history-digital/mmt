@@ -10,7 +10,7 @@ export default function DownloadableFiles() {
 
     if (error) {
         return (
-            <div class="notification is-warning">
+            <div className="notification is-warning">
                 {t('global.errors.fetch')}
             </div>
         );

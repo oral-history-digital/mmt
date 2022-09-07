@@ -134,7 +134,9 @@ router.get('/api/files', requireAuth, async (req, res) => {
     const { email } = req.user;
     const user = await db.getUser({ email });
 
-    const sortedFiles = user.files(sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)));
+    const sortedFiles = user.files.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
 
     res.json(sortedFiles);
 });
