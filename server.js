@@ -25,8 +25,8 @@ app.set('view engine', 'hbs');
 
 routes(app);
 
-const port = 3000;
-const host = 'localhost';
+const host = process.env.MMT_LISTEN_HOST || '127.0.0.1';
+const port = process.env.MMT_LISTEN_PORT || '3000';
 
 app.listen(port, host, () => {
     console.log(`App listening on http://${host}:${port}`);
