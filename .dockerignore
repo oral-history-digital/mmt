@@ -1,6 +1,5 @@
-dist
+public
 node_modules
-user_files
 access.log
 .env
 .exit
