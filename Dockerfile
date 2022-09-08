@@ -12,6 +12,6 @@ RUN npm run build
 ENV NODE_ENV=production
 ENV MMT_LISTEN_HOST=0.0.0.0
 ENV MMT_LISTEN_PORT=3000
-ENV USER_FILES_DIR=/app/user_files
+ENV MMT_USER_FILES_DIR=/app/user_files
 CMD ["node", "server/server.js"]
 EXPOSE 3000

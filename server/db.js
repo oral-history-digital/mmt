@@ -2,10 +2,9 @@ const mongoose = require('mongoose');
 
 const File = require('./models/file');
 const User = require('./models/user');
+const config = require('./config');
 
-const connectionString = 'mongodb://127.0.0.1:27017/ohd-files';
-
-mongoose.connect(connectionString);
+mongoose.connect(config.mongo.connectionString);
 const db = mongoose.connection;
 
 db.on('error', err => {

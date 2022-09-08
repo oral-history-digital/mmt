@@ -15,7 +15,6 @@ dist-ssr
 public
 *.local
 .exit
-.credentials.*
 *.log
 
 # Editor directories and files

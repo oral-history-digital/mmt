@@ -6,8 +6,7 @@ const path = require('node:path');
 const mime = require('mime-types');
 const { exec } = require('node:child_process');
 
-const credentials = require('../config').credentials;
-const emailService = require('../email')(credentials);
+const emailService = require('../email')();
 const getDirectoryName = require('../utilities/getDirectoryName');
 const requireAuth = require('../middleware/requireAuth');
 const db = require('../db');

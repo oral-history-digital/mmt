@@ -1,4 +1,4 @@
-require('./setup-config');
+const config = require('./config');
 const express = require('express');
 const morgan = require('morgan');
 const exphbs = require('express-handlebars');
@@ -14,14 +14,13 @@ const path = require('node:path');
 
 const authRouter = require('./routes/auth');
 const uploadRouter = require('./routes/upload');
-const credentials = require('./config').credentials;
 require('./db');
 
 const app = express();
 
-if (credentials.frontend.separate) {
+if (app.get('env') !== 'production') {
     app.use(cors({
-        origin: `${credentials.frontend.host}:${credentials.frontend.port}`,
+        origin: 'http://localhost:4000',
         credentials: true,
     }));
 }
@@ -64,9 +63,6 @@ app.set('view engine', 'hbs');
 app.use('/', authRouter);
 app.use('/', uploadRouter);
 
-const port = 3000;
-const host = 'localhost';
-
-app.listen(port, host, () => {
-    console.log(`Express started in ${app.get('env')} mode at http://${host}:${port}; press Ctrl-C to terminate.`);
+app.listen(config.server.port, config.server.host, () => {
+    console.log(`Express started in ${app.get('env')} mode at http://${config.server.host}:${config.server.port}; press Ctrl-C to terminate.`);
 });
