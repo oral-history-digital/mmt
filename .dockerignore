@@ -1,3 +1,6 @@
 dist
 node_modules
 user_files
+access.log
+.env
+.exit
