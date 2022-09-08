@@ -32,7 +32,7 @@ module.exports = {
   },
   output: {
     clean: true,
-    filename: 'bundle.js',
+    filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'public'),
     publicPath: '/'
   },

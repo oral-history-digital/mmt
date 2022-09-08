@@ -5,11 +5,6 @@ services:
   mongo:
     image: mongo
     restart: unless-stopped
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=password
-      - MONGO_INITDB_DATABASE=ohd-files
-
   mmt:
     depends_on:
       - mongo
@@ -20,3 +15,5 @@ services:
     environment:
       - MMT_MONGODB_CONNECTION_STRING=mongodb://mongo:27017/ohd-files
       - MMT_USER_FILES_DIR=/app/user_files
+    volumes:
+      - /home/marc/work/user_files:/app/user_files

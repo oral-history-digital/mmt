@@ -63,6 +63,10 @@ app.set('view engine', 'hbs');
 app.use('/', authRouter);
 app.use('/', uploadRouter);
 
+app.get('*', (req, res) => {
+    res.redirect('/');
+})
+
 app.listen(config.server.port, config.server.host, () => {
     console.log(`Express started in ${app.get('env')} mode at http://${config.server.host}:${config.server.port}; press Ctrl-C to terminate.`);
 });
