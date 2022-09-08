@@ -4,6 +4,8 @@ const File = require('./models/file');
 const User = require('./models/user');
 const config = require('./config');
 
+console.info(`MongoDB connection string is ${config.mongo.connectionString}`);
+
 mongoose.connect(config.mongo.connectionString);
 const db = mongoose.connection;
 

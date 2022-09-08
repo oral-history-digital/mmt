@@ -1,6 +1,6 @@
 FROM docker.io/library/node:16-bullseye-slim
 
-VOLUME user_files
+#VOLUME user_files
 WORKDIR /app
 
 COPY package.json package-lock.json ./

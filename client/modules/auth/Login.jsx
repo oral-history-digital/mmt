@@ -35,7 +35,10 @@ export default function Login() {
         fetch(loginEndPoint, {
             method: 'POST',
             credentials: 'include',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
             body: JSON.stringify(data),
         })
             .then(response => response.json())
@@ -47,7 +50,8 @@ export default function Login() {
                     i18n.changeLanguage(locale);
                 }
                 navigate(from, { replace: true });
-            });
+            })
+            .catch(err => console.log(err));
     }
 
     return (
