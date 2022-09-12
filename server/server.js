@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const compression = require('compression');
 const helmet = require('helmet');
 const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 const passport = require('passport');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -17,6 +18,14 @@ const uploadRouter = require('./routes/upload');
 require('./db');
 
 const app = express();
+const store = new MongoDBStore({
+    uri: config.mongo.sessionConnectionString,
+    collection: 'sessions'
+});
+
+store.on('error', error => {
+    console.log(error);
+})
 
 if (app.get('env') !== 'production') {
     app.use(cors({
@@ -46,8 +55,9 @@ app.use(compression());
 
 app.use(session({
     secret: config.server.sessionSecret,
-    resave: false,
-    saveUninitialized: false,
+    store,
+    resave: true,
+    saveUninitialized: true,
     cookie: {
         path: '/',
         httpOnly: true,

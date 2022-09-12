@@ -14,7 +14,8 @@ const serverConfig = {
 // Database
 
 const mongoConfig = {
-    connectionString: process.env.MMT_MONGODB_CONNECTION_STRING || 'mongodb://127.0.0.1:27017/mmt'
+    connectionString: process.env.MMT_MONGODB_CONNECTION_STRING || 'mongodb://127.0.0.1:27017/mmt',
+    sessionConnectionString: process.env.MMT_MONGODB_SESSION_CONNECTION_STRING || 'mongodb://127.0.0.1:27017/session'
 }
 
 

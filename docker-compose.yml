@@ -14,6 +14,7 @@ services:
       - "3000:3000"
     environment:
       - MMT_MONGODB_CONNECTION_STRING=mongodb://mongo:27017/mmt
+      - MMT_MONGODB_SESSION_CONNECTION_STRING=mongodb://mongo:27017/session
       - MMT_USER_FILES_DIR=/app/user_files
     volumes:
       - /home/marc/work/user_files:/app/user_files
