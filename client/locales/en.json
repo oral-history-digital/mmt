@@ -81,7 +81,8 @@
             },
             "upload": {
                 "title": "Upload Files",
-                "select_files": "Select files…"
+                "select_files": "Select files…",
+                "no_files": "You have not yet uploaded files."
             }
         }
     }

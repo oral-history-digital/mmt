@@ -12,8 +12,16 @@ export default function UploadedFiles({
 
     if (error) {
         return (
-            <div class="notification is-warning">
+            <div class="notification is-warning mt-5">
                 {t('global.errors.fetch')}
+            </div>
+        );
+    }
+
+    if (files.length === 0) {
+        return (
+            <div class="notification is-info is-light mt-5">
+                {t('modules.upload.no_files')}
             </div>
         );
     }
