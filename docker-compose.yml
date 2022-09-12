@@ -13,7 +13,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - MMT_MONGODB_CONNECTION_STRING=mongodb://mongo:27017/ohd-files
+      - MMT_MONGODB_CONNECTION_STRING=mongodb://mongo:27017/mmt
       - MMT_USER_FILES_DIR=/app/user_files
     volumes:
       - /home/marc/work/user_files:/app/user_files

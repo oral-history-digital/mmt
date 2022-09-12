@@ -1,11 +1,11 @@
 {
-  "name": "ohd-files",
-  "version": "1.0.0",
+  "name": "media-management-tool",
+  "version": "0.1.0",
   "engines": {
     "node": "^14 || ^16"
   },
   "description": "",
-  "main": "server.js",
+  "main": "server/server.js",
   "scripts": {
     "build": "webpack --mode production",
     "server": "node server/server.js",

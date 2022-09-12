@@ -13,7 +13,7 @@ const serverConfig = {
 // Database
 
 const mongoConfig = {
-    connectionString: process.env.MMT_MONGODB_CONNECTION_STRING || 'mongodb://127.0.0.1:27017/ohd-files'
+    connectionString: process.env.MMT_MONGODB_CONNECTION_STRING || 'mongodb://127.0.0.1:27017/mmt'
 }
 
 
