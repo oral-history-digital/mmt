@@ -45,14 +45,14 @@ app.use(cookieParser());
 app.use(compression());
 
 app.use(session({
-    secret: 'keyboard cat',
+    secret: config.server.sessionSecret,
     resave: false,
     saveUninitialized: false,
     cookie: {
         path: '/',
         httpOnly: true,
         secure: false,
-        maxAge: 24 * 60 * 60  // one day
+        maxAge: 24 * 60 * 60 * 1000  // one day
     }
 }));
 app.use(passport.authenticate('session'));

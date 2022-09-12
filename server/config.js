@@ -6,7 +6,8 @@ const path = require('node:path');
 
 const serverConfig = {
     host: process.env.MMT_LISTEN_HOST || '127.0.0.1',
-    port: process.env.MMT_LISTEN_PORT || 3000
+    port: process.env.MMT_LISTEN_PORT || 3000,
+    sessionSecret: process.env.MMT_SESSION_SECRET || 'MMT Keyboard Cat'
 }
 
 
