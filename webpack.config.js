@@ -1,6 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: path.resolve(__dirname, './client/index.js'),
@@ -40,9 +40,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'client', 'index.html')
     }),
-    new FaviconsWebpackPlugin({
-      logo: path.join(__dirname, 'client', 'assets', 'ohd-logo.png'),
-      mode: 'light'
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.join(__dirname, 'client', 'assets', 'ohd-logo.png'),
+          to: path.join(__dirname, 'public', 'favicon.png')
+        }
+      ]
     })
   ]
 }
