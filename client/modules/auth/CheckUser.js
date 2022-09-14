@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { userEndPoint } from '../api';
-import { login } from './actions';
+import { login, logout } from './actions';
 
 export default function CheckUser({
     children
@@ -34,6 +34,7 @@ export default function CheckUser({
                 }
             })
             .catch(error => {
+                dispatch(logout());
                 console.log(error.message);
             });
 

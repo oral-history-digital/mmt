@@ -6,5 +6,10 @@ export const getUser = state => state[NAME];
 
 export const getIsLoggedIn = createSelector(
     getUser,
-    user => user !== null,
+    user => (typeof user === 'object' && user !== null),
+);
+
+export const getIsLoggedOut = createSelector(
+    getUser,
+    user => user === false,
 );

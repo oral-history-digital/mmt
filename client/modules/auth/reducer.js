@@ -10,7 +10,7 @@ const auth = (state = initialState, action) => {
     case LOGIN:
         return action.payload;
     case LOGOUT:
-        return initialState;
+        return false;
     default:
         return state;
     }

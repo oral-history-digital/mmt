@@ -56,8 +56,8 @@
                     "size": "Größe",
                     "type": "Typ",
                     "updated_at": "Zuletzt geändert",
-                    "checksum_server": "Server-Prüfsumme",
-                    "checksum_client": "Client-Prüfsumme",
+                    "checksum_server": "Server-Prüfs.",
+                    "checksum_client": "Client-Prüfs.",
                     "state": "Zustand"
                 },
                 "title": "Dateien",
