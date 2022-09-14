@@ -25,6 +25,19 @@ module.exports = {
     createUser: async (username, email, password, language) => {
         return new User({ username, email, password, language }).save();
     },
+    setFileClientChecksum: async (userId, fileId, checksum) => {
+        return User.findOneAndUpdate(
+            {
+                '_id': userId,
+                'files._id': fileId,
+            },
+            {
+                '$set': {
+                    'files.$.checksum_client': checksum,
+                },
+            }
+        );
+    },
     updateFileAttribute: async (userId, fileId, attribute, value) => {
         return User.findOneAndUpdate(
             {

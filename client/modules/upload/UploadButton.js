@@ -7,6 +7,8 @@ import { filesEndPoint, uploadEndPoint } from '../api';
 import { addUpload, uploadProgress, removeUpload } from './actions';
 import { getUploads } from './selectors';
 import registerFiles from './registerFiles';
+import createChecksum from './createChecksum';
+import submitChecksum from './submitChecksum';
 
 const requests = {};
 
@@ -36,6 +38,13 @@ export default function UploadButton() {
         for (let i = 0; i < files.length; i++) {
             const file = files.item(i);
             addFile(file, ids[i]);
+        }
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files.item(i);
+            const checksum = await createChecksum(file);
+            const updatedFileData = await submitChecksum(ids[i], checksum)
+            console.log(updatedFileData)
         }
 
         mutate(filesEndPoint);

@@ -45,15 +45,13 @@ router.post('/api/files', bodyParser.json(), requireAuth, async (req, res) => {
     res.json(ids);
 });
 
-// At the moment, just update client checksum.
-router.put('/api/files:fileId', bodyParser.json(), requireAuth, async (req, res) => {
+router.post('/api/checksum', bodyParser.json(), requireAuth, async (req, res) => {
     const { username } = req.user;
-    const { fileId } = req.params;
-    const { checksum_client } = req.body;
+    const { id, checksum } = req.body;
 
     const user = await db.getUser({ username });
-    await db.updateFileAttribute(user._id, fileId, 'checksum_client', checksum_client);
-    const file = user.files.id(fileId);
+    await db.setFileClientChecksum(user._id, id, checksum);
+    const file = user.files.id(id);
 
     res.json(file);
 });
