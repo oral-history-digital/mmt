@@ -18,7 +18,7 @@ export default function DownloadableFiles() {
 
     if (files.length === 0) {
         return (
-            <div class="notification is-info is-light">
+            <div className="notification is-info is-light">
                 {t('modules.download.no_files')}
             </div>
         );

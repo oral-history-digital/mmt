@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
-
 const File = require('../models/file');
 const User = require('../models/user');
 
-require('../db');
+const config = require('../config');
+
+console.info(`MongoDB connection string is ${config.mongo.connectionString}`);
+
+mongoose.connect(config.mongo.connectionString);
 const db = mongoose.connection;
 
 db.on('error', err => {
@@ -17,17 +20,18 @@ db.once('open', () => {
 });
 
 function seed() {
-    User.find((err, users) => {
+    User.find(async (err, users) => {
         if (err) {
             console.error(err);
-            return;
-        }
-        if (users.length > 0) {
-            console.log(users.length);
-            return;
+            process.exit();
         }
 
-        new User({
+        if (users.length > 0) {
+            console.log(users.length);
+            process.exit();
+        }
+
+        const alice = new User({
             username: 'alice',
             email: 'alice@example.com',
             // This is the SHA256 hash for value of `password`
@@ -45,6 +49,8 @@ function seed() {
                     checksum_client: 'c2f5a99a914f9e6d8595547f2248ddf964a5f921b79c584ce4a031f838b312e3',
                 }),
             ],
-        }).save();
+        });
+        await alice.save();
+        process.exit();
     });
 }

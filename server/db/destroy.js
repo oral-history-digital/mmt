@@ -1,8 +1,11 @@
 const mongoose = require('mongoose');
-
 const User = require('../models/user');
 
-require('../db');
+const config = require('../config');
+
+console.info(`MongoDB connection string is ${config.mongo.connectionString}`);
+
+mongoose.connect(config.mongo.connectionString);
 const db = mongoose.connection;
 
 db.on('error', err => {
@@ -10,11 +13,12 @@ db.on('error', err => {
     process.exit(1);
 });
 
-db.once('open', () => {
+db.once('open', async () => {
     console.log('MongoDB connection established');
-    destroy();
+    await destroy();
+    process.exit(1);
 });
 
 function destroy() {
-    User.deleteMany({});
+    return User.deleteMany({});
 }

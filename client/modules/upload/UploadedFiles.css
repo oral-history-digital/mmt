@@ -1,0 +1,7 @@
+.UploadedFiles {
+  overflow-x: auto;
+}
+
+.UploadedFiles svg polyline {
+  stroke: currentColor;
+}

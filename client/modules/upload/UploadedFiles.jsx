@@ -1,7 +1,9 @@
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
+import { GrCheckmark } from 'react-icons/gr';
 
 import useFiles from './useFiles';
+import './UploadedFiles.css';
 
 export default function UploadedFiles({
     className,
@@ -12,7 +14,7 @@ export default function UploadedFiles({
 
     if (error) {
         return (
-            <div class="notification is-warning mt-5">
+            <div className="notification is-warning mt-5">
                 {t('global.errors.fetch')}
             </div>
         );
@@ -20,14 +22,14 @@ export default function UploadedFiles({
 
     if (files.length === 0) {
         return (
-            <div class="notification is-info is-light mt-5">
+            <div className="notification is-info is-light mt-5">
                 {t('modules.upload.no_files')}
             </div>
         );
     }
 
     return (
-        <div className={className} style={{ overflowX: 'auto' }}>
+        <div className={classNames('UploadedFiles', className)}>
             <table className="table">
                 <thead>
                     <tr>
@@ -38,28 +40,61 @@ export default function UploadedFiles({
                         <td>{t('modules.files.table.updated_at')}</td>
                         <td>{t('modules.files.table.state')}</td>
                         <td>{t('modules.files.table.checksum_server')}</td>
+                        <td>{t('modules.files.table.checksum_client')}</td>
                     </tr>
                 </thead>
                 <tbody>
-                    {files.map(file => (
-                        <tr key={file._id}>
-                            <td>{file._id}</td>
-                            <td>{file.name}</td>
-                            <td>{(Math.round(file.size / 1024 / 1024)).toLocaleString()} MB</td>
-                            <td>{file.type}</td>
-                            <td>{(new Date(file.lastModified)).toLocaleDateString()}</td>
-                            <td>
-                                <span className={classNames('tag', {
-                                    'is-lite': file.state === 'pending',
-                                    'is-warning': file.state === 'uploading',
-                                    'is-success': file.state === 'complete',
-                                })}>
-                                    {t(`modules.files.states.${file.state}`)}
-                                </span>
-                            </td>
-                            <td>{file.checksum_server}</td>
-                        </tr>
-                    ))}
+                    {files.map(file => {
+                        let isVerified;
+                        const checksumsAreComplete = file.checksum_server && file.checksum_client;
+                        const checksumsMatch = file.checksum_client === file.checksum_server;
+
+                        if (checksumsAreComplete) {
+                            isVerified = checksumsMatch;
+                        }
+
+                        let verifiedClass;
+                        if (isVerified === true) {
+                            verifiedClass = 'has-text-success';
+                        } else if (isVerified === false) {
+                            verifiedClass = 'has-text-danger';
+                        } else {
+                            verifiedClass = 'has-text-warning';
+                        }
+
+                        return (
+                            <tr key={file._id}>
+                                <td>{file._id}</td>
+                                <td>{file.name}</td>
+                                <td>{(Math.round(file.size / 1024 / 1024)).toLocaleString()} MB</td>
+                                <td>{file.type}</td>
+                                <td>{(new Date(file.lastModified)).toLocaleDateString()}</td>
+                                <td>
+                                    <span className={classNames('tag', {
+                                        'is-lite': file.state === 'pending',
+                                        'is-warning': file.state === 'uploading',
+                                        'is-success': file.state === 'complete',
+                                    })}>
+                                        {t(`modules.files.states.${file.state}`)}
+                                    </span>
+                                </td>
+                                <td>
+                                    {file.checksum_server && (
+                                        <abbr title={file.checksum_server}>
+                                            <GrCheckmark className={verifiedClass} />
+                                        </abbr>
+                                    )}
+                                </td>
+                                <td>
+                                    {file.checksum_client && (
+                                        <abbr title={file.checksum_client}>
+                                            <GrCheckmark className={verifiedClass} />
+                                        </abbr>
+                                    )}
+                                </td>
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </table>
         </div>
