@@ -1,3 +1,5 @@
+// https://stackoverflow.com/questions/39112096/calculate-md5-hash-of-a-large-file-using-javascript
+
 import CryptoJS from 'crypto-js';
 
 export default function createChecksum(file) {
