@@ -44,9 +44,22 @@ passport.deserializeUser(function(user, cb) {
     });
 });
 
-router.get('/api/user', requireAuth, function(req, res) {
-    const user = req.session.passport.user;
+router.get('/api/user', requireAuth, async function(req, res) {
+    const { username } = req.user;
+    const user = await db.getUser({ username });
     res.json(user);
+});
+
+router.put('/api/user', requireAuth, async function(req, res) {
+  console.log(`req.user: ${JSON.stringify(req.user)}, req.session.passport.user: ${JSON.stringify(req.session.passport.user)}`);
+
+  const { username } = req.user;
+  const attributes = req.body;
+  const result = await db.updateUser(username, attributes);
+  console.log(`res: ${JSON.stringify(result)}`);
+
+  const user = await db.getUser({ username });
+  res.json(user);
 });
 
 router.post('/api/login',

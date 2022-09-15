@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import useSWR, { useSWRConfig } from 'swr';
 
+import { userEndPoint } from '../api';
 import RequireAuth from './RequireAuth';
 import { getUser } from './selectors';
 
@@ -10,10 +11,20 @@ export default function Profile() {
   const { t, i18n } = useTranslation();
   const { mutate } = useSWRConfig();
 
-  function handleLanguageChange(event) {
-    const lang = event.target.value;
+  async function handleLanguageChange(event) {
+    const language = event.target.value;
 
-    i18n.changeLanguage(lang);
+    const res = await fetch(userEndPoint, {
+      method: 'PUT',
+      credentials: 'include',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ language })
+    })
+
+    const json = await res.json()
+    console.log(json);
+
+    i18n.changeLanguage(language);
   }
 
   return (
