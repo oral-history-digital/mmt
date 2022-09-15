@@ -18,7 +18,7 @@ export default function Layout() {
           <html lang={i18n.language} />
         </Helmet>
 
-        <div>
+        <div className="Layout-header">
           <PrimaryNav />
         </div>
 

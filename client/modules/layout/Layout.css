@@ -2,10 +2,22 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  padding-top: 3.75rem;
 }
 
 .Layout > * {
   flex-grow: 0;
+}
+
+.Layout-header {
+  background-color: white;
+  box-shadow: rgba(128, 128, 128, 0.2) 0 0.25rem 1rem 0;
+  height: 3.75rem;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1;
 }
 
 .Layout-content {
