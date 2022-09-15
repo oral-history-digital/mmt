@@ -31,6 +31,7 @@
     "express-session": "^1.17.3",
     "helmet": "^5.1.1",
     "i18next": "^21.9.1",
+    "i18next-browser-languagedetector": "^6.1.5",
     "mime-types": "^2.1.35",
     "mongoose": "^6.5.4",
     "morgan": "^1.10.0",

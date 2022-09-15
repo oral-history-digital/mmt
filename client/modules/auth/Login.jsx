@@ -45,9 +45,9 @@ export default function Login() {
             .then(data => {
                 console.log(data);
                 dispatch(login(data));
-                const locale = data.locale;
-                if (locale) {
-                    i18n.changeLanguage(locale);
+                const lang = data.language;
+                if (lang) {
+                    i18n.changeLanguage(lang);
                 }
                 navigate(from, { replace: true });
             })
