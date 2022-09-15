@@ -9,8 +9,9 @@ export default function UploadedFiles({
     className,
 }) {
     const { files, error } = useFiles();
+    const { t, i18n } = useTranslation();
 
-    const { t } = useTranslation();
+    const lang = i18n.language;
 
     if (error) {
         return (
@@ -68,7 +69,7 @@ export default function UploadedFiles({
                                 <td>{file.name}</td>
                                 <td>{(Math.round(file.size / 1024 / 1024)).toLocaleString()} MB</td>
                                 <td>{file.type}</td>
-                                <td>{(new Date(file.lastModified)).toLocaleDateString()}</td>
+                                <td>{(new Date(file.lastModified)).toLocaleDateString(lang)}</td>
                                 <td>
                                     <span className={classNames('tag', {
                                         'is-lite': file.state === 'pending',
