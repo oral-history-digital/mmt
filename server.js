@@ -4,14 +4,12 @@ const exphbs = require('express-handlebars');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const compression = require('compression');
-const helmet = require('helmet');
 
 const injectUser = require('./injectUser');
 const routes = require('./routes');
 
 const app = express();
 
-app.use(helmet());
 app.use(express.static('public', { maxAge: '1m' }));
 app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ extended: true }));
