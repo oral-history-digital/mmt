@@ -1,9 +1,9 @@
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import 'bulma/css/bulma.min.css';
 
 import configureStore from './configureStore';
 import { MainRoutes } from './modules/routing';
+import './styles/main.scss';
 
 function App() {
   return (

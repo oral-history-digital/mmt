@@ -17,10 +17,11 @@ module.exports = (env, argv) => {
           use: ['babel-loader']
         },
         {
-          test: /\.css$/i,
+          test: /\.s?css$/i,
           use: [
             isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-            'css-loader'
+            'css-loader',
+            'sass-loader'
           ]
         }
       ]
