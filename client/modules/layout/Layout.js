@@ -4,10 +4,8 @@ import { Helmet } from 'react-helmet';
 import classNames from 'classnames';
 
 import { CheckUser } from '../auth';
-import PrimaryNav from './PrimaryNav';
+import { PrimaryNav } from '../nav';
 import Footer from './Footer';
-import './Layout.css';
-import './Icon.css';
 
 export default function Layout() {
   const { i18n } = useTranslation();

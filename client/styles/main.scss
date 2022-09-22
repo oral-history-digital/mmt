@@ -1,5 +1,13 @@
 @charset "utf-8";
 
-$primary: #006516;
+$primary: #0c6d82;
 
 @import "~bulma/bulma";
+
+
+/* Components */
+
+@import "home";
+@import "icon";
+@import "layout";
+@import "uploaded_files";

@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { GrCheckmark } from 'react-icons/gr';
 
 import useFiles from './useFiles';
-import './UploadedFiles.css';
 
 export default function UploadedFiles({
     className,
