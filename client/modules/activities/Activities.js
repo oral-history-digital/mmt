@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 
-import { getUploads } from '../upload';
 import ProgressBar from './ProgressBar';
+import { getUploads } from './selectors';
 
 export default function Activities() {
     const allUploads = useSelector(getUploads);

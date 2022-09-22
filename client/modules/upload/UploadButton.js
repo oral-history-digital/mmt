@@ -4,8 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSWRConfig } from 'swr';
 
 import { filesEndPoint, uploadEndPoint } from '../api';
-import { addUpload, uploadProgress, removeUpload } from './actions';
-import { getUploads } from './selectors';
+import {
+  getUploads,
+  addActivity,
+  updateActivity,
+  removeActivity,
+  ACTIVITY_TYPE_UPLOAD
+} from '../activities';
 import registerFiles from './registerFiles';
 import createChecksum from './createChecksum';
 import submitChecksum from './submitChecksum';
@@ -61,11 +66,7 @@ export default function UploadButton() {
 
         requests[id] = request;
 
-        dispatch(addUpload({
-            id,
-            transferred: 0,
-            total,
-        }));
+        dispatch(addActivity(id, ACTIVITY_TYPE_UPLOAD, total));
 
         request.open('POST', uploadEndPoint);
 
@@ -77,14 +78,14 @@ export default function UploadButton() {
             // TODO: Should we mark the file as accepted by the server here?
             console.log('transaction completed');
 
-            dispatch(removeUpload(id));
+            dispatch(removeActivity(id));
         });
 
         const uploadObject = request.upload;
 
         uploadObject.addEventListener('progress', (event) => {
             if (event.lengthComputable) {
-                dispatch(uploadProgress(id, event.loaded));
+                dispatch(updateActivity(id, event.loaded));
             }
         });
 
@@ -93,7 +94,7 @@ export default function UploadButton() {
 
             mutate(filesEndPoint);
 
-            dispatch(uploadProgress(id, total));
+            dispatch(updateActivity(id, total));
         });
 
         request.send(formData);

@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
-import { uploadReducer, UPLOAD_NAME } from './modules/upload';
+import { activitiesReducer, ACTIVITIES_NAME } from './modules/activities';
 import { authReducer, AUTH_NAME } from './modules/auth';
 
 const combinedReducer = combineReducers({
-    [AUTH_NAME]: authReducer,
-    [UPLOAD_NAME]: uploadReducer,
+  [ACTIVITIES_NAME]: activitiesReducer,
+  [AUTH_NAME]: authReducer,
 });
 
 export default combinedReducer;
