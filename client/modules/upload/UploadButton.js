@@ -5,7 +5,7 @@ import { useSWRConfig } from 'swr';
 
 import { filesEndPoint, uploadEndPoint } from '../api';
 import {
-  getUploads,
+  getActivities,
   addActivity,
   updateActivity,
   removeActivity,
@@ -22,7 +22,7 @@ export default function UploadButton() {
     const { mutate } = useSWRConfig();
 
     const dispatch = useDispatch();
-    const allUploads = useSelector(getUploads);
+    const allUploads = useSelector(getActivities);
 
     async function handleFileChange(event) {
         const files = event.target.files;

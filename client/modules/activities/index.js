@@ -12,6 +12,8 @@ export {
 
 export { default as activitiesReducer } from './reducer';
 
-export { getUploads } from './selectors';
+export { getActivities, getNumActivities } from './selectors';
 
 export { default as Activities } from './Activities';
+
+export { default as ActivitiesPage } from './ActivitiesPage';

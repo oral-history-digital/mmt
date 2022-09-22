@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux';
 
 import ProgressBar from './ProgressBar';
-import { getUploads } from './selectors';
+import { getActivities } from './selectors';
 
 export default function Activities() {
-    const allUploads = useSelector(getUploads);
+    const allUploads = useSelector(getActivities);
 
     function handleAbort() {
         // TODO

@@ -10,6 +10,10 @@
             }
         },
         "modules": {
+            "activities": {
+                "title": "Activities",
+                "no_activities": "There are no activities at the moment."
+            },
             "auth": {
                 "login": {
                     "title": "Login",
@@ -72,6 +76,8 @@
                 "primary-nav": {
                     "upload": "Upload",
                     "download": "Download",
+                    "activities": "Activities",
+                    "ongoing_processes": "{{count}} ongoing processes",
                     "sign-up": "Sign up",
                     "login": "Login",
                     "logout": "Logout",

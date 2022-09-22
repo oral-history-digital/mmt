@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import { CheckUser } from '../auth';
 import PrimaryNav from './PrimaryNav';
 import Footer from './Footer';
-import Sidebar from './Sidebar';
 import './Layout.css';
 import './Icon.css';
 
@@ -36,8 +35,6 @@ export default function Layout() {
         </div>
 
         <Footer />
-
-        <Sidebar />
       </div>
     </CheckUser>
   );

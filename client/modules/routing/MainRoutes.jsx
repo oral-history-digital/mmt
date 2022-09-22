@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Login, Profile, SignUp } from '../auth';
 import { UploadPage } from '../upload';
 import { DownloadPage } from '../download';
+import { ActivitiesPage } from '../activities';
 import { Layout, Home } from '../layout';
 
 export default function MainRoutes() {
@@ -12,6 +13,7 @@ export default function MainRoutes() {
                 <Route index element={<Home />} />
                 <Route path="upload" element={<UploadPage />} />
                 <Route path="download" element={<DownloadPage />} />
+                <Route path="activities" element={<ActivitiesPage />} />
                 <Route path="login" element={<Login />} />
                 <Route path="sign-up" element={<SignUp />} />
                 <Route path="profile" element={<Profile />} />
