@@ -12,7 +12,14 @@
         "modules": {
             "activities": {
                 "title": "Activities",
-                "no_activities": "There are no activities at the moment."
+                "no_activities": "There are no activities at the moment.",
+                "types": {
+                    "upload": "Upload",
+                    "checksum": "Checksum"
+                },
+                "started": "Started",
+                "finished": "Finished",
+                "not_calculable": "unknown"
             },
             "auth": {
                 "login": {

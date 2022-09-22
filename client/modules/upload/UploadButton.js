@@ -9,7 +9,8 @@ import {
   addActivity,
   updateActivity,
   removeActivity,
-  ACTIVITY_TYPE_UPLOAD
+  ACTIVITY_TYPE_UPLOAD,
+  ACTIVITY_TYPE_CHECKSUM
 } from '../activities';
 import registerFiles from './registerFiles';
 import createChecksum from './createChecksum';
@@ -47,7 +48,15 @@ export default function UploadButton() {
 
         for (let i = 0; i < files.length; i++) {
             const file = files.item(i);
-            const checksum = await createChecksum(file);
+            const id = ids[i];
+
+            dispatch(addActivity(`checksum${id}`, file.name, ACTIVITY_TYPE_CHECKSUM, 1));
+            const checksum = await createChecksum(file, progress => {
+              dispatch(updateActivity(`checksum${id}`, progress));
+            });
+
+            dispatch(updateActivity(`checksum${id}`, 1));
+
             const updatedFileData = await submitChecksum(ids[i], checksum)
             console.log(updatedFileData)
         }
@@ -66,7 +75,7 @@ export default function UploadButton() {
 
         requests[id] = request;
 
-        dispatch(addActivity(id, ACTIVITY_TYPE_UPLOAD, total));
+        dispatch(addActivity(`upload${id}`, filename, ACTIVITY_TYPE_UPLOAD, total));
 
         request.open('POST', uploadEndPoint);
 
@@ -78,14 +87,14 @@ export default function UploadButton() {
             // TODO: Should we mark the file as accepted by the server here?
             console.log('transaction completed');
 
-            dispatch(removeActivity(id));
+            //dispatch(removeActivity(id));
         });
 
         const uploadObject = request.upload;
 
         uploadObject.addEventListener('progress', (event) => {
             if (event.lengthComputable) {
-                dispatch(updateActivity(id, event.loaded));
+                dispatch(updateActivity(`upload${id}`, event.loaded));
             }
         });
 
@@ -94,7 +103,7 @@ export default function UploadButton() {
 
             mutate(filesEndPoint);
 
-            dispatch(updateActivity(id, total));
+            dispatch(updateActivity(`upload${id}`, total));
         });
 
         request.send(formData);

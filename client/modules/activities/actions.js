@@ -4,10 +4,11 @@ import {
   REMOVE_ACTIVITY,
 } from './action-types';
 
-export const addActivity = (id, type, total, current = 0) => ({
+export const addActivity = (id, name, type, total, current = 0) => ({
   type: ADD_ACTIVITY,
   payload: {
     id,
+    name,
     type,
     total,
     current

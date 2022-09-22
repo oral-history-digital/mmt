@@ -1,6 +1,8 @@
+
 import { useTranslation } from 'react-i18next';
 
 import { RequireAuth } from '../auth';
+import Activities from './Activities';
 
 export default function ActivitiesPage() {
   const { t } = useTranslation();
@@ -13,9 +15,7 @@ export default function ActivitiesPage() {
             {t('modules.activities.title')}
           </h1>
 
-          <div className="notification is-info is-light">
-            {t('modules.activities.no_activities')}
-          </div>
+          <Activities />
         </div>
       </section>
     </RequireAuth>

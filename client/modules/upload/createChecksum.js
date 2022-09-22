@@ -2,8 +2,8 @@
 
 import CryptoJS from 'crypto-js';
 
-export default function createChecksum(file) {
-  return getSHA256(file, prog => console.log('Progress: ' + prog));
+export default function createChecksum(file, callback) {
+  return getSHA256(file, callback);
 }
 
 function getSHA256(blob, cbProgress) {
