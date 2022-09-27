@@ -2,12 +2,14 @@ import {
   ADD_ACTIVITY,
   UPDATE_ACTIVITY,
   REMOVE_ACTIVITY,
+  CLEAR_ACTIVITIES
 } from './action-types';
 
 const initialState = {};
 
-let clonedState;
 const upload = (state = initialState, action) => {
+  let newState;
+
   switch (action.type) {
   case ADD_ACTIVITY:
     return {
@@ -17,6 +19,7 @@ const upload = (state = initialState, action) => {
         startedAt: new Date(),
       },
     };
+
   case UPDATE_ACTIVITY:
     const activity = state[action.payload.id];
     return {
@@ -26,10 +29,21 @@ const upload = (state = initialState, action) => {
         current: action.payload.current,
       },
     };
+
   case REMOVE_ACTIVITY:
-    clonedState = {...state};
-    delete clonedState[action.payload];
-    return clonedState;
+    newState = {...state};
+    delete newState[action.payload];
+    return newState;
+
+  case CLEAR_ACTIVITIES:
+    newState = {};
+    for (const [key, value] of Object.entries(state)) {
+      if (value.current !== value.total) {
+        newState[key] = value;
+      }
+    }
+    return newState;
+
   default:
     return state;
   }

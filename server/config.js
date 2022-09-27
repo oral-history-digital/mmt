@@ -56,7 +56,7 @@ if (process.env.MMT_USER_FILES_DIR) {
         throw new Error(`${userFilesDir} must be readable and writable`);
     }
 } else {
-    userFilesDir = path.join(__dirname, 'user_files');
+    userFilesDir = path.join(__dirname, '..', 'user_files');
 
     if (!fs.existsSync(userFilesDir)) {
         fs.mkdirSync(userFilesDir);

@@ -7,7 +7,8 @@ export {
 export {
   addActivity,
   updateActivity,
-  removeActivity
+  removeActivity,
+  clearActivities
 } from './actions';
 
 export { default as activitiesReducer } from './reducer';
