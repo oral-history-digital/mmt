@@ -27,7 +27,7 @@ export default function ActivitiesPage() {
               className="button"
               onClick={handleClearClick}
             >
-              Clear activities
+              {t('modules.activities.clear')}
             </button>
           </div>
 

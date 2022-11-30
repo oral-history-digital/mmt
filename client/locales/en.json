@@ -13,6 +13,7 @@
             "activities": {
                 "title": "Activities",
                 "no_activities": "There are no activities at the moment.",
+                "clear": "Clear activities",
                 "types": {
                     "upload": "Upload",
                     "checksum": "Checksum"

@@ -13,6 +13,7 @@
             "activities": {
                 "title": "Aktivitäten",
                 "no_activities": "Es gibt im Moment keine Aktivitäten.",
+                "clear": "Aktivitäten entfernen",
                 "types": {
                     "upload": "Upload",
                     "checksum": "Prüfsumme"
