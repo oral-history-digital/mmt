@@ -9,7 +9,7 @@ export default function Home() {
       <div className="hero-body">
         <div className="container">
           <div className="media">
-            <GrMultimedia className="media-left Icon--multimedia" />
+            <GrMultimedia className="media-left icon--multimedia" />
 
             <div className="media-content">
               <p className="title mt-5">

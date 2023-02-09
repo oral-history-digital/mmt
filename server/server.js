@@ -1,4 +1,3 @@
-const config = require('./config');
 const express = require('express');
 const morgan = require('morgan');
 const exphbs = require('express-handlebars');
@@ -12,6 +11,7 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const passport = require('passport');
 const fs = require('node:fs');
 const path = require('node:path');
+const config = require('./config');
 
 const authRouter = require('./routes/auth');
 const uploadRouter = require('./routes/upload');

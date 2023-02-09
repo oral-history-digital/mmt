@@ -62,7 +62,7 @@ router.post('/api/upload', requireAuth, async (req, res) => {
 
   let id;
 
-  bb = busboy({ headers: req.headers });
+  const bb = busboy({ headers: req.headers });
 
   bb.on('field', (name, val, info) => {
     if (name === 'id') {

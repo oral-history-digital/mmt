@@ -1,7 +1,9 @@
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
+import { ErrorMessage } from '../ui';
 import { signUpEndPoint } from '../api';
 import { login } from './actions';
 
@@ -9,6 +11,7 @@ export default function SignUp() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   function handleFormSubmit(event) {
     event.preventDefault();
@@ -20,7 +23,7 @@ export default function SignUp() {
       return;
     }
 
-    const data = {
+    const userData = {
       username: formElements.username.value,
       email: formElements.email.value,
       password: formElements.password.value,
@@ -30,13 +33,22 @@ export default function SignUp() {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      body: JSON.stringify(userData),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(response.statusText);
+        }
+        return response.json();
+      })
       .then((data) => {
-        console.log(data);
         dispatch(login(data));
         navigate('/');
+      })
+      .catch((err) => {
+        setError({
+          message: err.message,
+        });
       });
   }
 
@@ -49,6 +61,12 @@ export default function SignUp() {
               {t('modules.auth.sign_up.title')}
             </h1>
 
+            {error && (
+              <ErrorMessage code={error.code}>
+                {error.message}
+              </ErrorMessage>
+            )}
+
             <form onSubmit={handleFormSubmit}>
               <div className="field">
                 <label className="label" htmlFor="username">
@@ -60,7 +78,8 @@ export default function SignUp() {
                     type="text"
                     className="input"
                     id="username"
-                    required pattern="[A-Za-z0-9_-]{4,12}"
+                    required
+                    pattern="[A-Za-z0-9_-]{4,12}"
                     placeholder={t('modules.auth.sign_up.username_placeholder')}
                   />
                 </div>

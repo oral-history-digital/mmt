@@ -2,6 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 
+const createUserDirectoriesSync = require('../utilities/createUserDirectoriesSync');
 const getHashedPassword = require('../utilities/getHashedPassword');
 const requireAuth = require('../middleware/requireAuth');
 const db = require('../db');
@@ -82,6 +83,9 @@ router.post('/api/logout', (req, res) => {
   });
 });
 
+/**
+ * Sign up route.
+ */
 router.post('/api/sign-up', async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -98,6 +102,7 @@ router.post('/api/sign-up', async (req, res) => {
   const hashedPassword = getHashedPassword(password);
 
   const user = await db.createUser(username, email, hashedPassword, 'en');
+  createUserDirectoriesSync(username);
 
   req.login(user, (err) => {
     if (err) {

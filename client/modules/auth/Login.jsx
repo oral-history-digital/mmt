@@ -45,10 +45,7 @@ export default function Login() {
     })
       .then((response) => {
         if (!response.ok) {
-          setError({
-            code: response.status,
-            message: response.statusText,
-          });
+          throw new Error(response.statusText);
         }
         return response.json();
       })
@@ -60,7 +57,11 @@ export default function Login() {
         }
         navigate(from, { replace: true });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setError({
+          message: err.message,
+        });
+      });
   }
 
   return (
@@ -73,7 +74,9 @@ export default function Login() {
             </h1>
 
             {error && (
-              <ErrorMessage code={error.code}>{error.message}</ErrorMessage>
+              <ErrorMessage code={error.code}>
+                {error.message}
+              </ErrorMessage>
             )}
 
             <form onSubmit={handleFormSubmit}>
