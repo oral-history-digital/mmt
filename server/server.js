@@ -19,32 +19,34 @@ require('./db');
 
 const app = express();
 const store = new MongoDBStore({
-    uri: config.mongo.sessionConnectionString,
-    collection: 'sessions'
+  uri: config.mongo.sessionConnectionString,
+  collection: 'sessions',
 });
 
-store.on('error', error => {
-    console.log(error);
-})
+store.on('error', (error) => {
+  console.log(error);
+});
 
 if (app.get('env') !== 'production') {
-    app.use(cors({
-        origin: 'http://localhost:4000',
-        credentials: true,
-    }));
+  app.use(cors({
+    origin: 'http://localhost:4000',
+    credentials: true,
+  }));
 }
 
 app.use(helmet());
 app.use(express.static('public', { maxAge: '1m' }));
 
-switch(app.get('env')) {
-case 'production':
-    const stream = fs.createWriteStream(path.join(__dirname, 'access.log'),
-        { flags: 'a' });
+switch (app.get('env')) {
+  case 'production':
+    const stream = fs.createWriteStream(
+      path.join(__dirname, 'access.log'),
+      { flags: 'a' },
+    );
     app.use(morgan('combined', { stream }));
     break;
-case 'development':
-default:
+  case 'development':
+  default:
     app.use(morgan('dev'));
     break;
 }
@@ -54,29 +56,29 @@ app.use(cookieParser());
 app.use(compression());
 
 app.use(session({
-    secret: config.server.sessionSecret,
-    store,
-    resave: true,
-    saveUninitialized: true,
-    cookie: {
-        path: '/',
-        httpOnly: true,
-        secure: false,
-        maxAge: 24 * 60 * 60 * 1000  // one day
-    }
+  secret: config.server.sessionSecret,
+  store,
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
+    path: '/',
+    httpOnly: true,
+    secure: false,
+    maxAge: 24 * 60 * 60 * 1000, // one day
+  },
 }));
 app.use(passport.authenticate('session'));
 
-app.engine('hbs', exphbs.engine({extname: '.hbs'}));
+app.engine('hbs', exphbs.engine({ extname: '.hbs' }));
 app.set('view engine', 'hbs');
 
 app.use('/', authRouter);
 app.use('/', uploadRouter);
 
 app.get('*', (req, res) => {
-    res.redirect('/');
-})
+  res.redirect('/');
+});
 
 app.listen(config.server.port, config.server.host, () => {
-    console.log(`Express started in ${app.get('env')} mode at http://${config.server.host}:${config.server.port}; press Ctrl-C to terminate.`);
+  console.log(`Express started in ${app.get('env')} mode at http://${config.server.host}:${config.server.port}; press Ctrl-C to terminate.`);
 });
