@@ -77,6 +77,12 @@
 
             },
             "layout": {
+                "footer": {
+                    "description": "ist ein Projekt von",
+                    "imprint": "Impressum",
+                    "contact": "Kontakt",
+                    "privacy": "Datenschutz"
+                },
                 "home": {
                     "title": "Media Management Tool",
                     "subtitle": "Die OHD-Anwendung für Datei-Uploads und -Downloads"

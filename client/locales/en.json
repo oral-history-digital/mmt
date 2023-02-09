@@ -77,6 +77,12 @@
 
             },
             "layout": {
+                "footer": {
+                    "description": "is a project of",
+                    "imprint": "Imprint",
+                    "contact": "Contact",
+                    "privacy": "Privacy"
+                },
                 "home": {
                     "title": "Media Management Tool",
                     "subtitle": "The upload and download app of OHD"
