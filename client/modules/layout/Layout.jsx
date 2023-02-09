@@ -1,3 +1,4 @@
+import React from 'react';
 import { Outlet, useMatch } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
@@ -15,20 +16,22 @@ export default function Layout() {
 
   return (
     <CheckUser>
-      <div className="Layout">
+      <div className="layout">
         <Helmet>
           <html lang={i18n.language} />
         </Helmet>
 
-        <div className={classNames('Layout-header', {
+        <div className={classNames('layout__header', {
           'has-background-primary': !isHomepage,
-        })}>
+        })}
+        >
           <PrimaryNav navbarClassName={classNames({ 'is-primary': !isHomepage })} />
         </div>
 
-        <div className={classNames('Layout-content', {
+        <div className={classNames('layout__content', {
           'has-background-primary': isHomepage,
-        })}>
+        })}
+        >
           <Outlet />
         </div>
 

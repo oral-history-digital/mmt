@@ -1,11 +1,12 @@
-.Icon {
-
+.icon--currentcolor > path {
+  stroke: currentcolor;
 }
 
-.Icon--currentColor {
-
+.icon--multimedia {
+  color: white;
+  font-size: 18rem;
 }
 
-.Icon--currentColor > path {
-  stroke: currentColor;
+.icon--multimedia > path {
+  stroke: white;
 }

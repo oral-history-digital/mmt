@@ -29,7 +29,7 @@ export default function UploadedFiles({
   }
 
   return (
-    <div className={classNames('UploadedFiles', className)}>
+    <div className={classNames('uploaded-files', className)}>
       <table className="table">
         <thead>
           <tr>

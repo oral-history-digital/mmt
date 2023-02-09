@@ -10,6 +10,7 @@
     "build": "webpack --mode production",
     "server": "node server/server.js",
     "start": "webpack serve --mode development",
+    "stylelint": "stylelint '**/*.scss'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Marc Altmann <marc.altmann@cedis.fu-berlin.de>",
@@ -72,6 +73,10 @@
     "sass-loader": "^13.0.2",
     "standard": "^17.0.0",
     "style-loader": "^3.3.1",
+    "stylelint": "^14.0.0",
+    "stylelint-config-standard": "^29.0.0",
+    "stylelint-config-standard-scss": "^6.1.0",
+    "stylelint-scss": "^4.3.0",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.10.1"

@@ -17,7 +17,7 @@ export default function Avatar({
 
   return (
     <Link to="/profile" className={classNames(className)}>
-      <GrUser className="Icon Icon--currentColor mr-1" />
+      <GrUser className="Icon icon--currentcolor mr-1" />
       <b>{user.username}</b>
     </Link>
   );

@@ -41,7 +41,7 @@ export default function PrimaryNav({
         <div className="navbar-brand">
           <Link className="navbar-item" to="/">
             <GrMultimedia
-              className="Icon Icon--currentColor mr-1"
+              className="Icon icon--currentcolor mr-1"
               style={{ marginBottom: '4px' }}
             />
             <strong>MMT</strong>
