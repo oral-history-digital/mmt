@@ -35,13 +35,11 @@ export default function Activities() {
     );
   }
 
-  return activitiesList.map(activity => {
-    return (
-      <ActivityTile
-        key={activity.id}
-        activity={activity}
-        currentTime={currentTime}
-      />
-    );
-  });
+  return activitiesList.map((activity) => (
+    <ActivityTile
+      key={activity.id}
+      activity={activity}
+      currentTime={currentTime}
+    />
+  ));
 }

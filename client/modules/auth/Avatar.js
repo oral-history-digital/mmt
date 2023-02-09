@@ -6,19 +6,19 @@ import classNames from 'classnames';
 import { getUser, getIsLoggedIn } from './selectors';
 
 export default function Avatar({
-    className,
+  className,
 }) {
-    const user = useSelector(getUser);
-    const isLoggedIn = useSelector(getIsLoggedIn);
+  const user = useSelector(getUser);
+  const isLoggedIn = useSelector(getIsLoggedIn);
 
-    if (!isLoggedIn) {
-        return null;
-    }
+  if (!isLoggedIn) {
+    return null;
+  }
 
-    return (
-        <Link to="/profile" className={classNames(className)}>
-            <GrUser className="Icon Icon--currentColor mr-1" />
-            <b>{user.username}</b>
-        </Link>
-    );
+  return (
+    <Link to="/profile" className={classNames(className)}>
+      <GrUser className="Icon Icon--currentColor mr-1" />
+      <b>{user.username}</b>
+    </Link>
+  );
 }

@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 
 import { NAME } from './constants';
 
-export const getState = state => state[NAME];
+export const getState = (state) => state[NAME];
 
 function compareActivities(a, b) {
   const isAFinished = a.total === a.current;
@@ -10,17 +10,16 @@ function compareActivities(a, b) {
 
   if (isAFinished && !isBFinished) {
     return 1;
-  } else if (isBFinished && !isAFinished) {
+  } if (isBFinished && !isAFinished) {
     return -1;
-  } else {
-    return b.startedAt - a.startedAt;
   }
+  return b.startedAt - a.startedAt;
 }
 
 export const getActivities = createSelector(
   [getState],
-  activities => {
-/*return {
+  (activities) => {
+    /* return {
     '632c7335a8a954ec0a58a5f4': {
       id: '632c7335a8a954ec0a58a5f4',
       name: 'dummy-file1.mp4',
@@ -53,23 +52,23 @@ export const getActivities = createSelector(
       total: 10000,
       startedAt: new Date(2022, 8, 12),
     },
-  };*/
+  }; */
 
     const activityList = Object.values(activities)
       .sort(compareActivities);
 
     return activityList;
-  }
-)
+  },
+);
 
 export const getNumActivities = createSelector(
   [getState],
-  activities => {
+  (activities) => {
     // TODO: This should return only ongoing activities.
     const activityList = Object
       .values(activities)
-      .filter(activity => activity.total !== activity.current);
+      .filter((activity) => activity.total !== activity.current);
 
     return activityList.length;
-  }
+  },
 );

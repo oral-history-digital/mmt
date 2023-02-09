@@ -5,7 +5,7 @@ import { de } from 'date-fns/locale';
 
 export default function ActivityTile({
   activity,
-  currentTime
+  currentTime,
 }) {
   const { t, i18n } = useTranslation();
 
@@ -40,8 +40,10 @@ export default function ActivityTile({
   }
 
   return (
-    <article className={classNames('box',
-      {'has-background-success-light': !isFinished})}
+    <article className={classNames(
+      'box',
+      { 'has-background-success-light': !isFinished },
+    )}
     >
       <div>
         <span className="tag">
@@ -54,15 +56,21 @@ export default function ActivityTile({
       </h3>
 
       <p>
-        {percentage.toLocaleString(i18n.language)} %
+        {percentage.toLocaleString(i18n.language)}
+        {' '}
+        %
       </p>
 
       <p>
-        {t('modules.activities.started')} {elapsedTime}
+        {t('modules.activities.started')}
+        {' '}
+        {elapsedTime}
       </p>
 
       <p>
-      {t('modules.activities.finished')} {remainingTime}
+        {t('modules.activities.finished')}
+        {' '}
+        {remainingTime}
       </p>
     </article>
   );

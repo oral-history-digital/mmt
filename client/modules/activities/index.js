@@ -1,14 +1,14 @@
 export {
   NAME as ACTIVITIES_NAME,
   ACTIVITY_TYPE_CHECKSUM,
-  ACTIVITY_TYPE_UPLOAD
+  ACTIVITY_TYPE_UPLOAD,
 } from './constants';
 
 export {
   addActivity,
   updateActivity,
   removeActivity,
-  clearActivities
+  clearActivities,
 } from './actions';
 
 export { default as activitiesReducer } from './reducer';

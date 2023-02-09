@@ -10,7 +10,7 @@ i18n
   .use(initReactI18next)
   .init({
     detection: {
-      order: ['navigator']
+      order: ['navigator'],
     },
     resources: {
       en,

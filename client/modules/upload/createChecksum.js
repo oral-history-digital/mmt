@@ -16,7 +16,7 @@ function getSHA256(blob, cbProgress) {
       if (cbProgress) {
         cbProgress(offs / total);
       }
-    }, err => {
+    }, (err) => {
       if (err) {
         reject(err);
       } else {
@@ -30,12 +30,12 @@ function getSHA256(blob, cbProgress) {
 }
 
 function readChunked(file, chunkCallback, endCallback) {
-  var fileSize   = file.size;
-  var chunkSize  = 4 * 1024 * 1024; // 4MB
-  var offset     = 0;
+  const fileSize = file.size;
+  const chunkSize = 4 * 1024 * 1024; // 4MB
+  let offset = 0;
 
-  var reader = new FileReader();
-  reader.onload = function() {
+  const reader = new FileReader();
+  reader.onload = function () {
     if (reader.error) {
       endCallback(reader.error || {});
       return;
@@ -51,12 +51,12 @@ function readChunked(file, chunkCallback, endCallback) {
     readNext();
   };
 
-  reader.onerror = function(err) {
+  reader.onerror = function (err) {
     endCallback(err || {});
   };
 
   function readNext() {
-    var fileSlice = file.slice(offset, offset + chunkSize);
+    const fileSlice = file.slice(offset, offset + chunkSize);
     reader.readAsBinaryString(fileSlice);
   }
   readNext();

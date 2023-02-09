@@ -17,11 +17,11 @@ export default function Profile() {
     const res = await fetch(userEndPoint, {
       method: 'PUT',
       credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ language })
-    })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ language }),
+    });
 
-    const json = await res.json()
+    const json = await res.json();
     console.log(json);
 
     i18n.changeLanguage(language);
@@ -54,8 +54,8 @@ export default function Profile() {
                       checked={i18n.language === 'en'}
                       onChange={handleLanguageChange}
                     />
-                      {' '}
-                      {t('global.languages.en')}
+                    {' '}
+                    {t('global.languages.en')}
                   </label>
                   <label className="radio">
                     <input
@@ -65,8 +65,8 @@ export default function Profile() {
                       checked={i18n.language === 'de'}
                       onChange={handleLanguageChange}
                     />
-                      {' '}
-                      {t('global.languages.de')}
+                    {' '}
+                    {t('global.languages.de')}
                   </label>
                 </div>
               </dd>

@@ -2,7 +2,7 @@ import {
   ADD_ACTIVITY,
   UPDATE_ACTIVITY,
   REMOVE_ACTIVITY,
-  CLEAR_ACTIVITIES
+  CLEAR_ACTIVITIES,
 } from './action-types';
 
 export const addActivity = (id, name, type, total, current = 0) => ({
@@ -12,7 +12,7 @@ export const addActivity = (id, name, type, total, current = 0) => ({
     name,
     type,
     total,
-    current
+    current,
   },
 });
 

@@ -4,14 +4,14 @@ export default function submitChecksum(id, checksum) {
   const req = fetch(submitChecksumEndPoint, {
     method: 'POST',
     credentials: 'include',
-    headers: {'Content-Type': 'application/json'},
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       id,
-      checksum
-    })
+      checksum,
+    }),
   }).then(
-    res => res.json()
-  )
+    (res) => res.json(),
+  );
 
-  return req
+  return req;
 }
