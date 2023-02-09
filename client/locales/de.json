@@ -1,0 +1,103 @@
+{
+    "translation": {
+        "global": {
+            "errors": {
+                "fetch": "Beim Laden der Daten ist ein Fehler aufgetreten."
+            },
+            "languages": {
+                "en": "Englisch",
+                "de": "Deutsch"
+            }
+        },
+        "modules": {
+            "activities": {
+                "title": "Aktivitäten",
+                "no_activities": "Es gibt im Moment keine Aktivitäten.",
+                "clear": "Aktivitäten entfernen",
+                "types": {
+                    "upload": "Upload",
+                    "checksum": "Prüfsumme"
+                },
+                "started": "Angefangen",
+                "finished": "Fertig",
+                "not_calculable": "unbekannt"
+            },
+            "auth": {
+                "login": {
+                    "title": "Anmelden",
+                    "email": "E-Mail-Adresse",
+                    "email_placeholder": "E-Mail-Adresse eingeben",
+                    "password": "Passwort",
+                    "password_placeholder": "Passwort eingeben",
+                    "submit": "Anmelden"
+                },
+                "profile": {
+                    "title": "Profil",
+                    "username": "Nutzername",
+                    "email": "E-Mail-Adresse",
+                    "language": "Sprache"
+                },
+                "sign_up": {
+                    "title": "Registrieren",
+                    "username": "Nutzername",
+                    "username_placeholder": "Nutzername eingeben",
+                    "username_help": "Ihr Nutzername muss zwischen 4 und 12 Zeichen lang sein und kann aus Buchstaben, Ziffern und den Zeichen - und _ bestehen.",
+                    "email": "E-Mail-Adresse",
+                    "email_placeholder": "E-Mail-Adresse eingeben",
+                    "password": "Passwort",
+                    "password_placeholder": "Passwort eingeben",
+                    "confirm_password": "Passwort wiederholen",
+                    "confirm_password_placeholder": "Passwort erneut eingeben",
+                    "submit": "Registrieren"
+                }
+            },
+            "download": {
+                "title": "Dateien herunterladen",
+                "no_files": "Es gibt keine Dateien, die Sie herunterladen können."
+            },
+            "files": {
+                "downloadable_files": "Dateien zum Herunterladen",
+                "states": {
+                    "pending": "bevorstehend",
+                    "uploading": "beim Hochladen",
+                    "complete": "vollständig"
+                },
+                "table": {
+                    "id": "ID",
+                    "filename": "Dateiname",
+                    "size": "Größe",
+                    "type": "Typ",
+                    "updated_at": "Zuletzt geändert",
+                    "checksum_server": "Server-Prüfs.",
+                    "checksum_client": "Client-Prüfs.",
+                    "state": "Zustand"
+                },
+                "title": "Dateien",
+                "uploaded_files": "Hochgeladene Dateien"
+
+            },
+            "layout": {
+                "home": {
+                    "title": "Media Management Tool",
+                    "subtitle": "Die OHD-Anwendung für Datei-Uploads und -Downloads"
+                },
+                "primary-nav": {
+                    "upload": "Hochladen",
+                    "download": "Herunterladen",
+                    "activities": "Aktivitäten",
+                    "ongoing_processes": "{{count}} laufende Prozesse",
+                    "sign-up": "Registrieren",
+                    "login": "Anmelden",
+                    "logout": "Abmelden",
+                    "uploadWithCount_one": "{{count}} Upload",
+                    "uploadWithCount_other": "{{count}} Uploads"
+                }
+            },
+            "upload": {
+                "title": "Dateien hochladen",
+                "select_files": "Dateien auswählen…",
+                "no_files": "Sie haben noch keine Dateien hochgeladen."
+            }
+        }
+    }
+}

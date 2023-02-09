@@ -1,0 +1,103 @@
+{
+    "translation": {
+        "global": {
+            "errors": {
+                "fetch": "An error occurred while fetching the data."
+            },
+            "languages": {
+                "en": "English",
+                "de": "German"
+            }
+        },
+        "modules": {
+            "activities": {
+                "title": "Activities",
+                "no_activities": "There are no activities at the moment.",
+                "clear": "Clear activities",
+                "types": {
+                    "upload": "Upload",
+                    "checksum": "Checksum"
+                },
+                "started": "Started",
+                "finished": "Finished",
+                "not_calculable": "unknown"
+            },
+            "auth": {
+                "login": {
+                    "title": "Login",
+                    "email": "Email address",
+                    "email_placeholder": "Enter email address",
+                    "password": "Password",
+                    "password_placeholder": "Enter password",
+                    "submit": "Login"
+                },
+                "profile": {
+                    "title": "Profile",
+                    "username": "Username",
+                    "email": "Email address",
+                    "language": "Language"
+                },
+                "sign_up": {
+                    "title": "Sign Up",
+                    "username": "Username",
+                    "username_placeholder": "Enter username",
+                    "username_help": "Your username must be 4–12 characters long, can contain letters, figures, and the - and _ characters.",
+                    "email": "Email address",
+                    "email_placeholder": "Enter email",
+                    "password": "Password",
+                    "password_placeholder": "Enter password",
+                    "confirm_password": "Confirm password",
+                    "confirm_password_placeholder": "Re-enter your password",
+                    "submit": "Sign up"
+                }
+            },
+            "download": {
+                "title": "Download Files",
+                "no_files": "You have no files you can download."
+            },
+            "files": {
+                "downloadable_files": "Downloadable Files",
+                "states": {
+                    "pending": "pending",
+                    "uploading": "uploading",
+                    "complete": "complete"
+                },
+                "table": {
+                    "id": "ID",
+                    "filename": "Filename",
+                    "size": "Size",
+                    "type": "Type",
+                    "updated_at": "Updated at",
+                    "checksum_server": "Server checksum",
+                    "checksum_client": "Client checksum",
+                    "state": "State"
+                },
+                "title": "Files",
+                "uploaded_files": "Uploadable Files"
+
+            },
+            "layout": {
+                "home": {
+                    "title": "Media Management Tool",
+                    "subtitle": "The upload and download app of OHD"
+                },
+                "primary-nav": {
+                    "upload": "Upload",
+                    "download": "Download",
+                    "activities": "Activities",
+                    "ongoing_processes": "{{count}} ongoing processes",
+                    "sign-up": "Sign up",
+                    "login": "Login",
+                    "logout": "Logout",
+                    "uploadWithCount_one": "{{count}} upload",
+                    "uploadWithCount_other": "{{count}} uploads"
+                }
+            },
+            "upload": {
+                "title": "Upload Files",
+                "select_files": "Select files…",
+                "no_files": "You have not yet uploaded files."
+            }
+        }
+    }
+}

@@ -1,0 +1,11 @@
+.Icon {
+
+}
+
+.Icon--currentColor {
+
+}
+
+.Icon--currentColor > path {
+  stroke: currentColor;
+}
