@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -22,8 +23,8 @@ export default function PrimaryNav({
       method: 'POST',
       credentials: 'include',
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         console.log(data);
         dispatch(logout());
         navigate('/');
@@ -39,14 +40,17 @@ export default function PrimaryNav({
       >
         <div className="navbar-brand">
           <Link className="navbar-item" to="/">
-            <GrMultimedia className="Icon Icon--currentColor mr-1" />
+            <GrMultimedia
+              className="Icon Icon--currentColor mr-1"
+              style={{ marginBottom: '4px' }}
+            />
             <strong>MMT</strong>
           </Link>
 
           <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
+            <span aria-hidden="true" />
+            <span aria-hidden="true" />
+            <span aria-hidden="true" />
           </a>
         </div>
 
@@ -65,8 +69,10 @@ export default function PrimaryNav({
               {numActivities > 0 && (
                 <span
                   className="tag is-warning ml-1"
-                  title={t('modules.layout.primary-nav.ongoing_processes',
-                    { count: numActivities})}
+                  title={t(
+                    'modules.layout.primary-nav.ongoing_processes',
+                    { count: numActivities },
+                  )}
                 >
                   {numActivities}
                 </span>
