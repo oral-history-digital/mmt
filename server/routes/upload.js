@@ -7,6 +7,7 @@ const mime = require('mime-types');
 const { exec } = require('node:child_process');
 
 const emailService = require('../email')();
+const createChecksum = require('../files/createChecksum');
 const getDirectoryName = require('../utilities/getDirectoryName');
 const requireAuth = require('../middleware/requireAuth');
 const db = require('../db');
@@ -96,24 +97,11 @@ router.post('/api/upload', requireAuth, async (req, res) => {
 
       emailService.send(email, 'File uploaded', "You're file was uploaded.\n\nThank you");
 
-      exec(`sha256sum ${path.join(dir, filename)}`, (err, stdout, stderr) => {
+      createChecksum(path.join(dir, filename), (err, checksum) => {
         if (err) {
-          // some err occurred
-          console.error(err);
-        } else {
-          const regex = /^\w+/;
-          const match = stdout.match(regex);
-
-          if (match) {
-            checksum = match[0];
-            console.log(checksum);
-
-            db.updateFileAttribute(user._id, id, 'checksum_server', checksum);
-          }
-
-          // the *entire* stdout and stderr (buffered)
-          console.log(`stdout: ${stdout}`);
-          console.log(`stderr: ${stderr}`);
+          console.log(err);
+        } else if (checksum) {
+          db.updateFileAttribute(user._id, id, 'checksum_server', checksum);
         }
       });
     });
