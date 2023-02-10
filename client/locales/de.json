@@ -59,9 +59,13 @@
                 "downloadable_files": "Dateien zum Herunterladen",
                 "states": {
                     "pending": "bevorstehend",
+                    "pending_explanation": "Die Datei wurde in der Datenbank registriert, mit dem Hochladen wurde aber noch nicht begonnen.",
                     "uploading": "beim Hochladen",
+                    "uploading_explanation": "Die Datei wird im Moment auf unseren Server übertragen.",
                     "complete": "vollständig",
-                    "missing": "fehlt"
+                    "complete_explanation": "Die Datei wurde vollständig auf unseren Server übertragen.",
+                    "missing": "fehlt",
+                    "missing_explanation": "Die Datei wurde in der Datenbank registriert, ist aber auf unserem Server nicht mehr vorhanden."
                 },
                 "table": {
                     "id": "ID",

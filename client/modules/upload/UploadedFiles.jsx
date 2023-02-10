@@ -110,12 +110,14 @@ export default function UploadedFiles({
                   </span>
                 </td>
                 <td>
-                  <span className={classNames('tag', {
-                    'is-lite': file.state === FILE_STATE_PENDING,
-                    'is-info': file.state === FILE_STATE_UPLOADING,
-                    'is-success': file.state === FILE_STATE_COMPLETE,
-                    'is-warning': file.state === FILE_STATE_MISSING,
-                  })}
+                  <span
+                    className={classNames('tag', {
+                      'is-lite': file.state === FILE_STATE_PENDING,
+                      'is-info': file.state === FILE_STATE_UPLOADING,
+                      'is-success': file.state === FILE_STATE_COMPLETE,
+                      'is-warning': file.state === FILE_STATE_MISSING,
+                    })}
+                    title={t(`modules.files.states.${file.state}_explanation`)}
                   >
                     {t(`modules.files.states.${file.state}`)}
                   </span>

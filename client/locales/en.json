@@ -59,9 +59,13 @@
                 "downloadable_files": "Downloadable Files",
                 "states": {
                     "pending": "pending",
+                    "pending_explanation": "The file has been registered in the database, but uploading has not started yet.",
                     "uploading": "uploading",
+                    "uploading_explanation": "The file is currently uploading to our server.",
                     "complete": "complete",
-                    "missing": "missing"
+                    "complete_explanation": "The file has been completely transfered to our server.",
+                    "missing": "missing",
+                    "missing_explanation": "The file has been registered in the database, but is not present on our server anymore."
                 },
                 "table": {
                     "id": "ID",
