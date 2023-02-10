@@ -60,7 +60,8 @@
                 "states": {
                     "pending": "pending",
                     "uploading": "uploading",
-                    "complete": "complete"
+                    "complete": "complete",
+                    "missing": "missing"
                 },
                 "table": {
                     "id": "ID",
@@ -70,7 +71,12 @@
                     "updated_at": "Updated at",
                     "checksum_server": "Server checksum",
                     "checksum_client": "Client checksum",
-                    "state": "State"
+                    "state": "State",
+                    "actions": "Actions"
+                },
+                "actions": {
+                    "remove": "Remove",
+                    "delete": "Delete"
                 },
                 "title": "Files",
                 "uploaded_files": "Uploadable Files"

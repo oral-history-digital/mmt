@@ -6,6 +6,12 @@ import { GrCheckmark } from 'react-icons/gr';
 
 import useFiles from './useFiles';
 import { formatBytes } from '../files';
+import {
+  FILE_STATE_PENDING,
+  FILE_STATE_UPLOADING,
+  FILE_STATE_COMPLETE,
+  FILE_STATE_MISSING,
+} from './constants';
 
 export default function UploadedFiles({
   className,
@@ -31,18 +37,23 @@ export default function UploadedFiles({
     );
   }
 
+  function handleDelete(file) {
+    confirm(`Are you sure to delete file ${file.name}?`);
+  }
+
   return (
     <div className={classNames('uploaded-files', className)}>
       <table className="table">
         <thead>
           <tr>
-            <td>{t('modules.files.table.filename')}</td>
-            <td>{t('modules.files.table.size')}</td>
-            <td>{t('modules.files.table.type')}</td>
-            <td>{t('modules.files.table.updated_at')}</td>
-            <td>{t('modules.files.table.state')}</td>
-            <td>{t('modules.files.table.checksum_server')}</td>
-            <td>{t('modules.files.table.checksum_client')}</td>
+            <td><b>{t('modules.files.table.filename')}</b></td>
+            <td><b>{t('modules.files.table.size')}</b></td>
+            <td><b>{t('modules.files.table.type')}</b></td>
+            <td><b>{t('modules.files.table.updated_at')}</b></td>
+            <td><b>{t('modules.files.table.state')}</b></td>
+            <td><b>{t('modules.files.table.checksum_server')}</b></td>
+            <td><b>{t('modules.files.table.checksum_client')}</b></td>
+            <td><b>{t('modules.files.table.actions')}</b></td>
           </tr>
         </thead>
         <tbody>
@@ -82,9 +93,10 @@ export default function UploadedFiles({
                 </td>
                 <td>
                   <span className={classNames('tag', {
-                    'is-lite': file.state === 'pending',
-                    'is-warning': file.state === 'uploading',
-                    'is-success': file.state === 'complete',
+                    'is-lite': file.state === FILE_STATE_PENDING,
+                    'is-info': file.state === FILE_STATE_UPLOADING,
+                    'is-success': file.state === FILE_STATE_COMPLETE,
+                    'is-warning': file.state === FILE_STATE_MISSING,
                   })}
                   >
                     {t(`modules.files.states.${file.state}`)}
@@ -103,6 +115,16 @@ export default function UploadedFiles({
                       <GrCheckmark className={verifiedClass} />
                     </abbr>
                   )}
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    className="button is-small is-danger"
+                    onClick={() => handleDelete(file)}
+                    disabled={file.state !== FILE_STATE_COMPLETE}
+                  >
+                    {t('modules.files.actions.delete')}
+                  </button>
                 </td>
               </tr>
             );

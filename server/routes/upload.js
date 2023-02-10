@@ -3,7 +3,6 @@ const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('node:path');
-const mime = require('mime-types');
 const { Buffer } = require('node:buffer');
 
 const emailService = require('../email')();
@@ -13,6 +12,9 @@ const requireAuth = require('../middleware/requireAuth');
 const db = require('../db');
 
 const router = express.Router();
+
+const FILE_STATE_UPLOADING = 'uploading';
+const FILE_STATE_COMPLETE = 'complete';
 
 router.post('/api/files', bodyParser.json(), requireAuth, async (req, res) => {
   const { username } = req.user;
@@ -74,7 +76,7 @@ router.post('/api/upload', requireAuth, async (req, res) => {
   bb.on('file', (name, file, info) => {
     const filename = Buffer.from(info.filename, 'latin1').toString('utf8');
 
-    db.updateFileAttribute(user._id, id, 'state', 'uploading');
+    db.updateFileAttribute(user._id, id, 'state', FILE_STATE_UPLOADING);
 
     const dir = getDirectoryName(username);
     if (!fs.existsSync(dir)) {
@@ -91,11 +93,11 @@ router.post('/api/upload', requireAuth, async (req, res) => {
     file.on('close', () => {
       // TODO: Check if file is complete.
 
-      db.updateFileAttribute(user._id, id, 'state', 'complete');
+      db.updateFileAttribute(user._id, id, 'state', FILE_STATE_COMPLETE);
 
       console.log(`File ${name} done`);
 
-      emailService.send(email, 'File uploaded', "You're file was uploaded.\n\nThank you");
+      emailService.send(email, 'File uploaded', `You're file ${name} was uploaded.\n\nThank you`);
 
       createChecksum(path.join(dir, filename), (err, checksum) => {
         if (err) {
@@ -124,44 +126,6 @@ router.get('/api/files', requireAuth, async (req, res) => {
   );
 
   res.json(sortedFiles);
-});
-
-router.get('/api/downloadable-files', requireAuth, (req, res) => {
-  const { username } = req.user;
-  const downloadDir = getDirectoryName(username, 'download');
-
-  let downloadFiles = [];
-  if (fs.existsSync(downloadDir)) {
-    downloadFiles = fs.readdirSync(downloadDir);
-  }
-
-  const filesResult = downloadFiles.map((name) => {
-    const filePath = path.join(downloadDir, name);
-
-    const fd = fs.openSync(filePath, 'r');
-    const info = fs.fstatSync(fd);
-    const { size } = info;
-    const type = mime.lookup(filePath);
-
-    return {
-      name,
-      encoded: encodeURIComponent(name),
-      size,
-      type,
-      lastModified: info.mtimeMs,
-    };
-  });
-
-  res.json(filesResult);
-});
-
-router.get('/api/download', requireAuth, (req, res) => {
-  const filename = decodeURIComponent(req.query.filename);
-
-  const downloadDir = getDirectoryName(req.user.username, 'download');
-  const filepath = path.join(downloadDir, filename);
-
-  res.download(filepath);
 });
 
 module.exports = router;

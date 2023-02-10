@@ -31,10 +31,10 @@ export default function DownloadableFiles() {
     <table className="table">
       <thead>
         <tr>
-          <td>{t('modules.files.table.filename')}</td>
-          <td>{t('modules.files.table.size')}</td>
-          <td>{t('modules.files.table.type')}</td>
-          <td>{t('modules.files.table.updated_at')}</td>
+          <td><b>{t('modules.files.table.filename')}</b></td>
+          <td><b>{t('modules.files.table.size')}</b></td>
+          <td><b>{t('modules.files.table.type')}</b></td>
+          <td><b>{t('modules.files.table.updated_at')}</b></td>
         </tr>
       </thead>
       <tbody>

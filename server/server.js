@@ -15,6 +15,7 @@ const config = require('./config');
 
 const authRouter = require('./routes/auth');
 const uploadRouter = require('./routes/upload');
+const downloadRouter = require('./routes/download');
 require('./db');
 
 const app = express();
@@ -74,6 +75,7 @@ app.set('view engine', 'hbs');
 
 app.use('/', authRouter);
 app.use('/', uploadRouter);
+app.use('/', downloadRouter);
 
 app.get('*', (req, res) => {
   res.redirect('/');

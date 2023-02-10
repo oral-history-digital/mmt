@@ -60,7 +60,8 @@
                 "states": {
                     "pending": "bevorstehend",
                     "uploading": "beim Hochladen",
-                    "complete": "vollständig"
+                    "complete": "vollständig",
+                    "missing": "fehlt"
                 },
                 "table": {
                     "id": "ID",
@@ -70,7 +71,12 @@
                     "updated_at": "Zuletzt geändert",
                     "checksum_server": "Server-Prüfs.",
                     "checksum_client": "Client-Prüfs.",
-                    "state": "Zustand"
+                    "state": "Zustand",
+                    "actions": "Aktionen"
+                },
+                "actions": {
+                    "remove": "Entfernen",
+                    "delete": "Löschen"
                 },
                 "title": "Dateien",
                 "uploaded_files": "Hochgeladene Dateien"
