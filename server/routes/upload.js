@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('node:path');
 const mime = require('mime-types');
-const { exec } = require('node:child_process');
+const { Buffer } = require('node:buffer');
 
 const emailService = require('../email')();
 const createChecksum = require('../files/createChecksum');
@@ -72,7 +72,7 @@ router.post('/api/upload', requireAuth, async (req, res) => {
   });
 
   bb.on('file', (name, file, info) => {
-    const { filename, encoding } = info;
+    const filename = Buffer.from(info.filename, 'latin1').toString('utf8');
 
     db.updateFileAttribute(user._id, id, 'state', 'uploading');
 
