@@ -1,9 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { GrCheckmark } from 'react-icons/gr';
 
 import useFiles from './useFiles';
+import { formatBytes } from '../files';
 
 export default function UploadedFiles({
   className,
@@ -34,7 +36,6 @@ export default function UploadedFiles({
       <table className="table">
         <thead>
           <tr>
-            <td>{t('modules.files.table.id')}</td>
             <td>{t('modules.files.table.filename')}</td>
             <td>{t('modules.files.table.size')}</td>
             <td>{t('modules.files.table.type')}</td>
@@ -63,17 +64,22 @@ export default function UploadedFiles({
               verifiedClass = 'has-text-warning';
             }
 
+            const lastModified = new Date(file.lastModified);
+
             return (
-              <tr key={file._id}>
-                <td>{file._id}</td>
+              <tr id={file._id} key={file._id}>
                 <td>{file.name}</td>
                 <td>
-                  {(Math.round(file.size / 1024 / 1024)).toLocaleString()}
-                  {' '}
-                  MB
+                  <span title={`${file.size.toLocaleString(lang)} Bytes`}>
+                    {formatBytes(file.size, lang)}
+                  </span>
                 </td>
                 <td>{file.type}</td>
-                <td>{(new Date(file.lastModified)).toLocaleDateString(lang)}</td>
+                <td>
+                  <span title={lastModified.toString()}>
+                    {lastModified.toLocaleDateString(lang)}
+                  </span>
+                </td>
                 <td>
                   <span className={classNames('tag', {
                     'is-lite': file.state === 'pending',
@@ -106,3 +112,11 @@ export default function UploadedFiles({
     </div>
   );
 }
+
+UploadedFiles.propTypes = {
+  className: PropTypes.string,
+};
+
+UploadedFiles.defaultProps = {
+  className: '',
+};

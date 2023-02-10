@@ -3,11 +3,13 @@ import { useTranslation } from 'react-i18next';
 
 import { downloadEndPoint } from '../api';
 import useDownloadableFiles from './useDownloadableFiles';
+import { formatBytes } from '../files';
 
 export default function DownloadableFiles() {
   const { files, error } = useDownloadableFiles();
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
 
   if (error) {
     return (
@@ -36,25 +38,33 @@ export default function DownloadableFiles() {
         </tr>
       </thead>
       <tbody>
-        {files.map((file) => (
-          <tr key={file.name}>
-            <td>
-              <a
-                href={`${downloadEndPoint}?filename=${file.encoded}`}
-                download
-              >
-                {file.name}
-              </a>
-            </td>
-            <td>
-              {(Math.round(file.size / 1024 / 1024)).toLocaleString()}
-              {' '}
-              MB
-            </td>
-            <td>{file.type}</td>
-            <td>{(new Date(file.lastModified)).toLocaleDateString()}</td>
-          </tr>
-        ))}
+        {files.map((file) => {
+          const lastModified = new Date(file.lastModified);
+
+          return (
+            <tr key={file.name}>
+              <td>
+                <a
+                  href={`${downloadEndPoint}?filename=${file.encoded}`}
+                  download
+                >
+                  {file.name}
+                </a>
+              </td>
+              <td>
+                <span title={`${file.size.toLocaleString(lang)} Bytes`}>
+                  {formatBytes(file.size, lang)}
+                </span>
+              </td>
+              <td>{file.type}</td>
+              <td>
+                <span title={lastModified.toString()}>
+                  {lastModified.toLocaleDateString(lang)}
+                </span>
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );

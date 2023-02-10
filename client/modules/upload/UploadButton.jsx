@@ -22,7 +22,9 @@ import { formatBytes, FILESIZE_LIMIT } from '../files';
 const requests = {};
 
 export default function UploadButton() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
+
   const { mutate } = useSWRConfig();
   const [errors, setErrors] = useState(null);
 
@@ -147,7 +149,7 @@ export default function UploadButton() {
           <p>
             {t('modules.upload.fileSizeError', {
               count: errors.length,
-              limit: formatBytes(FILESIZE_LIMIT),
+              limit: formatBytes(FILESIZE_LIMIT, lang),
             })}
           </p>
           <ul>
