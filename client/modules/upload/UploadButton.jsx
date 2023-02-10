@@ -1,3 +1,4 @@
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { GrUpload } from 'react-icons/gr';
 import { useDispatch, useSelector } from 'react-redux';
