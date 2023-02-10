@@ -15,6 +15,7 @@ const router = express.Router();
 
 const FILE_STATE_UPLOADING = 'uploading';
 const FILE_STATE_COMPLETE = 'complete';
+const FILE_STATE_MISSING = 'missing';
 
 router.post('/api/files', bodyParser.json(), requireAuth, async (req, res) => {
   const { username } = req.user;
@@ -117,13 +118,44 @@ router.post('/api/upload', requireAuth, async (req, res) => {
   req.pipe(bb);
 });
 
-router.get('/api/files', requireAuth, async (req, res) => {
+async function findMissingFiles(req) {
+  /*
+   * Maybe this should be done periodically for all users, independently
+   * from their activity.
+   * Maybe files that are once marked missing should not be changed back
+   * once the files appears again.
+   * And move this out of this file.
+   */
   const { email } = req.user;
   const user = await db.getUser({ email });
 
+  const { files } = user;
+
+  const downloadDir = getDirectoryName(req.user.username, 'upload');
+
+  files.forEach((file) => {
+    if (file.state === FILE_STATE_COMPLETE || file.state === FILE_STATE_MISSING) {
+      const filePath = path.join(downloadDir, file.name);
+      fs.exists(filePath, (exists) => {
+        if (exists) {
+          // TODO: Adapt for files that are not complete.
+          db.updateFileAttribute(user._id, file._id, 'state', FILE_STATE_COMPLETE);
+        } else {
+          db.updateFileAttribute(user._id, file._id, 'state', FILE_STATE_MISSING);
+        }
+      });
+    }
+  });
+}
+
+router.get('/api/files', requireAuth, async (req, res) => {
+  const { email } = req.user;
+  const user = await db.getUser({ email });
   const sortedFiles = user.files.sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
   );
+
+  findMissingFiles(req);
 
   res.json(sortedFiles);
 });

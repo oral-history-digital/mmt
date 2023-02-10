@@ -119,11 +119,13 @@ export default function UploadedFiles({
                 <td>
                   <button
                     type="button"
-                    className="button is-small is-danger"
+                    className={classNames('button', 'is-small', file.state === FILE_STATE_MISSING ? 'is-warning' : 'is-danger')}
                     onClick={() => handleDelete(file)}
-                    disabled={file.state !== FILE_STATE_COMPLETE}
+                    disabled={file.state !== FILE_STATE_COMPLETE
+                      && file.state !== FILE_STATE_MISSING}
                   >
-                    {t('modules.files.actions.delete')}
+                    {file.state === FILE_STATE_MISSING ? t('modules.files.actions.remove')
+                      : t('modules.files.actions.delete')}
                   </button>
                 </td>
               </tr>

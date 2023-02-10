@@ -41,9 +41,9 @@ router.get('/api/download', requireAuth, (req, res) => {
   const filename = decodeURIComponent(req.query.filename);
 
   const downloadDir = getDirectoryName(req.user.username, 'download');
-  const filepath = path.join(downloadDir, filename);
+  const filePath = path.join(downloadDir, filename);
 
-  res.download(filepath);
+  res.download(filePath);
 });
 
 module.exports = router;
