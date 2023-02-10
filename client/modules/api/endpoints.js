@@ -10,6 +10,7 @@ export const userEndPoint = `${apiBasePath}/user`;
 export const filesEndPoint = `${apiBasePath}/files`;
 export const uploadEndPoint = `${apiBasePath}/upload`;
 export const submitChecksumEndPoint = `${apiBasePath}/checksum`;
+export const deleteFilesEndPoint = (id) => `${apiBasePath}/files/${id}`;
 
 // Download
 export const downloadEndPoint = `${apiBasePath}/download`;

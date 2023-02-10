@@ -118,6 +118,28 @@ router.post('/api/upload', requireAuth, async (req, res) => {
   req.pipe(bb);
 });
 
+router.delete('/api/files/:id', requireAuth, async (req, res) => {
+  const { id } = req.params;
+  const { username, email } = req.user;
+  const user = await db.getUser({ email });
+  const { files } = user;
+  const downloadDir = getDirectoryName(username, 'upload');
+
+  const file = files.id(id);
+  const filePath = path.join(downloadDir, file.name);
+  // TODO: This should be asynchronous.
+  if (fs.existsSync(filePath)) {
+    fs.rmSync(filePath);
+  }
+
+  db.deleteFile(user._id, id);
+
+  // TODO: Error handling...
+
+  res.writeHead(204);
+  res.end();
+});
+
 async function findMissingFiles(req) {
   /*
    * Maybe this should be done periodically for all users, independently

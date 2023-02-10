@@ -76,7 +76,8 @@
                 },
                 "actions": {
                     "remove": "Remove",
-                    "delete": "Delete"
+                    "delete": "Delete",
+                    "delete_confirmation": "Are you sure to delete this file?\n{{name}}"
                 },
                 "title": "Files",
                 "uploaded_files": "Uploadable Files"

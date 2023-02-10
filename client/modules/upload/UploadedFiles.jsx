@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { GrCheckmark } from 'react-icons/gr';
 
+import { deleteFilesEndPoint } from '../api';
 import useFiles from './useFiles';
 import { formatBytes } from '../files';
 import {
@@ -37,8 +38,24 @@ export default function UploadedFiles({
     );
   }
 
-  function handleDelete(file) {
-    confirm(`Are you sure to delete file ${file.name}?`);
+  async function handleDelete(file) {
+    let confirmed = true;
+    if (file.state !== FILE_STATE_MISSING) {
+      confirmed = confirm(t('modules.files.actions.delete_confirmation', { name: file.name }));
+    }
+
+    if (!confirmed) {
+      return;
+    }
+
+    const res = await fetch(deleteFilesEndPoint(file._id), {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    console.log(res.status);
+    // Invalidate!
   }
 
   return (

@@ -48,4 +48,16 @@ module.exports = {
       },
     },
   ),
+  deleteFile: async (userId, fileId) => User.findOneAndUpdate(
+    {
+      _id: userId,
+    },
+    {
+      $pull: {
+        files: {
+          _id: fileId,
+        },
+      },
+    },
+  ),
 };

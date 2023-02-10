@@ -4,6 +4,7 @@ export {
   downloadEndPoint,
   filesEndPoint,
   uploadEndPoint,
+  deleteFilesEndPoint,
   downloadableFilesEndPoint,
   submitChecksumEndPoint,
   loginEndPoint,

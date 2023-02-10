@@ -76,7 +76,8 @@
                 },
                 "actions": {
                     "remove": "Entfernen",
-                    "delete": "Löschen"
+                    "delete": "Löschen",
+                    "delete_confirmation": "Möchten Sie diese Datei wirklich löschen?\n{{name}}"
                 },
                 "title": "Dateien",
                 "uploaded_files": "Hochgeladene Dateien"
