@@ -1,12 +1,13 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import { useLocation, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { getIsLoggedIn, getIsLoggedOut } from './selectors';
+import { getIsLoggedOut } from './selectors';
 
 export default function RequireAuth({
   children,
 }) {
-  const isLoggedIn = useSelector(getIsLoggedIn);
   const isLoggedOut = useSelector(getIsLoggedOut);
   const location = useLocation();
 
@@ -26,3 +27,10 @@ export default function RequireAuth({
 
   return children;
 }
+
+RequireAuth.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+};

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default function ErrorMessage({
   code,
-  children
+  children,
 }) {
   return (
     <article className="message is-danger">
@@ -13,7 +13,7 @@ export default function ErrorMessage({
         {children}
       </div>
     </article>
-  )
+  );
 }
 
 ErrorMessage.propTypes = {
