@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { GrCheckmark } from 'react-icons/gr';
+import { useSWRConfig } from 'swr';
 
-import { deleteFilesEndPoint } from '../api';
+import { filesEndPoint, deleteFilesEndPoint } from '../api';
 import useFiles from './useFiles';
 import { formatBytes } from '../files';
 import {
@@ -17,6 +18,7 @@ import {
 export default function UploadedFiles({
   className,
 }) {
+  const { mutate } = useSWRConfig();
   const { files, error } = useFiles();
   const { t, i18n } = useTranslation();
 
@@ -54,8 +56,7 @@ export default function UploadedFiles({
       headers: { 'Content-Type': 'application/json' },
     });
 
-    console.log(res.status);
-    // Invalidate!
+    mutate(filesEndPoint);
   }
 
   return (

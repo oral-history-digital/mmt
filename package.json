@@ -1,6 +1,6 @@
 {
   "name": "media-management-tool",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "engines": {
     "node": "^14 || ^16"
   },
@@ -49,7 +49,7 @@
     "react-router-dom": "^6.3.0",
     "redux": "^4.2.0",
     "reselect": "^4.1.6",
-    "swr": "^1.3.0"
+    "swr": "^2.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.18.13",
