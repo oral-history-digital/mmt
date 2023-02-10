@@ -102,7 +102,9 @@
             "upload": {
                 "title": "Upload Files",
                 "select_files": "Select files…",
-                "no_files": "You have not yet uploaded files."
+                "no_files": "You have not yet uploaded files.",
+                "fileSizeError_one": "One file exceeds the file size limit of {{limit}}:",
+                "fileSizeError_other": "{{count}} files exceed the file size limit of {{limit}}:"
             }
         }
     }

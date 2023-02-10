@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GrUpload } from 'react-icons/gr';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,12 +16,15 @@ import {
 import registerFiles from './registerFiles';
 import createChecksum from './createChecksum';
 import submitChecksum from './submitChecksum';
+import { ErrorMessage } from '../ui';
+import { formatBytes, FILESIZE_LIMIT } from '../files';
 
 const requests = {};
 
 export default function UploadButton() {
   const { t } = useTranslation();
   const { mutate } = useSWRConfig();
+  const [errors, setErrors] = useState(null);
 
   const dispatch = useDispatch();
   const allUploads = useSelector(getActivities);
@@ -30,36 +33,55 @@ export default function UploadButton() {
     const { files } = event.target;
     const fileData = [];
 
-    for (let i = 0; i < files.length; i++) {
+    const aboveLimitFiles = [];
+
+    for (let i = 0; i < files.length; i += 1) {
       const file = files.item(i);
-      fileData.push({
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        lastModified: file.lastModified,
-      });
+
+      if (file.size > FILESIZE_LIMIT) {
+        aboveLimitFiles.push(file.name);
+      } else {
+        fileData.push({
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          lastModified: file.lastModified,
+        });
+      }
+    }
+
+    if (aboveLimitFiles.length > 0) {
+      setErrors(aboveLimitFiles);
+    }
+
+    if (fileData.length === 0) {
+      return;
     }
 
     const ids = await registerFiles(fileData);
 
-    for (let i = 0; i < files.length; i++) {
+    for (let i = 0; i < files.length; i += 1) {
       const file = files.item(i);
-      addFile(file, ids[i]);
+      if (file.size <= FILESIZE_LIMIT) {
+        addFile(file, ids[i]);
+      }
     }
 
-    for (let i = 0; i < files.length; i++) {
+    for (let i = 0; i < files.length; i += 1) {
       const file = files.item(i);
-      const id = ids[i];
+      if (file.size <= FILESIZE_LIMIT) {
+        const id = ids[i];
 
-      dispatch(addActivity(`checksum${id}`, file.name, ACTIVITY_TYPE_CHECKSUM, 1));
-      const checksum = await createChecksum(file, (progress) => {
-        dispatch(updateActivity(`checksum${id}`, progress));
-      });
+        dispatch(addActivity(`checksum${id}`, file.name, ACTIVITY_TYPE_CHECKSUM, 1));
+        const checksum = await createChecksum(file, (progress) => {
+          dispatch(updateActivity(`checksum${id}`, progress));
+        });
 
-      dispatch(updateActivity(`checksum${id}`, 1));
+        dispatch(updateActivity(`checksum${id}`, 1));
 
-      const updatedFileData = await submitChecksum(ids[i], checksum);
-      console.log(updatedFileData);
+        const updatedFileData = await submitChecksum(ids[i], checksum);
+        console.log(updatedFileData);
+      }
     }
 
     mutate(filesEndPoint);
@@ -119,26 +141,41 @@ export default function UploadButton() {
   }
 
   return (
-    <form className="file is-boxed">
-      <label className="file-label">
-        <input
-          className="file-input"
-          type="file"
-          name="files"
-          id="file-input"
-          accept="video/*,audio/*"
-          multiple
-          onChange={handleFileChange}
-        />
-        <span className="file-cta">
-          <span className="file-icon">
-            <GrUpload />
+    <>
+      {errors && (
+        <ErrorMessage>
+          <p>
+            {t('modules.upload.fileSizeError', {
+              count: errors.length,
+              limit: formatBytes(FILESIZE_LIMIT),
+            })}
+          </p>
+          <ul>
+            {errors.map((filename) => (<li key={filename}>{filename}</li>))}
+          </ul>
+        </ErrorMessage>
+      )}
+      <form className="file is-boxed">
+        <label htmlFor="file-input" className="file-label">
+          <input
+            className="file-input"
+            type="file"
+            name="files"
+            id="file-input"
+            accept="video/*,audio/*"
+            multiple
+            onChange={handleFileChange}
+          />
+          <span className="file-cta">
+            <span className="file-icon">
+              <GrUpload />
+            </span>
+            <span className="file-label">
+              {t('modules.upload.select_files')}
+            </span>
           </span>
-          <span className="file-label">
-            {t('modules.upload.select_files')}
-          </span>
-        </span>
-      </label>
-    </form>
+        </label>
+      </form>
+    </>
   );
 }

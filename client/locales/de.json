@@ -102,7 +102,9 @@
             "upload": {
                 "title": "Dateien hochladen",
                 "select_files": "Dateien auswählen…",
-                "no_files": "Sie haben noch keine Dateien hochgeladen."
+                "no_files": "Sie haben noch keine Dateien hochgeladen.",
+                "fileSizeError_one": "Eine Datei überschreitet die Größenbeschränkung von {{limit}}:",
+                "fileSizeError_other": "{{count}} Dateien überschreiten die Größenbeschränkung von {{limit}}:"
             }
         }
     }
