@@ -35,12 +35,14 @@ if (app.get('env') !== 'production') {
   }));
 }
 
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false }));
+
 app.use(express.static('public', { maxAge: '1m' }));
 
+let stream;
 switch (app.get('env')) {
   case 'production':
-    const stream = fs.createWriteStream(
+    stream = fs.createWriteStream(
       path.join(__dirname, 'access.log'),
       { flags: 'a' },
     );

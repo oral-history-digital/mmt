@@ -13,7 +13,13 @@ export default function Footer() {
             {' '}
             {t('modules.layout.footer.description')}
             {' '}
-            <a href="https://www.oral-history.digital/"> Oral History.Digital.</a>
+            <a
+              href="https://www.oral-history.digital/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Oral History.Digital.
+            </a>
           </p>
           <p>
             <a
