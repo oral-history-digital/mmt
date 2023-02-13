@@ -22,6 +22,10 @@ async function verify(email, password, done) {
     return done(null, false, { message: 'Incorrect username or password' });
   }
 
+  if (!user.confirmed) {
+    return done(null, false, { message: 'User not confirmed' });
+  }
+
   return done(null, user);
 }
 
@@ -33,6 +37,7 @@ passport.serializeUser((user, cb) => {
       id: user._id.toString(),
       username: user.username,
       email: user.email,
+      confirmed: user.confirmed,
       language: user.language,
     });
   });
@@ -53,7 +58,11 @@ router.put('/api/user', requireAuth, async (req, res) => {
 
   const { username } = req.user;
   const attributes = req.body;
-  const result = await db.updateUser(username, attributes);
+  // TODO: At the moment, the frontend only allows updating the language.
+  const result = await db.updateUser(username, {
+    email: attributes.email,
+    language: attributes.language,
+  });
   console.log(`res: ${JSON.stringify(result)}`);
 
   const user = await db.getUser({ username });

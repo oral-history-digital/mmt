@@ -48,7 +48,11 @@
                     "password_placeholder": "Enter password",
                     "confirm_password": "Confirm password",
                     "confirm_password_placeholder": "Re-enter your password",
-                    "submit": "Sign up"
+                    "submit": "Sign up",
+                    "success": {
+                        "title": "You are signed up",
+                        "confirmation": "You have been signed up successfully. Please wait for our admins to review your registration and activate your account."
+                    }
                 }
             },
             "download": {

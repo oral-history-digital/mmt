@@ -7,9 +7,13 @@ const userSchema = mongoose.Schema({
   email: String,
   language: String,
   password: String,
+  confirmed: Boolean,
   files: [File.schema],
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+module.exports = {
+  User,
+  userSchema,
+};

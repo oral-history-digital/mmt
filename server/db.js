@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const File = require('./models/file');
-const User = require('./models/user');
+const { User } = require('./models/user');
 const config = require('./config');
 
 console.info(`MongoDB connection string is ${config.mongo.connectionString}`);
@@ -23,7 +23,11 @@ module.exports = {
   getUsers: async (options = {}) => User.find(options),
   getUser: async (options = {}) => User.findOne(options),
   createUser: async (username, email, password, language) => new User({
-    username, email, password, language,
+    username,
+    email,
+    password,
+    confirmed: false,
+    language,
   }).save(),
   updateUser: async (username, attributes) => User.updateOne({ username }, attributes),
   setFileClientChecksum: async (userId, fileId, checksum) => User.findOneAndUpdate(

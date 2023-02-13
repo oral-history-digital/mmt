@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 
 import { ErrorMessage } from '../ui';
 import { signUpEndPoint } from '../api';
-import { login } from './actions';
 
 export default function SignUp() {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const [signedUp, setSignedUp] = useState(false);
 
   function handleFormSubmit(event) {
     event.preventDefault();
@@ -42,14 +38,29 @@ export default function SignUp() {
         return response.json();
       })
       .then((data) => {
-        dispatch(login(data));
-        navigate('/');
+        setSignedUp(true);
       })
       .catch((err) => {
         setError({
           message: err.message,
         });
       });
+  }
+
+  if (signedUp) {
+    return (
+      <section className="section">
+        <div className="container content">
+          <h1 className="title">
+            {t('modules.auth.sign_up.success.title')}
+          </h1>
+
+          <p>
+            {t('modules.auth.sign_up.success.confirmation')}
+          </p>
+        </div>
+      </section>
+    );
   }
 
   return (

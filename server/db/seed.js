@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const File = require('../models/file');
-const User = require('../models/user');
+const { User } = require('../models/user');
 
 const config = require('../config');
 

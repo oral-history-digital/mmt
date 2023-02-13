@@ -48,7 +48,11 @@
                     "password_placeholder": "Passwort eingeben",
                     "confirm_password": "Passwort wiederholen",
                     "confirm_password_placeholder": "Passwort erneut eingeben",
-                    "submit": "Registrieren"
+                    "submit": "Registrieren",
+                    "success": {
+                        "title": "Sie sind registriert",
+                        "confirmation": "Sie wurden bei uns registriert. Bitte warten Sie, bis unsere Admins Ihre Registrierung überprüft und Ihr Konto freigeschaltet haben."
+                    }
                 }
             },
             "download": {

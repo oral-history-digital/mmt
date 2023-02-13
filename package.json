@@ -1,6 +1,6 @@
 {
   "name": "media-management-tool",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "engines": {
     "node": "^14 || ^16"
   },
@@ -16,7 +16,10 @@
   "author": "Marc Altmann <marc.altmann@cedis.fu-berlin.de>",
   "license": "MIT",
   "dependencies": {
+    "@adminjs/express": "^5.1.0",
+    "@adminjs/mongoose": "^3.0.1",
     "@redux-devtools/extension": "^3.2.3",
+    "adminjs": "^6.8.4",
     "body-parser": "^1.20.0",
     "busboy": "^1.6.0",
     "classnames": "^2.3.1",
@@ -28,7 +31,7 @@
     "date-fns": "^2.29.3",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
-    "express-handlebars": "^6.0.6",
+    "express-formidable": "^1.2.0",
     "express-session": "^1.17.3",
     "helmet": "^5.1.1",
     "i18next": "^21.9.1",
@@ -49,7 +52,8 @@
     "react-router-dom": "^6.3.0",
     "redux": "^4.2.0",
     "reselect": "^4.1.6",
-    "swr": "^2.0.3"
+    "swr": "^2.0.3",
+    "tslib": "^2.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.13",
