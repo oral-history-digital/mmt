@@ -25,6 +25,7 @@ const mailConfig = {
   user: process.env.MMT_MAIL_USER,
   pass: process.env.MMT_MAIL_PASSWORD,
   from: process.env.MMT_MAIL_FROM || '"OHD" <ohd@example.com>',
+  adminAddress: process.env.MMT_MAIL_ADMIN,
 };
 
 const mailServiceConfigured = mailConfig.host

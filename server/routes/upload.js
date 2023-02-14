@@ -96,9 +96,17 @@ router.post('/api/upload', requireAuth, async (req, res) => {
 
       db.updateFileAttribute(user._id, id, 'state', FILE_STATE_COMPLETE);
 
-      console.log(`File ${name} done`);
+      console.log(`File ${filename} done`);
 
-      emailService.send(email, 'File uploaded', `You're file ${name} was uploaded.\n\nThank you`);
+      emailService.sendMailToAdmin(
+        'File uploaded',
+        `User ${user.username} has uploaded the file ${filename}.`,
+      );
+      emailService.sendMailToUser(
+        email,
+        'File uploaded',
+        `You're file ${filename} has been uploaded.`,
+      );
 
       createChecksum(path.join(dir, filename), (err, checksum) => {
         if (err) {

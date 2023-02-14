@@ -1,6 +1,6 @@
 {
   "name": "media-management-tool",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "engines": {
     "node": "^14 || ^16"
   },
@@ -9,6 +9,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "server": "node server/server.js",
+    "client": "webpack serve --mode development",
     "start": "webpack serve --mode development",
     "stylelint": "stylelint '**/*.scss'",
     "test": "echo \"Error: no test specified\" && exit 1"

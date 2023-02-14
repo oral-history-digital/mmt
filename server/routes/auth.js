@@ -2,6 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 
+const emailService = require('../email')();
 const createUserDirectoriesSync = require('../utilities/createUserDirectoriesSync');
 const getHashedPassword = require('../utilities/getHashedPassword');
 const requireAuth = require('../middleware/requireAuth');
@@ -112,6 +113,10 @@ router.post('/api/sign-up', async (req, res) => {
 
   const user = await db.createUser(username, email, hashedPassword, 'en');
   createUserDirectoriesSync(username);
+  emailService.sendMailToAdmin(
+    'New user',
+    `The user ${username} (${email}) has just registered and needs to be activated.`,
+  );
 
   req.login(user, (err) => {
     if (err) {

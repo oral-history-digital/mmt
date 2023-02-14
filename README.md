@@ -1,5 +1,15 @@
 # Media Management Tool
 
+## Development
+
+Run server
+
+`npm run server`
+
+Run client
+
+`npm run client`
+
 ## Using Docker for production
 
 Build Docker image

@@ -2,6 +2,25 @@ const nodemailer = require('nodemailer');
 
 const config = require('./config');
 
+const PREFIX = '[MMT]';
+
+function sendMail(transport, to, subject, text) {
+  if (!config.mailServiceConfigured) {
+    return;
+  }
+
+  if (!to) {
+    return;
+  }
+
+  transport.sendMail({
+    from: config.mail.from,
+    to,
+    subject: `${PREFIX} ${subject}`,
+    text,
+  });
+}
+
 function emailService() {
   let mailTransport;
 
@@ -17,17 +36,11 @@ function emailService() {
   }
 
   return {
-    send(to, subject, text) {
-      if (!config.mailServiceConfigured) {
-        return;
-      }
-
-      mailTransport.sendMail({
-        from: config.mail.from,
-        to,
-        subject,
-        text,
-      });
+    sendMailToUser(to, subject, text) {
+      sendMail(mailTransport, to, subject, text);
+    },
+    sendMailToAdmin(subject, text) {
+      sendMail(mailTransport, config.mail.adminAddress, subject, text);
     },
   };
 }
