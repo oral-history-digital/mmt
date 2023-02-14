@@ -26,17 +26,21 @@ export default function UploadedFiles({
 
   if (error) {
     return (
-      <div className="notification is-warning mt-5">
-        {t('global.errors.fetch')}
-      </div>
+      <article className="message is-warning mt-5">
+        <div className="message-body">
+          {t('global.errors.fetch')}
+        </div>
+      </article>
     );
   }
 
   if (files.length === 0) {
     return (
-      <div className="notification is-info is-light mt-5">
-        {t('modules.upload.no_files')}
-      </div>
+      <article className="message is-info is-light mt-5">
+        <div className="message-body">
+          {t('modules.upload.no_files')}
+        </div>
+      </article>
     );
   }
 
@@ -105,7 +109,7 @@ export default function UploadedFiles({
                 </td>
                 <td>{file.type}</td>
                 <td>
-                  <span title={lastModified.toString()}>
+                  <span title={`${lastModified.toLocaleDateString(lang)} ${lastModified.toLocaleTimeString(lang)}`}>
                     {lastModified.toLocaleDateString(lang)}
                   </span>
                 </td>

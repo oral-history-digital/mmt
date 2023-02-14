@@ -13,17 +13,21 @@ export default function DownloadableFiles() {
 
   if (error) {
     return (
-      <div className="notification is-warning">
-        {t('global.errors.fetch')}
-      </div>
+      <article className="message is-warning">
+        <div className="message-body">
+          {t('global.errors.fetch')}
+        </div>
+      </article>
     );
   }
 
   if (files.length === 0) {
     return (
-      <div className="notification is-info is-light">
-        {t('modules.download.no_files')}
-      </div>
+      <article className="message is-info is-light">
+        <div className="message-body">
+          {t('modules.download.no_files')}
+        </div>
+      </article>
     );
   }
 
@@ -58,7 +62,7 @@ export default function DownloadableFiles() {
               </td>
               <td>{file.type}</td>
               <td>
-                <span title={lastModified.toString()}>
+                <span title={`${lastModified.toLocaleDateString(lang)} ${lastModified.toLocaleTimeString(lang)}`}>
                   {lastModified.toLocaleDateString(lang)}
                 </span>
               </td>

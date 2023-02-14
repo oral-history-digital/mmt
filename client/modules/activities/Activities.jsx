@@ -29,9 +29,11 @@ export default function Activities() {
 
   if (activitiesList.length === 0) {
     return (
-      <div className="notification is-info is-light">
-        {t('modules.activities.no_activities')}
-      </div>
+      <article className="message is-info is-light">
+        <div className="message-body">
+          {t('modules.activities.no_activities')}
+        </div>
+      </article>
     );
   }
 
