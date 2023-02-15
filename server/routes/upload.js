@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('node:path');
 const { Buffer } = require('node:buffer');
+const sanitize = require('sanitize-filename');
 
 const emailService = require('../email')();
 const createChecksum = require('../files/createChecksum');
@@ -29,8 +30,10 @@ router.post('/api/files', bodyParser.json(), requireAuth, async (req, res) => {
   }
 
   const ids = files.map((f) => {
+    const sanitizedFilename = sanitize(f.name);
+
     const newFile = {
-      name: f.name,
+      name: sanitizedFilename,
       size: f.size,
       type: f.type,
       lastModified: f.lastModified,
@@ -39,7 +42,11 @@ router.post('/api/files', bodyParser.json(), requireAuth, async (req, res) => {
 
     const file = user.files.create(newFile);
     user.files.push(file);
-    return file._id;
+
+    return {
+      id: file._id,
+      filename: sanitizedFilename,
+    };
   });
 
   user.save((err) => {
@@ -75,7 +82,7 @@ router.post('/api/upload', requireAuth, async (req, res) => {
   });
 
   bb.on('file', (name, file, info) => {
-    const filename = Buffer.from(info.filename, 'latin1').toString('utf8');
+    const filename = sanitize(Buffer.from(info.filename, 'latin1').toString('utf8'));
 
     db.updateFileAttribute(user._id, id, 'state', FILE_STATE_UPLOADING);
 

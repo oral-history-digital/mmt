@@ -60,28 +60,28 @@ export default function UploadButton() {
       return;
     }
 
-    const ids = await registerFiles(fileData);
+    const registeredFiles = await registerFiles(fileData);
 
     for (let i = 0; i < files.length; i += 1) {
       const file = files.item(i);
       if (file.size <= FILESIZE_LIMIT) {
-        addFile(file, ids[i]);
+        addFile(file, registeredFiles[i].id);
       }
     }
 
     for (let i = 0; i < files.length; i += 1) {
       const file = files.item(i);
       if (file.size <= FILESIZE_LIMIT) {
-        const id = ids[i];
+        const { id, filename } = registeredFiles[i];
 
-        dispatch(addActivity(`checksum${id}`, file.name, ACTIVITY_TYPE_CHECKSUM, 1));
+        dispatch(addActivity(`checksum${id}`, filename, ACTIVITY_TYPE_CHECKSUM, 1));
         const checksum = await createChecksum(file, (progress) => {
           dispatch(updateActivity(`checksum${id}`, progress));
         });
 
         dispatch(updateActivity(`checksum${id}`, 1));
 
-        const updatedFileData = await submitChecksum(ids[i], checksum);
+        const updatedFileData = await submitChecksum(registeredFiles[i].id, checksum);
         console.log(updatedFileData);
       }
     }
