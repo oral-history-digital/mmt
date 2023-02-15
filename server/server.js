@@ -16,6 +16,7 @@ const path = require('node:path');
 const mongoose = require('mongoose');
 
 const config = require('./config');
+const watchFiles = require('./files/watchFiles');
 const { User } = require('./models/user');
 const authRouter = require('./routes/auth');
 const uploadRouter = require('./routes/upload');
@@ -38,6 +39,8 @@ const authenticate = async (email, password) => {
   }
   return null;
 };
+
+watchFiles();
 
 const start = async () => {
   await mongoose.connect(config.mongo.connectionString);

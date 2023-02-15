@@ -3,7 +3,6 @@ const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('node:path');
-const { Buffer } = require('node:buffer');
 const sanitize = require('sanitize-filename');
 
 const emailService = require('../email')();
