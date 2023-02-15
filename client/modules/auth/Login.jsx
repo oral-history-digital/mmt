@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { loginEndPoint } from '../api';
-import { ErrorMessage } from '../ui';
+import { Message } from '../ui';
 import { login } from './actions';
 
 export default function Login() {
@@ -74,9 +74,11 @@ export default function Login() {
             </h1>
 
             {error && (
-              <ErrorMessage code={error.code}>
+              <Message type="error">
+                <b>{error.code}</b>
+                {' '}
                 {error.message}
-              </ErrorMessage>
+              </Message>
             )}
 
             <form onSubmit={handleFormSubmit}>

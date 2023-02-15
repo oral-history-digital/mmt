@@ -16,7 +16,7 @@ import {
 import registerFiles from './registerFiles';
 import createChecksum from './createChecksum';
 import submitChecksum from './submitChecksum';
-import { ErrorMessage } from '../ui';
+import { Message } from '../ui';
 import { formatBytes, FILESIZE_LIMIT } from '../files';
 
 const requests = {};
@@ -145,7 +145,7 @@ export default function UploadButton() {
   return (
     <>
       {errors && (
-        <ErrorMessage>
+        <Message type="error">
           <p>
             {t('modules.upload.fileSizeError', {
               count: errors.length,
@@ -155,7 +155,7 @@ export default function UploadButton() {
           <ul>
             {errors.map((filename) => (<li key={filename}>{filename}</li>))}
           </ul>
-        </ErrorMessage>
+        </Message>
       )}
       <form className="file is-boxed">
         <label htmlFor="file-input" className="file-label">

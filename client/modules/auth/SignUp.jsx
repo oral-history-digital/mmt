@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { ErrorMessage } from '../ui';
+import { Message } from '../ui';
 import { signUpEndPoint } from '../api';
 
 export default function SignUp() {
@@ -73,9 +73,11 @@ export default function SignUp() {
             </h1>
 
             {error && (
-              <ErrorMessage code={error.code}>
+              <Message type="error">
+                <b>{error.code}</b>
+                {' '}
                 {error.message}
-              </ErrorMessage>
+              </Message>
             )}
 
             <form onSubmit={handleFormSubmit}>

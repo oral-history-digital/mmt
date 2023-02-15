@@ -6,8 +6,9 @@ import { GrCheckmark } from 'react-icons/gr';
 import { useSWRConfig } from 'swr';
 
 import { filesEndPoint, deleteFilesEndPoint } from '../api';
-import useFiles from './useFiles';
 import { formatBytes } from '../files';
+import { Message } from '../ui';
+import useFiles from './useFiles';
 import {
   FILE_STATE_PENDING,
   FILE_STATE_UPLOADING,
@@ -26,21 +27,17 @@ export default function UploadedFiles({
 
   if (error) {
     return (
-      <article className="message is-warning mt-5">
-        <div className="message-body">
-          {t('global.errors.fetch')}
-        </div>
-      </article>
+      <Message type="warning" className="mt-5">
+        {t('global.errors.fetch')}
+      </Message>
     );
   }
 
   if (files.length === 0) {
     return (
-      <article className="message is-info is-light mt-5">
-        <div className="message-body">
-          {t('modules.upload.no_files')}
-        </div>
-      </article>
+      <Message type="info" className="mt-5">
+        {t('modules.upload.no_files')}
+      </Message>
     );
   }
 

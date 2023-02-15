@@ -2,8 +2,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { downloadEndPoint } from '../api';
-import useDownloadableFiles from './useDownloadableFiles';
 import { formatBytes } from '../files';
+import { Message } from '../ui';
+import useDownloadableFiles from './useDownloadableFiles';
 
 export default function DownloadableFiles() {
   const { files, error } = useDownloadableFiles();
@@ -13,21 +14,17 @@ export default function DownloadableFiles() {
 
   if (error) {
     return (
-      <article className="message is-warning">
-        <div className="message-body">
-          {t('global.errors.fetch')}
-        </div>
-      </article>
+      <Message type="warning">
+        {t('global.errors.fetch')}
+      </Message>
     );
   }
 
   if (files.length === 0) {
     return (
-      <article className="message is-info is-light">
-        <div className="message-body">
-          {t('modules.download.no_files')}
-        </div>
-      </article>
+      <Message type="info">
+        {t('modules.download.no_files')}
+      </Message>
     );
   }
 

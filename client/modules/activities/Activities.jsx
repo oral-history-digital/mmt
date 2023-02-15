@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
+import { Message } from '../ui';
 import { getActivities } from './selectors';
 import ProgressBar from './ProgressBar';
 import ActivityTile from './ActivityTile';
@@ -29,11 +30,9 @@ export default function Activities() {
 
   if (activitiesList.length === 0) {
     return (
-      <article className="message is-info is-light">
-        <div className="message-body">
-          {t('modules.activities.no_activities')}
-        </div>
-      </article>
+      <Message type="info">
+        {t('modules.activities.no_activities')}
+      </Message>
     );
   }
 
