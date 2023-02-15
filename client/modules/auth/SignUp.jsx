@@ -15,7 +15,7 @@ export default function SignUp() {
     const form = event.target;
     const formElements = form.elements;
 
-    if (formElements.password.value !== formElements.confirmPassword.value) {
+    if (formElements.password.value !== formElements.repeatPassword.value) {
       return;
     }
 
@@ -56,7 +56,7 @@ export default function SignUp() {
           </h1>
 
           <p>
-            {t('modules.auth.sign_up.success.confirmation')}
+            {t('modules.auth.sign_up.success.activation')}
           </p>
         </div>
       </section>
@@ -132,16 +132,16 @@ export default function SignUp() {
               </div>
 
               <div className="field">
-                <label className="label" htmlFor="confirmPasswordInput">
-                  {t('modules.auth.sign_up.confirm_password')}
+                <label className="label" htmlFor="repeatPasswordInput">
+                  {t('modules.auth.sign_up.repeat_password')}
                 </label>
                 <div className="control">
                   <input
-                    name="confirmPassword"
+                    name="repeatPassword"
                     type="password"
                     className="input"
-                    id="confirmPasswordInput"
-                    placeholder={t('modules.auth.sign_up.confirm_password_placeholder')}
+                    id="repeatPasswordInput"
+                    placeholder={t('modules.auth.sign_up.repeat_password_placeholder')}
                   />
                 </div>
               </div>

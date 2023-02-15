@@ -26,7 +26,7 @@ module.exports = {
     username,
     email,
     password,
-    confirmed: false,
+    activated: false,
     language,
   }).save(),
   updateUser: async (username, attributes) => User.updateOne({ username }, attributes),

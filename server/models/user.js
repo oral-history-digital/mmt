@@ -7,7 +7,7 @@ const userSchema = mongoose.Schema({
   email: String,
   language: String,
   password: String,
-  confirmed: Boolean,
+  activated: Boolean,
   files: [File.schema],
 }, { timestamps: true });
 

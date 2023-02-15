@@ -23,8 +23,8 @@ async function verify(email, password, done) {
     return done(null, false, { message: 'Incorrect username or password' });
   }
 
-  if (!user.confirmed) {
-    return done(null, false, { message: 'User not confirmed' });
+  if (!user.activated) {
+    return done(null, false, { message: 'User not activated' });
   }
 
   return done(null, user);
@@ -38,7 +38,7 @@ passport.serializeUser((user, cb) => {
       id: user._id.toString(),
       username: user.username,
       email: user.email,
-      confirmed: user.confirmed,
+      activated: user.activated,
       language: user.language,
     });
   });

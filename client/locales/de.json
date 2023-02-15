@@ -46,12 +46,12 @@
                     "email_placeholder": "E-Mail-Adresse eingeben",
                     "password": "Passwort",
                     "password_placeholder": "Passwort eingeben",
-                    "confirm_password": "Passwort wiederholen",
-                    "confirm_password_placeholder": "Passwort erneut eingeben",
+                    "repeat_password": "Passwort wiederholen",
+                    "repeat_password_placeholder": "Passwort erneut eingeben",
                     "submit": "Registrieren",
                     "success": {
                         "title": "Sie sind registriert",
-                        "confirmation": "Sie wurden bei uns registriert. Bitte warten Sie, bis unsere Admins Ihre Registrierung überprüft und Ihr Konto freigeschaltet haben."
+                        "activation": "Sie wurden bei uns registriert. Bitte warten Sie, bis unsere Admins Ihre Registrierung überprüft und Ihr Konto freigeschaltet haben."
                     }
                 }
             },
