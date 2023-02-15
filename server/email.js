@@ -39,8 +39,8 @@ function emailService() {
     sendMailToUser(to, subject, text) {
       sendMail(mailTransport, to, subject, text);
     },
-    sendMailToAdmin(subject, text) {
-      sendMail(mailTransport, config.mail.adminAddress, subject, text);
+    sendMailToSupport(subject, text) {
+      sendMail(mailTransport, config.mail.supportAddress, subject, text);
     },
   };
 }

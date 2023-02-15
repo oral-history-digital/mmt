@@ -113,7 +113,7 @@ router.post('/api/sign-up', async (req, res) => {
 
   const user = await db.createUser(username, email, hashedPassword, 'en');
   createUserDirectoriesSync(username);
-  emailService.sendMailToAdmin(
+  emailService.sendMailToSupport(
     'New user',
     `The user ${username} (${email}) has just registered and needs to be activated.`,
   );

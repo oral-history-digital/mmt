@@ -98,7 +98,7 @@ router.post('/api/upload', requireAuth, async (req, res) => {
 
       console.log(`File ${filename} done`);
 
-      emailService.sendMailToAdmin(
+      emailService.sendMailToSupport(
         'File uploaded',
         `User ${user.username} has uploaded the file ${filename}.`,
       );

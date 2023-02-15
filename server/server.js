@@ -28,8 +28,8 @@ AdminJS.registerAdapter({
 });
 
 const DEFAULT_ADMIN = {
-  email: 'admin@example.com',
-  password: 'password',
+  email: config.admin.email,
+  password: config.admin.password,
 };
 
 const authenticate = async (email, password) => {

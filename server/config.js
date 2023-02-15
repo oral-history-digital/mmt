@@ -17,6 +17,13 @@ const mongoConfig = {
   sessionConnectionString: process.env.MMT_MONGODB_SESSION_CONNECTION_STRING || 'mongodb://127.0.0.1:27017/session',
 };
 
+// Admin
+
+const adminConfig = {
+  email: process.env.MMT_ADMIN_EMAIL || 'admin@example.com',
+  password: process.env.MMT_ADMIN_PASSWORD || 'password',
+};
+
 // Mail
 
 const mailConfig = {
@@ -24,8 +31,8 @@ const mailConfig = {
   port: process.env.MMT_MAIL_PORT,
   user: process.env.MMT_MAIL_USER,
   pass: process.env.MMT_MAIL_PASSWORD,
-  from: process.env.MMT_MAIL_FROM || '"OHD" <ohd@example.com>',
-  adminAddress: process.env.MMT_MAIL_ADMIN,
+  from: process.env.MMT_MAIL_FROM || '"OHD" <info@oral-history.digital>',
+  supportAddress: process.env.MMT_MAIL_SUPPORT_ADDRESS,
 };
 
 const mailServiceConfigured = mailConfig.host
@@ -66,6 +73,7 @@ if (process.env.MMT_USER_FILES_DIR) {
 module.exports = {
   server: serverConfig,
   mongo: mongoConfig,
+  admin: adminConfig,
   mail: mailConfig,
   mailServiceConfigured,
   userFilesDir,
