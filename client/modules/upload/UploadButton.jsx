@@ -65,7 +65,7 @@ export default function UploadButton() {
     for (let i = 0; i < files.length; i += 1) {
       const file = files.item(i);
       if (file.size <= FILESIZE_LIMIT) {
-        addFile(file, registeredFiles[i].id);
+        addFile(file, registeredFiles[i].id, registeredFiles[i].filename);
       }
     }
 
@@ -89,10 +89,10 @@ export default function UploadButton() {
     mutate(filesEndPoint);
   }
 
-  function addFile(file, id) {
+  function addFile(file, id, updatedFilename) {
     console.log(`uploading file ${id}`);
 
-    const filename = file.name;
+    const filename = updatedFilename;
     const total = file.size;
 
     const request = new XMLHttpRequest();
@@ -106,7 +106,7 @@ export default function UploadButton() {
 
     const formData = new FormData();
     formData.append('id', id);
-    formData.append('files', file, file.name);
+    formData.append('files', file, filename);
 
     request.addEventListener('load', (event) => {
       // TODO: Should we mark the file as accepted by the server here?

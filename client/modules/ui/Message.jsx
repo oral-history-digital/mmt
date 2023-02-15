@@ -10,7 +10,7 @@ export default function Message({
   return (
     <article className={classNames(
       'message',
-      'mmt-message',
+      'u-line-length',
       className,
       {
         'is-danger': type === 'error',

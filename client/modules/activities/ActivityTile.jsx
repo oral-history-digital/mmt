@@ -43,6 +43,7 @@ export default function ActivityTile({
   return (
     <article className={classNames(
       'box',
+      'u-line-length',
       { 'has-background-success-light': !isFinished },
     )}
     >

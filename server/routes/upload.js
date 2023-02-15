@@ -9,6 +9,7 @@ const sanitize = require('sanitize-filename');
 const emailService = require('../email')();
 const createChecksum = require('../files/createChecksum');
 const getDirectoryName = require('../utilities/getDirectoryName');
+const getFilenameSuffix = require('../utilities/getFilenameSuffix');
 const requireAuth = require('../middleware/requireAuth');
 const db = require('../db');
 
@@ -31,9 +32,16 @@ router.post('/api/files', bodyParser.json(), requireAuth, async (req, res) => {
 
   const ids = files.map((f) => {
     const sanitizedFilename = sanitize(f.name);
+    let filenameWithExtension = sanitizedFilename;
+
+    // Test if filename already exists.
+    if (user.files.some((file) => file.name === sanitizedFilename)) {
+      const extension = getFilenameSuffix(new Date());
+      filenameWithExtension = `${sanitizedFilename}.${extension}`;
+    }
 
     const newFile = {
-      name: sanitizedFilename,
+      name: filenameWithExtension,
       size: f.size,
       type: f.type,
       lastModified: f.lastModified,
@@ -45,7 +53,7 @@ router.post('/api/files', bodyParser.json(), requireAuth, async (req, res) => {
 
     return {
       id: file._id,
-      filename: sanitizedFilename,
+      filename: file.name,
     };
   });
 
@@ -82,7 +90,11 @@ router.post('/api/upload', requireAuth, async (req, res) => {
   });
 
   bb.on('file', (name, file, info) => {
-    const filename = sanitize(Buffer.from(info.filename, 'latin1').toString('utf8'));
+    const fileInDatabase = user.files.find((f) => {
+      return f._id.toString() === id;
+    });
+
+    const filename = fileInDatabase.name;
 
     db.updateFileAttribute(user._id, id, 'state', FILE_STATE_UPLOADING);
 
