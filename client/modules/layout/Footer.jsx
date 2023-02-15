@@ -1,8 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-const version = VERSION;
-
 export default function Footer() {
   const { t } = useTranslation();
 
@@ -13,8 +11,6 @@ export default function Footer() {
           <p>
             <b>
               Media Management Tool
-              {' '}
-              {version}
             </b>
             {' '}
             {t('modules.layout.footer.description')}

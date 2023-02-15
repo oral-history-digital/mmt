@@ -15,6 +15,8 @@ export default function Home() {
             <div className="media-content">
               <p className="title mt-5">
                 {t('modules.layout.home.title')}
+                {' '}
+                <span className="is-size-7">{VERSION}</span>
               </p>
               <p className="subtitle">
                 {t('modules.layout.home.subtitle')}
