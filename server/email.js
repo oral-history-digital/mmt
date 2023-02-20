@@ -25,14 +25,17 @@ function emailService() {
   let mailTransport;
 
   if (config.mailServiceConfigured) {
-    mailTransport = nodemailer.createTransport({
+    const options = {
       host: config.mail.host,
       port: config.mail.port,
-      auth: {
+    };
+    if (config.mail.user && config.mail.pass) {
+      options.auth = {
         user: config.mail.user,
         pass: config.mail.pass,
-      },
-    });
+      };
+    }
+    mailTransport = nodemailer.createTransport(options);
   }
 
   return {

@@ -28,20 +28,17 @@ const adminConfig = {
 
 const mailConfig = {
   host: process.env.MMT_MAIL_HOST,
-  port: process.env.MMT_MAIL_PORT,
+  port: Number(process.env.MMT_MAIL_PORT) || 25,
   user: process.env.MMT_MAIL_USER,
   pass: process.env.MMT_MAIL_PASSWORD,
   from: process.env.MMT_MAIL_FROM || '"OHD" <info@oral-history.digital>',
   supportAddress: process.env.MMT_MAIL_SUPPORT_ADDRESS,
 };
 
-const mailServiceConfigured = mailConfig.host
-    && mailConfig.port
-    && mailConfig.user
-    && mailConfig.pass;
+const mailServiceConfigured = mailConfig.host;
 
 if (!mailServiceConfigured) {
-  console.info('Mail service not configured.');
+  console.info('Mail service not configured. Please specify at least a host.');
 }
 
 // User files directory
