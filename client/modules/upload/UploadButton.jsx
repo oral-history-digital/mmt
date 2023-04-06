@@ -164,7 +164,7 @@ export default function UploadButton() {
             type="file"
             name="files"
             id="file-input"
-            accept="video/*,audio/*"
+            accept="video/*,audio/*,image/*"
             multiple
             onChange={handleFileChange}
           />
