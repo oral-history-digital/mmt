@@ -6,7 +6,7 @@ const path = require('node:path');
 const sanitize = require('sanitize-filename');
 
 const emailService = require('../email')();
-const createChecksum = require('../files/createChecksum');
+const createServerChecksum = require('../files/createServerChecksum');
 const getDirectoryName = require('../utilities/getDirectoryName');
 const getFilenameSuffix = require('../utilities/getFilenameSuffix');
 const requireAuth = require('../middleware/requireAuth');
@@ -126,7 +126,7 @@ router.post('/api/upload', requireAuth, async (req, res) => {
         `You're file ${filename} has been uploaded.`,
       );
 
-      createChecksum(path.join(dir, filename), (err, checksum) => {
+      createServerChecksum(path.join(dir, filename), (err, checksum) => {
         if (err) {
           console.log(err);
         } else if (checksum) {

@@ -25,7 +25,7 @@ export default function ActivityTile({
 
   const elapsed = currentTime - activity.startedAt;
 
-  const totalTime = elapsed / percentage * 100;
+  const totalTime = (elapsed / percentage) * 100;
   const toGo = totalTime - elapsed;
 
   let remainingTime = t('modules.activities.not_calculable');
@@ -58,7 +58,7 @@ export default function ActivityTile({
       </h3>
 
       <p>
-        {percentage.toLocaleString(i18n.language)}
+        {percentage.toLocaleString(i18n.language, { maximumFractionDigits: 1 })}
         {' '}
         %
       </p>

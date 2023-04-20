@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GrUpload } from 'react-icons/gr';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useSWRConfig } from 'swr';
 
 import { filesEndPoint, uploadEndPoint } from '../api';
 import {
-  getActivities,
   addActivity,
   updateActivity,
-  removeActivity,
   ACTIVITY_TYPE_UPLOAD,
   ACTIVITY_TYPE_CHECKSUM,
 } from '../activities';
 import registerFiles from './registerFiles';
-import createChecksum from './createChecksum';
+import createClientChecksum from './createClientChecksum';
 import submitChecksum from './submitChecksum';
 import { Message } from '../ui';
 import { formatBytes, FILESIZE_LIMIT } from '../files';
@@ -29,7 +27,6 @@ export default function UploadButton() {
   const [errors, setErrors] = useState(null);
 
   const dispatch = useDispatch();
-  const allUploads = useSelector(getActivities);
 
   async function handleFileChange(event) {
     const { files } = event.target;
@@ -75,7 +72,7 @@ export default function UploadButton() {
         const { id, filename } = registeredFiles[i];
 
         dispatch(addActivity(`checksum${id}`, filename, ACTIVITY_TYPE_CHECKSUM, 1));
-        const checksum = await createChecksum(file, (progress) => {
+        const checksum = await createClientChecksum(file, (progress) => {
           dispatch(updateActivity(`checksum${id}`, progress));
         });
 

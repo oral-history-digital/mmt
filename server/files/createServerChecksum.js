@@ -1,7 +1,7 @@
 const { exec } = require('node:child_process');
 
-module.exports = function createChecksum(filePath, cb) {
-  exec(`sha256sum '${filePath}'`, (err, stdout, stderr) => {
+module.exports = function createServerChecksum(filePath, cb) {
+  exec(`md5sum '${filePath}'`, (err, stdout, stderr) => {
     if (err) {
       cb(err);
     } else {
