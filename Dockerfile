@@ -1,4 +1,4 @@
-FROM docker.io/library/node:16-bullseye-slim
+FROM docker.io/library/node:18-bullseye-slim
 
 #VOLUME user_files
 WORKDIR /app

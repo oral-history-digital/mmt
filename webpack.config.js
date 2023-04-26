@@ -39,9 +39,10 @@ module.exports = (env, argv) => {
       },
       port: 4000,
       proxy: {
-        '/api': 'http://localhost:3000',
+        '/api': 'http://127.0.0.1:3000',
       },
       historyApiFallback: true,
+      https: false,
     },
     output: {
       clean: true,
