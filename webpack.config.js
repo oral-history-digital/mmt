@@ -21,6 +21,10 @@ module.exports = (env, argv) => {
           use: ['babel-loader'],
         },
         {
+          test: /\.(ts|tsx)$/,
+          loader: 'ts-loader',
+        },
+        {
           test: /\.s?css$/i,
           use: [
             isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader,
@@ -31,7 +35,7 @@ module.exports = (env, argv) => {
       ],
     },
     resolve: {
-      extensions: ['*', '.js', '.jsx'],
+      extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
     },
     devServer: {
       static: {

@@ -1,6 +1,6 @@
 import { submitChecksumEndPoint } from '../api';
 
-export default function submitChecksum(id, checksum) {
+export default function submitChecksum(id: string, checksum: string) {
   const req = fetch(submitChecksumEndPoint, {
     method: 'POST',
     credentials: 'include',
