@@ -2,7 +2,7 @@
   "name": "media-management-tool",
   "version": "0.7.0",
   "engines": {
-    "node": "^16 || ^18"
+    "node": "^16 || ^18 || ^20"
   },
   "description": "",
   "main": "server/server.js",
@@ -68,6 +68,7 @@
     "bulma": "^0.9.4",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
+    "cypress": "^12.10.0",
     "eslint": "^8.33.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.27.5",
