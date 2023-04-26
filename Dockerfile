@@ -4,9 +4,9 @@ FROM docker.io/library/node:18-bullseye-slim
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm ci && npm cache clean --force
 
 ENV NODE_ENV=production
+RUN npm ci && npm cache clean --force
 
 COPY . .
 RUN npm run build
