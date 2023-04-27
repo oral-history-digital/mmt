@@ -1,1 +1,1 @@
-export { default as DownloadPage } from './DownloadPage';
+export { default as DownloadPage } from './DownloadPage.jsx';

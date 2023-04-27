@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { RequireAuth } from '../auth';
-import DownloadableFiles from './DownloadableFiles';
+import { RequireAuth } from '../auth/index.js';
+import DownloadableFiles from './DownloadableFiles.jsx';
 
 export default function DownloadPage() {
   const { t } = useTranslation();

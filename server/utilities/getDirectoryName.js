@@ -1,8 +1,8 @@
-const path = require('node:path');
+import path from 'node:path';
 
-const config = require('../config');
+import config from '../config.js';
 
-module.exports = function getDirectoryName(username, type = 'upload') {
+export default function getDirectoryName(username, type = 'upload') {
   switch (type) {
     case 'download':
       return path.join(
@@ -18,4 +18,4 @@ module.exports = function getDirectoryName(username, type = 'upload') {
         'uploads',
       );
   }
-};
+}

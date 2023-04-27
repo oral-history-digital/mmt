@@ -1,7 +1,8 @@
-const fs = require('fs');
-const getDirectoryName = require('./getDirectoryName');
+import fs from 'fs';
 
-module.exports = function createUserDirectoriesSync(username) {
+import getDirectoryName from './getDirectoryName.js';
+
+export default function createUserDirectoriesSync(username) {
   const directories = ['download', 'upload'];
 
   directories.forEach((type) => {
@@ -10,4 +11,4 @@ module.exports = function createUserDirectoriesSync(username) {
       fs.mkdirSync(dir, { recursive: true });
     }
   });
-};
+}

@@ -3,7 +3,7 @@ import {
   UPDATE_ACTIVITY,
   REMOVE_ACTIVITY,
   CLEAR_ACTIVITIES,
-} from './action-types';
+} from './action-types.js';
 
 const initialState = {};
 

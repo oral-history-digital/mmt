@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Message } from '../ui';
-import { signUpEndPoint } from '../api';
+import { Message } from '../ui/index.js';
+import { signUpEndPoint } from '../api/index.js';
 
 export default function SignUp() {
   const { t } = useTranslation();

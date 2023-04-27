@@ -1,11 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import useSWR, { useSWRConfig } from 'swr';
+import { useSWRConfig } from 'swr';
 
-import { userEndPoint } from '../api';
-import RequireAuth from './RequireAuth';
-import { getUser } from './selectors';
+import { userEndPoint } from '../api/index.js';
+import RequireAuth from './RequireAuth.jsx';
+import { getUser } from './selectors.js';
 
 export default function Profile() {
   const user = useSelector(getUser);

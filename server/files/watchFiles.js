@@ -1,11 +1,13 @@
-const path = require('node:path');
-const chokidar = require('chokidar');
+import path from 'node:path';
+import chokidar from 'chokidar';
 
-const config = require('../config');
-const db = require('../db');
-const emailService = require('../email')();
+import config from '../config.js';
+import db from '../db.js';
+import createEmailService from '../email.js';
 
-function watchFiles() {
+const emailService = createEmailService();
+
+export default function watchFiles() {
   const watchGlob = path.join(config.userFilesDir, '**/downloads/*');
   const options = { ignoreInitial: true };
 
@@ -32,5 +34,3 @@ function watchFiles() {
       );
     });
 }
-
-module.exports = watchFiles;

@@ -1,12 +1,14 @@
-const express = require('express');
-const passport = require('passport');
-const LocalStrategy = require('passport-local');
+import express from 'express';
+import passport from 'passport';
+import LocalStrategy from 'passport-local';
 
-const emailService = require('../email')();
-const createUserDirectoriesSync = require('../utilities/createUserDirectoriesSync');
-const getHashedPassword = require('../utilities/getHashedPassword');
-const requireAuth = require('../middleware/requireAuth');
-const db = require('../db');
+import createEmailService from '../email.js';
+import createUserDirectoriesSync from '../utilities/createUserDirectoriesSync.js';
+import getHashedPassword from '../utilities/getHashedPassword.js';
+import requireAuth from '../middleware/requireAuth.js';
+import db from '../db.js';
+
+const emailService = createEmailService();
 
 const router = express.Router();
 
@@ -128,4 +130,4 @@ router.post('/api/sign-up', async (req, res) => {
   });
 });
 
-module.exports = router;
+export default router;

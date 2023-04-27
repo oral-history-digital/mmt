@@ -1,13 +1,16 @@
-const webpack = require('webpack');
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const PACKAGE = require('./package.json');
+import { readFileSync } from 'fs';
+import webpack from 'webpack';
+import path from 'node:path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import CopyPlugin from 'copy-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
-const { version } = PACKAGE;
+const metaData = JSON.parse(readFileSync('./package.json', 'utf8'));
+const { version } = metaData;
 
-module.exports = (env, argv) => {
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
+export default (env, argv) => {
   const isDevMode = !(process.env.NODE_ENV === 'production'
     || argv.mode === 'production');
 
@@ -22,6 +25,7 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.(ts|tsx)$/,
+          exclude: /node_modules/,
           loader: 'ts-loader',
         },
         {

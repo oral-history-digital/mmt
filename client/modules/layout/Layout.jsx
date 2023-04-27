@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
 import classNames from 'classnames';
 
-import { CheckUser } from '../auth';
-import { PrimaryNav } from '../nav';
-import Footer from './Footer';
+import { CheckUser } from '../auth/index.js';
+import { PrimaryNav } from '../nav/index.js';
+import Footer from './Footer.jsx';
 
 export default function Layout() {
   const { i18n } = useTranslation();

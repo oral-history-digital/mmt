@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import { NAME } from './constants';
+import { NAME } from './constants.js';
 
 export const getUser = (state) => state[NAME];
 

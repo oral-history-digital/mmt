@@ -5,6 +5,7 @@
     "node": "^18 || ^20"
   },
   "description": "",
+  "type": "module",
   "main": "server/server.js",
   "scripts": {
     "build": "webpack --mode production",

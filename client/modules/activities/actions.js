@@ -3,7 +3,7 @@ import {
   UPDATE_ACTIVITY,
   REMOVE_ACTIVITY,
   CLEAR_ACTIVITIES,
-} from './action-types';
+} from './action-types.js';
 
 export const addActivity = (id, name, type, total, current = 0) => ({
   type: ADD_ACTIVITY,

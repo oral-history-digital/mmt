@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { userEndPoint } from '../api';
-import { login, logout } from './actions';
+import { userEndPoint } from '../api/index.js';
+import { login, logout } from './actions.js';
 
 export default function CheckUser({
   children,

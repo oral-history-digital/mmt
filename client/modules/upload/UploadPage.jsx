@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { RequireAuth } from '../auth';
-import UploadButton from './UploadButton';
-import UploadedFiles from './UploadedFiles';
+import { RequireAuth } from '../auth/index.js';
+import UploadButton from './UploadButton.jsx';
+import UploadedFiles from './UploadedFiles.jsx';
 
 export default function UploadPage() {
   const { t } = useTranslation();

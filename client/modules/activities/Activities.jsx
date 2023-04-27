@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { Message } from '../ui';
-import { getActivities } from './selectors';
-import ProgressBar from './ProgressBar';
-import ActivityTile from './ActivityTile';
+import { Message } from '../ui/index.js';
+import { getActivities } from './selectors.js';
+import ActivityTile from './ActivityTile.jsx';
 
 const REFRESH_INTERVAL = 10 * 1000;
 

@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const File = require('./file');
+import File from './file.js';
 
-const userSchema = mongoose.Schema({
+export const userSchema = mongoose.Schema({
   username: String,
   email: String,
   language: String,
@@ -11,9 +11,4 @@ const userSchema = mongoose.Schema({
   files: [File.schema],
 }, { timestamps: true });
 
-const User = mongoose.model('User', userSchema);
-
-module.exports = {
-  User,
-  userSchema,
-};
+export const User = mongoose.model('User', userSchema);

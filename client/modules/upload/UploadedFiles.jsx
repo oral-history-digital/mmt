@@ -5,16 +5,16 @@ import { useTranslation } from 'react-i18next';
 import { GrCheckmark } from 'react-icons/gr';
 import { useSWRConfig } from 'swr';
 
-import { filesEndPoint, deleteFilesEndPoint } from '../api';
-import { formatBytes } from '../files';
-import { Message } from '../ui';
-import useFiles from './useFiles';
+import { filesEndPoint, deleteFilesEndPoint } from '../api/index.js';
+import { formatBytes } from '../files/index.js';
+import { Message } from '../ui/index.js';
+import useFiles from './useFiles.js';
 import {
   FILE_STATE_PENDING,
   FILE_STATE_UPLOADING,
   FILE_STATE_COMPLETE,
   FILE_STATE_MISSING,
-} from './constants';
+} from './constants.js';
 
 export default function UploadedFiles({
   className,

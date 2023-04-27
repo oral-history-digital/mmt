@@ -1,6 +1,8 @@
-require('dotenv').config();
-const fs = require('fs');
-const path = require('node:path');
+import dotenv from 'dotenv';
+import fs from 'fs';
+import path from 'node:path';
+
+dotenv.config();
 
 // Server
 
@@ -58,6 +60,7 @@ if (process.env.MMT_USER_FILES_DIR) {
     throw new Error(`${userFilesDir} must be readable and writable`);
   }
 } else {
+  const __dirname = path.dirname(new URL(import.meta.url).pathname);
   userFilesDir = path.join(__dirname, '..', 'user_files');
 
   if (!fs.existsSync(userFilesDir)) {
@@ -67,7 +70,7 @@ if (process.env.MMT_USER_FILES_DIR) {
   console.info(`MMT_USER_FILES_DIR not specified, using ${userFilesDir} instead.`);
 }
 
-module.exports = {
+export default {
   server: serverConfig,
   mongo: mongoConfig,
   admin: adminConfig,

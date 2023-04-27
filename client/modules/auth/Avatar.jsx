@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { GrUser } from 'react-icons/gr';
 import classNames from 'classnames';
 
-import { getUser, getIsLoggedIn } from './selectors';
+import { getUser, getIsLoggedIn } from './selectors.js';
 
 export default function Avatar({
   className,

@@ -2,9 +2,9 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { RequireAuth } from '../auth';
-import { clearActivities } from './actions';
-import Activities from './Activities';
+import { RequireAuth } from '../auth/index.js';
+import { clearActivities } from './actions.js';
+import Activities from './Activities.jsx';
 
 export default function ActivitiesPage() {
   const { t } = useTranslation();

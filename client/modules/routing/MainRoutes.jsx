@@ -1,11 +1,11 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import { Login, Profile, SignUp } from '../auth';
-import { UploadPage } from '../upload';
-import { DownloadPage } from '../download';
-import { ActivitiesPage } from '../activities';
-import { Layout, Home } from '../layout';
+import { Login, Profile, SignUp } from '../auth/index.js';
+import { UploadPage } from '../upload/index.js';
+import { DownloadPage } from '../download/index.js';
+import { ActivitiesPage } from '../activities/index.js';
+import { Layout, Home } from '../layout/index.js';
 
 export default function MainRoutes() {
   return (

@@ -4,18 +4,18 @@ import { GrUpload } from 'react-icons/gr';
 import { useDispatch } from 'react-redux';
 import { useSWRConfig } from 'swr';
 
-import { filesEndPoint, uploadEndPoint } from '../api';
+import { filesEndPoint, uploadEndPoint } from '../api/index.js';
 import {
   addActivity,
   updateActivity,
   ACTIVITY_TYPE_UPLOAD,
   ACTIVITY_TYPE_CHECKSUM,
-} from '../activities';
-import registerFiles from './registerFiles';
-import createClientChecksum from './createClientChecksum';
-import submitChecksum from './submitChecksum';
-import { Message } from '../ui';
-import { formatBytes, FILESIZE_LIMIT } from '../files';
+} from '../activities/index.js';
+import { Message } from '../ui/index.js';
+import { formatBytes, FILESIZE_LIMIT } from '../files/index.js';
+import registerFiles from './registerFiles.js';
+import createClientChecksum from './createClientChecksum.js';
+import submitChecksum from './submitChecksum.ts';
 
 const requests = {};
 

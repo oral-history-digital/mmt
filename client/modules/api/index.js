@@ -1,4 +1,4 @@
-export { default as fetcher } from './fetcher';
+export { default as fetcher } from './fetcher.js';
 
 export {
   downloadEndPoint,
@@ -11,4 +11,4 @@ export {
   logoutEndPoint,
   signUpEndPoint,
   userEndPoint,
-} from './endpoints';
+} from './endpoints.js';

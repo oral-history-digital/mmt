@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const File = require('./models/file');
-const { User } = require('./models/user');
-const config = require('./config');
+import { User } from './models/user.js';
+import File from './models/file.js';
+import config from './config.js';
 
 console.info(`MongoDB connection string is ${config.mongo.connectionString}`);
 
@@ -18,7 +18,7 @@ db.once('open', () => {
   console.log('MongoDB connection established');
 });
 
-module.exports = {
+export default {
   getFiles: async (options = {}) => File.find(options),
   getUsers: async (options = {}) => User.find(options),
   getUser: async (options = {}) => User.findOne(options),
@@ -64,4 +64,4 @@ module.exports = {
       },
     },
   ),
-};
+}

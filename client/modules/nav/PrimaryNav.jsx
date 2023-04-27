@@ -5,9 +5,9 @@ import { useTranslation } from 'react-i18next';
 import { GrMultimedia } from 'react-icons/gr';
 import classNames from 'classnames';
 
-import { Avatar, getIsLoggedIn, logout } from '../auth';
-import { logoutEndPoint } from '../api';
-import { getNumActivities } from '../activities';
+import { Avatar, getIsLoggedIn, logout } from '../auth/index.js';
+import { logoutEndPoint } from '../api/index.js';
+import { getNumActivities } from '../activities/index.js';
 
 export default function PrimaryNav({
   navbarClassName,

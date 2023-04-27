@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { downloadEndPoint } from '../api';
-import { formatBytes } from '../files';
-import { Message } from '../ui';
-import useDownloadableFiles from './useDownloadableFiles';
+import { downloadEndPoint } from '../api/index.js';
+import { formatBytes } from '../files/index.js';
+import { Message } from '../ui/index.js';
+import useDownloadableFiles from './useDownloadableFiles.ts';
 
 export default function DownloadableFiles() {
   const { files, error } = useDownloadableFiles();

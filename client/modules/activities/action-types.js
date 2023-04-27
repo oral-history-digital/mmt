@@ -1,4 +1,4 @@
-import { NAME } from './constants';
+import { NAME } from './constants.js';
 
 export const ADD_ACTIVITY = `${NAME}/add`;
 export const UPDATE_ACTIVITY = `${NAME}/update`;

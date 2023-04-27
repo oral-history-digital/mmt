@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { loginEndPoint } from '../api';
-import { Message } from '../ui';
-import { login } from './actions';
+import { loginEndPoint } from '../api/index.js';
+import { Message } from '../ui/index.js';
+import { login } from './actions.js';
 
 export default function Login() {
   const { t, i18n } = useTranslation();

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useLocation, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { getIsLoggedOut } from './selectors';
+import { getIsLoggedOut } from './selectors.js';
 
 export default function RequireAuth({
   children,

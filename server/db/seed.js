@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
-const File = require('../models/file');
-const { User } = require('../models/user');
+import mongoose from 'mongoose';
 
-const config = require('../config');
+import File from '../models/file.js';
+import { User } from '../models/user.js';
+import config from '../config.js';
 
 console.info(`MongoDB connection string is ${config.mongo.connectionString}`);
 

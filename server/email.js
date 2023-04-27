@@ -1,6 +1,6 @@
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
-const config = require('./config');
+import config from './config.js';
 
 const PREFIX = '[MMT]';
 
@@ -21,7 +21,7 @@ function sendMail(transport, to, subject, text) {
   });
 }
 
-function emailService() {
+export default function emailService() {
   let mailTransport;
 
   if (config.mailServiceConfigured) {
@@ -47,5 +47,3 @@ function emailService() {
     },
   };
 }
-
-module.exports = emailService;

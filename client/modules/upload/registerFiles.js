@@ -1,4 +1,4 @@
-import { filesEndPoint } from '../api';
+import { filesEndPoint } from '../api/index.js';
 
 export default async function registerFiles(data) {
   const res = await fetch(filesEndPoint, {

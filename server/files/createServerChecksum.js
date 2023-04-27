@@ -1,6 +1,6 @@
-const { exec } = require('node:child_process');
+import { exec } from 'node:child_process';
 
-module.exports = function createServerChecksum(filePath, cb) {
+export default function createServerChecksum(filePath, cb) {
   exec(`md5sum '${filePath}'`, (err, stdout, stderr) => {
     if (err) {
       cb(err);
@@ -18,4 +18,4 @@ module.exports = function createServerChecksum(filePath, cb) {
       }
     }
   });
-};
+}

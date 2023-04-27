@@ -1,7 +1,7 @@
 import {
   LOGIN,
   LOGOUT,
-} from './action-types';
+} from './action-types.js';
 
 const initialState = null;
 

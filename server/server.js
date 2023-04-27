@@ -1,27 +1,37 @@
-const AdminJS = require('adminjs');
-const AdminJSExpress = require('@adminjs/express');
-const AdminJSMongoose = require('@adminjs/mongoose');
-const express = require('express');
-const morgan = require('morgan');
-const cookieParser = require('cookie-parser');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const compression = require('compression');
-const helmet = require('helmet');
-const session = require('express-session');
-const MongoDBStore = require('connect-mongodb-session')(session);
-const passport = require('passport');
-const fs = require('node:fs');
-const path = require('node:path');
-const mongoose = require('mongoose');
+// AdminJS modules
+import AdminJS from 'adminjs';
+import AdminJSExpress from '@adminjs/express';
+import AdminJSMongoose from '@adminjs/mongoose';
 
-const config = require('./config');
-const watchFiles = require('./files/watchFiles');
-const { User } = require('./models/user');
-const authRouter = require('./routes/auth');
-const uploadRouter = require('./routes/upload');
-const downloadRouter = require('./routes/download');
-require('./db');
+// Express modules
+import express from 'express';
+import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import compression from 'compression';
+import helmet from 'helmet';
+import session from 'express-session';
+import createMongoDBStore from 'connect-mongodb-session';
+import passport from 'passport';
+
+// Node.js modules
+import fs from 'node:fs';
+import path from 'node:path';
+
+// Mongoose module
+import mongoose from 'mongoose';
+
+// Local modules
+import config from './config.js';
+import watchFiles from './files/watchFiles.js';
+import { User } from './models/user.js';
+import authRouter from './routes/auth.js';
+import uploadRouter from './routes/upload.js';
+import downloadRouter from './routes/download.js';
+import './db.js';
+
+const MongoDBStore = createMongoDBStore(session);
 
 AdminJS.registerAdapter({
   Resource: AdminJSMongoose.Resource,
@@ -114,6 +124,7 @@ const start = async () => {
   app.use(express.static('public', { maxAge: '1m' }));
 
   let stream;
+  const __dirname = path.dirname(new URL(import.meta.url).pathname);
   switch (app.get('env')) {
     case 'production':
       stream = fs.createWriteStream(

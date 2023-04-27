@@ -1,10 +1,10 @@
-const fs = require('fs');
-const express = require('express');
-const path = require('node:path');
-const mime = require('mime-types');
+import fs from 'fs';
+import express from 'express';
+import path from 'node:path';
+import mime from 'mime-types';
 
-const getDirectoryName = require('../utilities/getDirectoryName');
-const requireAuth = require('../middleware/requireAuth');
+import getDirectoryName from '../utilities/getDirectoryName.js';
+import requireAuth from '../middleware/requireAuth.js';
 
 const router = express.Router();
 
@@ -46,4 +46,4 @@ router.get('/api/download', requireAuth, (req, res) => {
   res.download(filePath);
 });
 
-module.exports = router;
+export default router;

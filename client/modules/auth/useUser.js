@@ -1,6 +1,7 @@
-import useSWR from "swr";
+import useSWR from 'swr';
 
-import userFetcher from "../libs/api-user";
+// Draft
+import userFetcher from '../libs/api-user';
 
 export default function useUser() {
   const { data, mutate, error } = useSWR('api_user', userFetcher);

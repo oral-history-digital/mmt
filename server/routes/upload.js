@@ -1,17 +1,18 @@
-const busboy = require('busboy');
-const fs = require('fs');
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('node:path');
-const sanitize = require('sanitize-filename');
+import busboy from 'busboy';
+import fs from 'fs';
+import express from 'express';
+import bodyParser from 'body-parser';
+import path from 'node:path';
+import sanitize from 'sanitize-filename';
 
-const emailService = require('../email')();
-const createServerChecksum = require('../files/createServerChecksum');
-const getDirectoryName = require('../utilities/getDirectoryName');
-const getFilenameSuffix = require('../utilities/getFilenameSuffix');
-const requireAuth = require('../middleware/requireAuth');
-const db = require('../db');
+import createEmailService from '../email.js';
+import createServerChecksum from '../files/createServerChecksum.js';
+import getDirectoryName from '../utilities/getDirectoryName.js';
+import getFilenameSuffix from '../utilities/getFilenameSuffix.js';
+import requireAuth from '../middleware/requireAuth.js';
+import db from '../db.js';
 
+const emailService = createEmailService();
 const router = express.Router();
 
 const FILE_STATE_UPLOADING = 'uploading';
@@ -208,4 +209,4 @@ router.get('/api/files', requireAuth, async (req, res) => {
   res.json(sortedFiles);
 });
 
-module.exports = router;
+export default router;
