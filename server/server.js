@@ -1,11 +1,5 @@
-// AdminJS modules
-import AdminJS from 'adminjs';
-import AdminJSExpress from '@adminjs/express';
-import { Resource, Database } from '@adminjs/mongoose';
-
 // Express modules
 import express from 'express';
-import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -15,63 +9,27 @@ import session from 'express-session';
 import createMongoDBStore from 'connect-mongodb-session';
 import passport from 'passport';
 
-// Node.js modules
-import fs from 'node:fs';
-import path from 'node:path';
-
 // Mongoose module
 import mongoose from 'mongoose';
 
 // Local modules
 import config from './config.js';
 import watchFiles from './files/watchFiles.js';
-import { User } from './models/user.js';
+import createAdminRouter from './admin.js';
 import authRouter from './routes/auth.js';
 import uploadRouter from './routes/upload.js';
 import downloadRouter from './routes/download.js';
+import setupLogging from './logging.js';
 import './db.js';
 
 const MongoDBStore = createMongoDBStore(session);
-
-AdminJS.registerAdapter({
-  Resource: Resource,
-  Database: Database,
-});
-
-const DEFAULT_ADMIN = {
-  email: config.admin.email,
-  password: config.admin.password,
-};
-
-const authenticate = async (email, password) => {
-  if (email === DEFAULT_ADMIN.email && password === DEFAULT_ADMIN.password) {
-    return Promise.resolve(DEFAULT_ADMIN);
-  }
-  return null;
-};
 
 watchFiles();
 
 const start = async () => {
   await mongoose.connect(config.mongo.connectionString);
 
-  const adminOptions = {
-    resources: [User],
-    /* resources: [
-      {
-        resource: User,
-        options: {
-          listProperties: ['_id', 'username', 'email', 'language', 'createdAt'],
-          filterProperties: ['_id', 'username', 'email', 'language', 'createdAt'],
-          editProperties: ['_id', 'username', 'email', 'language', 'createdAt'],
-          showProperties: ['_id', 'username', 'email', 'language', 'createdAt'],
-        },
-      }
-    ], */
-  };
-
   const app = express();
-  const admin = new AdminJS(adminOptions);
 
   const store = new MongoDBStore({
     uri: config.mongo.sessionConnectionString,
@@ -93,20 +51,6 @@ const start = async () => {
 
   app.use(session(sessionOptions));
 
-  const adminRouter = AdminJSExpress.buildAuthenticatedRouter(
-    admin,
-    {
-      authenticate,
-      cookieName: 'adminjs',
-      cookiePassword: 'adminjs-sessionsecret',
-    },
-    null,
-    {
-      ...sessionOptions,
-      name: 'adminjs',
-    },
-  );
-
   store.on('error', (error) => {
     console.log(error);
   });
@@ -120,24 +64,7 @@ const start = async () => {
 
   app.use(helmet({ contentSecurityPolicy: false }));
 
-  app.use(admin.options.rootPath, adminRouter);
-  app.use(express.static('public', { maxAge: '1m' }));
-
-  let stream;
-  const __dirname = path.dirname(new URL(import.meta.url).pathname);
-  switch (app.get('env')) {
-    case 'production':
-      stream = fs.createWriteStream(
-        path.join(__dirname, 'access.log'),
-        { flags: 'a' },
-      );
-      app.use(morgan('combined', { stream }));
-      break;
-    case 'development':
-    default:
-      app.use(morgan('dev'));
-      break;
-  }
+  setupLogging(app);
 
   app.use(bodyParser.json());
   app.use(cookieParser());
@@ -160,6 +87,11 @@ const start = async () => {
   app.use('/', authRouter);
   app.use('/', uploadRouter);
   app.use('/', downloadRouter);
+
+  const { admin, router: adminRouter } = createAdminRouter(sessionOptions);
+  app.use(admin.options.rootPath, adminRouter);
+
+  app.use(express.static('public', { maxAge: '1m' }));
 
   app.get('*', (req, res) => {
     res.redirect('/');

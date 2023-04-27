@@ -1,6 +1,6 @@
 {
   "name": "media-management-tool",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "engines": {
     "node": "^18 || ^20"
   },

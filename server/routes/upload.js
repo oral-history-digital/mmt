@@ -57,9 +57,7 @@ router.post('/api/files', bodyParser.json(), requireAuth, async (req, res) => {
     };
   });
 
-  user.save((err) => {
-    console.log(err);
-  });
+  await user.save();
 
   res.json(ids);
 });
