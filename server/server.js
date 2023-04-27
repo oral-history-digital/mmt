@@ -1,7 +1,7 @@
 // AdminJS modules
 import AdminJS from 'adminjs';
 import AdminJSExpress from '@adminjs/express';
-import AdminJSMongoose from '@adminjs/mongoose';
+import { Resource, Database } from '@adminjs/mongoose';
 
 // Express modules
 import express from 'express';
@@ -34,8 +34,8 @@ import './db.js';
 const MongoDBStore = createMongoDBStore(session);
 
 AdminJS.registerAdapter({
-  Resource: AdminJSMongoose.Resource,
-  Database: AdminJSMongoose.Database,
+  Resource: Resource,
+  Database: Database,
 });
 
 const DEFAULT_ADMIN = {
