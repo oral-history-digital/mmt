@@ -1,15 +1,38 @@
 import mongoose from 'mongoose';
 
 const fileSchema = mongoose.Schema({
-  id: Number,
-  size: Number,
-  type: String,
-  lastModified: Number,
-  name: String,
-  transferred: Number,
-  state: String,
-  checksum_server: String,
-  checksum_client: String,
+  size: {
+    type: Number,
+    default: 0,
+  },
+  type: {
+    type: String,
+    default: '',
+  },
+  lastModified: {
+    type: Number,
+    default: 0,
+  },
+  name: {
+    type: String,
+    default: '',
+  },
+  transferred: {
+    type: Number,
+    default: 0,
+  },
+  state: {
+    type: String,
+    default: 0,
+  },
+  checksum_server: {
+    type: String,
+    default: '',
+  },
+  checksum_client: {
+    type: String,
+    default: '',
+  },
 }, { timestamps: true });
 
 const File = mongoose.model('File', fileSchema);
