@@ -17,7 +17,7 @@ import watchFiles from './files/watchFiles.js';
 import setupLogging from './logging.js';
 import setupRoutes from './routing.js';
 import getSessionOptions from './sessionOptions.js';
-import createAdminRouter from './admin.js';
+import createAdminRouter from './admin/index.js';
 import './db.js';
 
 watchFiles();

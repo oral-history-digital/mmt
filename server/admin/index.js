@@ -2,8 +2,11 @@ import AdminJS from 'adminjs';
 import AdminJSExpress from '@adminjs/express';
 import { Resource, Database } from '@adminjs/mongoose';
 
-import { User } from './models/user.js';
-import config from './config.js';
+import config from '../config.js';
+import { userResource } from './userResource.js';
+import { fileResource } from './fileResource.js';
+import translations from './translations.js';
+import { Components, componentLoader } from './components.js'
 
 AdminJS.registerAdapter({
   Resource,
@@ -23,18 +26,28 @@ const authenticate = async (email, password) => {
 };
 
 const adminOptions = {
-  resources: [User],
-  /* resources: [
-    {
-      resource: User,
-      options: {
-        listProperties: ['_id', 'username', 'email', 'language', 'createdAt'],
-        filterProperties: ['_id', 'username', 'email', 'language', 'createdAt'],
-        editProperties: ['_id', 'username', 'email', 'language', 'createdAt'],
-        showProperties: ['_id', 'username', 'email', 'language', 'createdAt'],
-      },
-    }
-  ], */
+  componentLoader,
+  dashboard: {
+    component: Components.Dashboard,
+  },
+  //defaultTheme: noSidebar.id,
+  //availableThemes: [noSidebar],
+  branding: {
+    companyName: 'MMT Admin',
+    softwareBrothers: false,
+    madeWithLove: false,
+    withMadeWithLove: false,
+    logo: '/ohd-logo-admin.png',
+    favicon: '/favicon.png',
+    appName: 'MMT',
+  },
+  resources: [userResource],
+  locale: {
+    language: 'en',
+    availableLanguages: ['en', 'de'],
+    localeDetection: true,
+    translations,
+  },
 };
 
 const admin = new AdminJS(adminOptions);
@@ -59,4 +72,3 @@ export default function createAdminRouter(sessionOptions) {
     router,
   };
 }
-

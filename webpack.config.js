@@ -65,8 +65,13 @@ export default (env, argv) => {
       new CopyPlugin({
         patterns: [
           {
-            from: path.join(__dirname, 'client', 'assets', 'ohd-logo.png'),
+            from: path.join(__dirname, 'client', 'assets', 'ohd-favicon.png'),
             to: path.join(__dirname, 'public', 'favicon.png'),
+          },
+          {
+            // This is for AdminJS.
+            from: path.join(__dirname, 'client', 'assets', 'ohd-logo-admin.png'),
+            to: path.join(__dirname, 'public', 'ohd-logo-admin.png'),
           },
         ],
       }),
