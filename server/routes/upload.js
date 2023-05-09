@@ -122,7 +122,7 @@ router.post('/api/upload', requireAuth, async (req, res) => {
       emailService.sendMailToUser(
         email,
         'File uploaded',
-        `You're file ${filename} has been uploaded.`,
+        `Your file ${filename} has been uploaded.`,
       );
 
       createServerChecksum(path.join(dir, filename), (err, checksum) => {
