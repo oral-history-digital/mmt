@@ -6,7 +6,24 @@ import classNames from 'classnames';
 
 import { CheckUser } from '../auth/index.js';
 import { PrimaryNav } from '../nav/index.js';
+import { UploadsContext } from '../upload';
 import Footer from './Footer.jsx';
+import UploadTray from './UploadTray.tsx';
+
+const dummyUploads = [
+  {
+    id: '123',
+    filename: 'bach-video.mp4',
+    size: 2343425,
+    transferred: 3443,
+  },
+  {
+    id: '223',
+    filename: 'mozart-video.mp4',
+    size: 234325,
+    transferred: 3443,
+  },
+];
 
 export default function Layout() {
   const { i18n } = useTranslation();
@@ -15,28 +32,32 @@ export default function Layout() {
   const isHomepage = match ? true : false;
 
   return (
-    <CheckUser>
-      <div className="layout">
-        <Helmet>
-          <html lang={i18n.language} />
-        </Helmet>
+    <UploadsContext.Provider value={dummyUploads}>
+      <CheckUser>
+        <div className="layout">
+          <Helmet>
+            <html lang={i18n.language} />
+          </Helmet>
 
-        <div className={classNames('layout__header', {
-          'has-background-primary': !isHomepage,
-        })}
-        >
-          <PrimaryNav navbarClassName={classNames({ 'is-primary': !isHomepage })} />
+          <div className={classNames('layout__header', {
+            'has-background-primary': !isHomepage,
+          })}
+          >
+            <PrimaryNav navbarClassName={classNames({ 'is-primary': !isHomepage })} />
+          </div>
+
+          <div className={classNames('layout__content', {
+            'has-background-primary': isHomepage,
+          })}
+          >
+            <Outlet />
+          </div>
+
+          <Footer />
+
+          <UploadTray />
         </div>
-
-        <div className={classNames('layout__content', {
-          'has-background-primary': isHomepage,
-        })}
-        >
-          <Outlet />
-        </div>
-
-        <Footer />
-      </div>
-    </CheckUser>
+      </CheckUser>
+    </UploadsContext.Provider>
   );
 }

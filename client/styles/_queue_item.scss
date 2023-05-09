@@ -1,0 +1,28 @@
+.queue-item {
+  display: flex;
+  align-items: center;
+  line-height: var(--base-unit);
+  padding: calc(var(--base-unit) / 4) calc(var(--base-unit) / 2);
+}
+
+.queue-item__body {
+  flex-grow: 1;
+}
+
+.queue-item__name {
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: var(--base-unit);
+}
+
+.queue-item__details {
+  font-size: 0.875rem;
+}
+
+.queue-item__actions {
+
+}
+
+.queue-item__icon {
+  font-size: 2rem;
+}

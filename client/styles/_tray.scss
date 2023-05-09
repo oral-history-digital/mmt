@@ -1,0 +1,32 @@
+.tray {
+  background-color: white;
+  border-bottom: none;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+  border: 1px solid #007bff;
+  bottom: 0;
+  box-shadow: 0 0 10px rgba(0, 0, 255, 0.2), 0 4px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  filter: brightness(0.5);
+  opacity: 0.5;
+  height: var(--base-unit);
+  position: fixed;
+  right: var(--base-unit);
+  transition-duration: var(--transition-duration);
+  transition-property: height, filter, opacity;
+  width: calc(var(--base-unit) * 20);
+  z-index: 1;
+}
+
+.tray--is-open {
+  height: calc(var(--base-unit) * 10);
+  filter: initial;
+  opacity: initial;
+}
+
+.tray__heading {
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: var(--base-unit);
+  padding: 0 calc(var(--base-unit) / 2);
+}
