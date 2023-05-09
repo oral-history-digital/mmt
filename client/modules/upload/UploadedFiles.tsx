@@ -1,27 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { GrCheckmark } from 'react-icons/gr';
-import { useSWRConfig } from 'swr';
 
-import { filesEndPoint, deleteFilesEndPoint } from '../api/index.js';
 import { formatBytes } from '../files/index.js';
 import { Message } from '../ui/index.js';
-import useFiles from './useFiles.js';
+import useFiles from './useFiles';
+import useHandleDeleteFile from './useHandleDeleteFile';
 import {
   FILE_STATE_PENDING,
   FILE_STATE_UPLOADING,
   FILE_STATE_COMPLETE,
   FILE_STATE_MISSING,
-} from './constants.js';
+} from './constants';
+import { UploadedFile } from './types';
 
 export default function UploadedFiles({
   className,
 }) {
-  const { mutate } = useSWRConfig();
   const { files, error } = useFiles();
   const { t, i18n } = useTranslation();
+  const handleDelete = useHandleDeleteFile();
 
   const lang = i18n.language;
 
@@ -41,25 +39,6 @@ export default function UploadedFiles({
     );
   }
 
-  async function handleDelete(file) {
-    let confirmed = true;
-    if (file.state !== FILE_STATE_MISSING) {
-      confirmed = confirm(t('modules.files.actions.delete_confirmation', { name: file.name }));
-    }
-
-    if (!confirmed) {
-      return;
-    }
-
-    const res = await fetch(deleteFilesEndPoint(file._id), {
-      method: 'DELETE',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-    });
-
-    mutate(filesEndPoint);
-  }
-
   return (
     <div className={classNames('uploaded-files', className)}>
       <table className="table">
@@ -67,6 +46,7 @@ export default function UploadedFiles({
           <tr>
             <td><b>{t('modules.files.table.filename')}</b></td>
             <td><b>{t('modules.files.table.size')}</b></td>
+            <td><b>{t('modules.files.table.transferred')}</b></td>
             <td><b>{t('modules.files.table.type')}</b></td>
             <td><b>{t('modules.files.table.updated_at')}</b></td>
             <td><b>{t('modules.files.table.state')}</b></td>
@@ -76,8 +56,8 @@ export default function UploadedFiles({
           </tr>
         </thead>
         <tbody>
-          {files.map((file) => {
-            let isVerified;
+          {files.map((file: UploadedFile) => {
+            let isVerified: boolean;
             const checksumsAreComplete = file.checksum_server && file.checksum_client;
             const checksumsMatch = file.checksum_client === file.checksum_server;
 
@@ -85,7 +65,7 @@ export default function UploadedFiles({
               isVerified = checksumsMatch;
             }
 
-            let verifiedClass;
+            let verifiedClass: string;
             if (isVerified === true) {
               verifiedClass = 'has-text-success';
             } else if (isVerified === false) {
@@ -102,6 +82,11 @@ export default function UploadedFiles({
                 <td>
                   <span title={`${file.size.toLocaleString(lang)} Bytes`}>
                     {formatBytes(file.size, lang)}
+                  </span>
+                </td>
+                <td>
+                  <span title={`${file.transferred.toLocaleString(lang)} Bytes`}>
+                    {formatBytes(file.transferred, lang)}
                   </span>
                 </td>
                 <td>{file.type}</td>
@@ -140,7 +125,11 @@ export default function UploadedFiles({
                 <td>
                   <button
                     type="button"
-                    className={classNames('button', 'is-small', file.state === FILE_STATE_MISSING ? 'is-warning' : 'is-danger')}
+                    className={classNames('button', 'is-small',
+                      file.state === FILE_STATE_MISSING ?
+                        'is-warning' :
+                        'is-danger'
+                    )}
                     onClick={() => handleDelete(file)}
                     disabled={file.state !== FILE_STATE_COMPLETE
                       && file.state !== FILE_STATE_MISSING}
@@ -157,11 +146,3 @@ export default function UploadedFiles({
     </div>
   );
 }
-
-UploadedFiles.propTypes = {
-  className: PropTypes.string,
-};
-
-UploadedFiles.defaultProps = {
-  className: '',
-};

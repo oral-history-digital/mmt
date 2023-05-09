@@ -6,15 +6,11 @@ export default function setupLogging(app) {
   let stream;
   const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
-  console.log(import.meta.url);
-  console.log(__dirname);
-
   switch (app.get('env')) {
     case 'production':
-      stream = fs.createWriteStream(
-        path.join(__dirname, 'access.log'),
-        { flags: 'a' },
-      );
+      const logPath = path.join(__dirname, 'access.log');
+      console.log(`Logging to ${logPath}`);
+      stream = fs.createWriteStream(logPath, { flags: 'a' });
       app.use(morgan('combined', { stream }));
       break;
     case 'development':

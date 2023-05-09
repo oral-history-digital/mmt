@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import { Login, Profile, SignUp } from '../auth/index.js';
-import { UploadPage } from '../upload/index.js';
+import { UploadPage } from '../upload/index.ts';
 import { DownloadPage } from '../download/index.js';
 import { ActivitiesPage } from '../activities/index.js';
 import { Layout, Home } from '../layout/index.js';

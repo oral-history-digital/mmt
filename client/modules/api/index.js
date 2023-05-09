@@ -11,4 +11,4 @@ export {
   logoutEndPoint,
   signUpEndPoint,
   userEndPoint,
-} from './endpoints.js';
+} from './endpoints.ts';

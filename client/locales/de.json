@@ -75,6 +75,7 @@
                     "id": "ID",
                     "filename": "Dateiname",
                     "size": "Größe",
+                    "transferred": "Übertragen",
                     "type": "Typ",
                     "updated_at": "Zuletzt geändert",
                     "checksum_server": "Server-Prüfs.",

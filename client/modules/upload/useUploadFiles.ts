@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { GrUpload } from 'react-icons/gr';
+import { ChangeEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSWRConfig } from 'swr';
 
+import { FILESIZE_LIMIT } from '../files/index.js';
 import { filesEndPoint, uploadEndPoint } from '../api/index.js';
 import {
   addActivity,
@@ -11,25 +10,21 @@ import {
   ACTIVITY_TYPE_UPLOAD,
   ACTIVITY_TYPE_CHECKSUM,
 } from '../activities/index.js';
-import { Message } from '../ui/index.js';
-import { formatBytes, FILESIZE_LIMIT } from '../files/index.js';
-import registerFiles from './registerFiles.js';
-import createClientChecksum from './createClientChecksum.js';
-import submitChecksum from './submitChecksum.ts';
+import registerFiles from './registerFiles';
+import createClientChecksum from './createClientChecksum';
+import submitChecksum from './submitChecksum';
 
 const requests = {};
 
-export default function UploadButton() {
-  const { t, i18n } = useTranslation();
-  const lang = i18n.language;
-
+export default function useUploadFiles() {
   const { mutate } = useSWRConfig();
   const [errors, setErrors] = useState(null);
 
   const dispatch = useDispatch();
 
-  async function handleFileChange(event) {
-    const { files } = event.target;
+  async function handleFileChange(event: ChangeEvent) {
+    const target = event.target as HTMLInputElement;
+    const files = target.files as FileList;
     const fileData = [];
 
     const aboveLimitFiles = [];
@@ -79,16 +74,13 @@ export default function UploadButton() {
         dispatch(updateActivity(`checksum${id}`, 1));
 
         const updatedFileData = await submitChecksum(registeredFiles[i].id, checksum);
-        console.log(updatedFileData);
       }
     }
 
     mutate(filesEndPoint);
   }
 
-  function addFile(file, id, updatedFilename) {
-    console.log(`uploading file ${id}`);
-
+  function addFile(file: File, id: string, updatedFilename: string) {
     const filename = updatedFilename;
     const total = file.size;
 
@@ -107,7 +99,6 @@ export default function UploadButton() {
 
     request.addEventListener('load', (event) => {
       // TODO: Should we mark the file as accepted by the server here?
-      console.log('transaction completed');
 
       // dispatch(removeActivity(id));
     });
@@ -121,8 +112,6 @@ export default function UploadButton() {
     });
 
     uploadObject.addEventListener('load', (event) => {
-      console.log('upload complete');
-
       mutate(filesEndPoint);
 
       dispatch(updateActivity(`upload${id}`, total));
@@ -131,50 +120,14 @@ export default function UploadButton() {
     request.send(formData);
 
     mutate(filesEndPoint);
-
-    console.log(request);
   }
 
-  function handleAbort(id) {
+  function handleAbort(id: string) {
     requests[id]?.abort();
   }
 
-  return (
-    <>
-      {errors && (
-        <Message type="error">
-          <p>
-            {t('modules.upload.fileSizeError', {
-              count: errors.length,
-              limit: formatBytes(FILESIZE_LIMIT, lang),
-            })}
-          </p>
-          <ul>
-            {errors.map((filename) => (<li key={filename}>{filename}</li>))}
-          </ul>
-        </Message>
-      )}
-      <form className="file is-boxed">
-        <label htmlFor="file-input" className="file-label">
-          <input
-            className="file-input"
-            type="file"
-            name="files"
-            id="file-input"
-            accept="video/*,audio/*,image/*"
-            multiple
-            onChange={handleFileChange}
-          />
-          <span className="file-cta">
-            <span className="file-icon">
-              <GrUpload />
-            </span>
-            <span className="file-label">
-              {t('modules.upload.select_files')}
-            </span>
-          </span>
-        </label>
-      </form>
-    </>
-  );
+  return {
+    handleFileChange,
+    errors,
+  };
 }

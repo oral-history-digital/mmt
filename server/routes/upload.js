@@ -88,6 +88,9 @@ router.post('/api/upload', requireAuth, async (req, res) => {
   });
 
   bb.on('file', (name, file, info) => {
+    console.log(info);
+    let calculatedLength = 0;
+
     const fileInDatabase = user.files.find((f) => {
       return f._id.toString() === id;
     });
@@ -106,6 +109,9 @@ router.post('/api/upload', requireAuth, async (req, res) => {
     file.pipe(stream);
 
     file.on('data', (data) => {
+      calculatedLength += data.length;
+      console.log(calculatedLength);
+      db.updateFileAttribute(user._id, id, 'transferred', calculatedLength);
     });
 
     file.on('close', () => {
@@ -114,7 +120,7 @@ router.post('/api/upload', requireAuth, async (req, res) => {
       db.updateFileAttribute(user._id, id, 'state', FILE_STATE_COMPLETE);
 
       console.log(`File ${filename} done`);
-
+/*
       emailService.sendMailToSupport(
         'File uploaded',
         `User ${user.username} has uploaded the file ${filename}.`,
@@ -124,7 +130,7 @@ router.post('/api/upload', requireAuth, async (req, res) => {
         'File uploaded',
         `Your file ${filename} has been uploaded.`,
       );
-
+*/
       createServerChecksum(path.join(dir, filename), (err, checksum) => {
         if (err) {
           console.log(err);

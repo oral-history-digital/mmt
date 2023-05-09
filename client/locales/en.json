@@ -67,7 +67,7 @@
                     "uploading": "uploading",
                     "uploading_explanation": "The file is currently uploading to our server.",
                     "complete": "complete",
-                    "complete_explanation": "The file has been completely transfered to our server.",
+                    "complete_explanation": "The file has been completely transferred to our server.",
                     "missing": "missing",
                     "missing_explanation": "The file has been registered in the database, but is not present on our server anymore."
                 },
@@ -75,6 +75,7 @@
                     "id": "ID",
                     "filename": "Filename",
                     "size": "Size",
+                    "transferred": "Transferred",
                     "type": "Type",
                     "updated_at": "Updated at",
                     "checksum_server": "Server checksum",
