@@ -17,7 +17,8 @@ function hashChunk(hasher: IHasher, chunk: Blob) {
   });
 }
 
-const readFile = async (file: File, progressCallback: Function) => {
+const readFile = async (file: File,
+  progressCallback: (progress: number) => void) => {
   const hasher = await createMD5();
 
   const numChunks = Math.floor(file.size / chunkSize);
@@ -39,7 +40,7 @@ const readFile = async (file: File, progressCallback: Function) => {
 };
 
 export default async function createClientChecksum(file: File,
-  progressCallback: Function) {
+  progressCallback: (progress: number) => void) {
   const hash = await readFile(file, progressCallback);
   return Promise.resolve(hash);
 }

@@ -67,7 +67,7 @@ export default function useUploadFiles() {
         const { id, filename } = registeredFiles[i];
 
         dispatch(addActivity(`checksum${id}`, filename, ACTIVITY_TYPE_CHECKSUM, 1));
-        const checksum = await createClientChecksum(file, (progress) => {
+        const checksum = await createClientChecksum(file, (progress: number): void => {
           dispatch(updateActivity(`checksum${id}`, progress));
         });
 
