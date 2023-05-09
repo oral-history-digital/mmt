@@ -3,18 +3,18 @@ import { useDispatch } from 'react-redux';
 import { useSWRConfig } from 'swr';
 
 import { FILESIZE_LIMIT } from '../files/index.js';
-import { filesEndPoint, uploadEndPoint } from '../api/index.js';
+import { filesEndPoint } from '../api/index.js';
 import {
   addActivity,
   updateActivity,
-  ACTIVITY_TYPE_UPLOAD,
   ACTIVITY_TYPE_CHECKSUM,
+  ACTIVITY_TYPE_UPLOAD,
 } from '../activities/index.js';
 import registerFiles from './registerFiles';
 import createClientChecksum from './createClientChecksum';
 import submitChecksum from './submitChecksum';
-
-const requests = {};
+import addFile from './addFile';
+import requests from './requests';
 
 export default function useUploadFiles() {
   const { mutate } = useSWRConfig();
@@ -57,7 +57,20 @@ export default function useUploadFiles() {
     for (let i = 0; i < files.length; i += 1) {
       const file = files.item(i);
       if (file.size <= FILESIZE_LIMIT) {
-        addFile(file, registeredFiles[i].id, registeredFiles[i].filename);
+        const updatedFilename = registeredFiles[i].filename;
+        dispatch(addActivity(`upload${registeredFiles[i].id}`, updatedFilename,
+          ACTIVITY_TYPE_UPLOAD, file.size));
+
+        addFile({
+          fileId: registeredFiles[i].id,
+          file,
+          filename: updatedFilename,
+          onProgress: (amount) => dispatch(updateActivity(`upload${registeredFiles[i].id}`, amount)),
+          onEnd: () => {
+            dispatch(updateActivity(`upload${registeredFiles[i].id}`, file.size));
+            mutate(filesEndPoint);
+          },
+        });
       }
     }
 
@@ -80,47 +93,6 @@ export default function useUploadFiles() {
     mutate(filesEndPoint);
   }
 
-  function addFile(file: File, id: string, updatedFilename: string) {
-    const filename = updatedFilename;
-    const total = file.size;
-
-    const request = new XMLHttpRequest();
-    request.withCredentials = true;
-
-    requests[id] = request;
-
-    dispatch(addActivity(`upload${id}`, filename, ACTIVITY_TYPE_UPLOAD, total));
-
-    request.open('POST', uploadEndPoint);
-
-    const formData = new FormData();
-    formData.append('id', id);
-    formData.append('files', file, filename);
-
-    request.addEventListener('load', (event) => {
-      // TODO: Should we mark the file as accepted by the server here?
-
-      // dispatch(removeActivity(id));
-    });
-
-    const uploadObject = request.upload;
-
-    uploadObject.addEventListener('progress', (event) => {
-      if (event.lengthComputable) {
-        dispatch(updateActivity(`upload${id}`, event.loaded));
-      }
-    });
-
-    uploadObject.addEventListener('load', (event) => {
-      mutate(filesEndPoint);
-
-      dispatch(updateActivity(`upload${id}`, total));
-    });
-
-    request.send(formData);
-
-    mutate(filesEndPoint);
-  }
 
   function handleAbort(id: string) {
     requests[id]?.abort();
