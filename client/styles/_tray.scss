@@ -6,6 +6,8 @@
   border: 1px solid #007bff;
   bottom: 0;
   box-shadow: 0 0 10px rgba(0, 0, 255, 0.2), 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
   filter: brightness(0.5);
   opacity: 0.5;
   height: var(--base-unit);
@@ -58,4 +60,9 @@
 
 .tray--is-open .tray__handle {
   cursor: s-resize;
+}
+
+.tray__body {
+  flex-grow: 1;
+  overflow-y: auto;
 }

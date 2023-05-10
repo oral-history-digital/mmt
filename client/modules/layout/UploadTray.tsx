@@ -28,7 +28,9 @@ export default function UploadTray() {
         >
         </button>
       </header>
-      <UploadQueue onChange={handleQueueChange} />
+      <div className="tray__body">
+        <UploadQueue onChange={handleQueueChange} />
+      </div>
     </div>
   );
 }

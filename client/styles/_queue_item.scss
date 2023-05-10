@@ -8,13 +8,18 @@
 }
 
 .queue-item__body {
-
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .queue-item__name {
   font-size: 1rem;
   font-weight: bold;
   line-height: var(--base-unit);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .queue-item__details {
@@ -22,6 +27,7 @@
 }
 
 .queue-item__actions {
+  flex-shrink: 0;
 }
 
 .queue-item__button {
