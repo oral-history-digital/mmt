@@ -2,9 +2,13 @@ import classNames from 'classnames';
 import { FC } from 'react';
 import { GrClose } from 'react-icons/gr';
 import { useTranslation } from 'react-i18next';
+import { formatDistance, addMilliseconds } from 'date-fns';
+import { de } from 'date-fns/locale';
 
 import { formatBytes } from '../files/index.js';
 import { Upload } from './types';
+import ProgressBar from './ProgressBar';
+import remainingTime from './remainingTime';
 
 type UploadQueueItemProps = {
   upload: Upload,
@@ -18,6 +22,30 @@ const UploadQueueItem: FC<UploadQueueItemProps> = ({
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
 
+  const showRemainingTime = upload.transferred > 0;
+
+
+  const localeOptions: any = {};
+  if (lang === 'de') {
+    localeOptions.locale = de;
+  }
+
+  let remainingMilliseconds: number;
+  let now = new Date();
+  let futureDate = new Date();
+  if (upload.transferred) {
+    remainingMilliseconds = remainingTime(upload.startDate, upload.size, upload.transferred);
+    futureDate = addMilliseconds(now, remainingMilliseconds);
+  }
+
+  const timeToGo = formatDistance(futureDate, now, {
+    addSuffix: true,
+    includeSeconds: true,
+    ...localeOptions,
+  });
+
+  const percentage = upload.transferred / upload.size * 100;
+
   function handleCancelClick() {
     upload.request.abort();
   }
@@ -27,10 +55,11 @@ const UploadQueueItem: FC<UploadQueueItemProps> = ({
       <div className="queue-item__body">
         <h3 className="queue-item__name">{upload.filename}</h3>
         <p className="queue-item__details">
-          {formatBytes(upload.transferred, lang)}
-          {' / '}
           {formatBytes(upload.size, lang)}
+          {' – '}
+          {showRemainingTime ? timeToGo : ''}
         </p>
+        <ProgressBar percentage={percentage} />
       </div>
       <div className="queue-item__actions">
         <button

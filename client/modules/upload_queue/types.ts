@@ -3,5 +3,6 @@ export type Upload = {
   filename: string,
   size: number,
   transferred: number,
+  startDate: Date,
   request: XMLHttpRequest
 };

@@ -91,6 +91,7 @@ export default function useUploadFiles() {
           filename: updatedFilename,
           size: file.size,
           transferred: 0,
+          startDate: new Date(),
           request: xmlHttpRequest,
         });
       }

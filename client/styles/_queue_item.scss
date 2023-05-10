@@ -8,9 +8,10 @@
 }
 
 .queue-item__body {
+  flex-grow: 1;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
 }
 
 .queue-item__name {
