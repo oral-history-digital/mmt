@@ -1,12 +1,14 @@
 .queue-item {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   line-height: var(--base-unit);
+  min-width: 0;
   padding: calc(var(--base-unit) / 4) calc(var(--base-unit) / 2);
 }
 
 .queue-item__body {
-  flex-grow: 1;
+
 }
 
 .queue-item__name {
@@ -20,7 +22,6 @@
 }
 
 .queue-item__actions {
-
 }
 
 .queue-item__button {

@@ -6,6 +6,13 @@ import { UploadQueue } from '../upload';
 export default function UploadTray() {
   const [isOpen, setIsOpen] = useState(false);
 
+  function handleQueueChange(diff: number) {
+    if (diff > 0) {
+      // Queue has gotten bigger, open the tray if necessary.
+      setIsOpen(true);
+    }
+  }
+
   return (
     <div className={classNames('tray', { 'tray--is-open': isOpen })}>
       <header className="tray__header">
@@ -21,7 +28,7 @@ export default function UploadTray() {
         >
         </button>
       </header>
-      <UploadQueue />
+      <UploadQueue onChange={handleQueueChange} />
     </div>
   );
 }
