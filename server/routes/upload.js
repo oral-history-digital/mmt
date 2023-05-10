@@ -11,13 +11,16 @@ import getDirectoryName from '../utilities/getDirectoryName.js';
 import getFilenameSuffix from '../utilities/getFilenameSuffix.js';
 import requireAuth from '../middleware/requireAuth.js';
 import db from '../db.js';
+import {
+  FILE_STATE_PENDING,
+  FILE_STATE_UPLOADING,
+  FILE_STATE_COMPLETE,
+  FILE_STATE_ABORTED,
+  FILE_STATE_MISSING,
+} from '../constants.js';
 
 const emailService = createEmailService();
 const router = express.Router();
-
-const FILE_STATE_UPLOADING = 'uploading';
-const FILE_STATE_COMPLETE = 'complete';
-const FILE_STATE_MISSING = 'missing';
 
 router.post('/api/files', bodyParser.json(), requireAuth, async (req, res) => {
   const { username } = req.user;
@@ -45,7 +48,7 @@ router.post('/api/files', bodyParser.json(), requireAuth, async (req, res) => {
       size: f.size,
       type: f.type,
       lastModified: f.lastModified,
-      state: 'pending',
+      state: FILE_STATE_PENDING,
     };
 
     const file = user.files.create(newFile);
@@ -120,7 +123,7 @@ router.post('/api/upload', requireAuth, async (req, res) => {
       db.updateFileAttribute(user._id, id, 'state', FILE_STATE_COMPLETE);
 
       console.log(`File ${filename} done`);
-/*
+
       emailService.sendMailToSupport(
         'File uploaded',
         `User ${user.username} has uploaded the file ${filename}.`,
@@ -130,7 +133,7 @@ router.post('/api/upload', requireAuth, async (req, res) => {
         'File uploaded',
         `Your file ${filename} has been uploaded.`,
       );
-*/
+
       createServerChecksum(path.join(dir, filename), (err, checksum) => {
         if (err) {
           console.log(err);
@@ -147,6 +150,26 @@ router.post('/api/upload', requireAuth, async (req, res) => {
   });
 
   req.pipe(bb);
+});
+
+router.put('/api/abort-upload/:id', requireAuth, async (req, res) => {
+  const { id } = req.params;
+  const { email } = req.user;
+  const user = await db.getUser({ email });
+
+  const fileInDatabase = user.files.find((f) => {
+    return f._id.toString() === id;
+  });
+
+  if (fileInDatabase.state === FILE_STATE_UPLOADING) {
+    db.updateFileAttribute(user._id, id, 'state', FILE_STATE_ABORTED);
+  }
+
+  // TODO: Error handling.
+  // If the file state is cannot be changed, there should be no 204 response.
+
+  res.writeHead(204);
+  res.end();
 });
 
 router.delete('/api/files/:id', requireAuth, async (req, res) => {

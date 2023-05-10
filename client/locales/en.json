@@ -68,6 +68,8 @@
                     "uploading_explanation": "The file is currently uploading to our server.",
                     "complete": "complete",
                     "complete_explanation": "The file has been completely transferred to our server.",
+                    "aborted": "aborted",
+                    "aborted_explanation": "The transfer has been aborted, the file is not complete.",
                     "missing": "missing",
                     "missing_explanation": "The file has been registered in the database, but is not present on our server anymore."
                 },
@@ -113,6 +115,9 @@
                     "logout": "Logout",
                     "uploadWithCount_one": "{{count}} upload",
                     "uploadWithCount_other": "{{count}} uploads"
+                },
+                "upload-tray": {
+                    "title": "Uploads"
                 }
             },
             "upload": {
@@ -121,6 +126,9 @@
                 "no_files": "You have not yet uploaded files.",
                 "fileSizeError_one": "One file exceeds the file size limit of {{limit}}:",
                 "fileSizeError_other": "{{count}} files exceed the file size limit of {{limit}}:"
+            },
+            "upload_queue": {
+                "cancel_upload": "Cancel upload"
             }
         }
     }

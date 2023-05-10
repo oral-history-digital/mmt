@@ -56,8 +56,7 @@ const UploadQueueItem: FC<UploadQueueItemProps> = ({
         <h3 className="queue-item__name">{upload.filename}</h3>
         <p className="queue-item__details">
           {formatBytes(upload.size, lang)}
-          {' – '}
-          {showRemainingTime ? timeToGo : ''}
+          {showRemainingTime ? ` – ${timeToGo}` : ''}
         </p>
         <ProgressBar percentage={percentage} />
       </div>
@@ -65,8 +64,8 @@ const UploadQueueItem: FC<UploadQueueItemProps> = ({
         <button
           type="button"
           className="queue-item__button"
-          aria-label="Cancel upload"
-          title="Cancel upload"
+          aria-label={t('modules.upload_queue.cancel_upload')}
+          title={t('modules.upload_queue.cancel_upload')}
           onClick={handleCancelClick}
         >
           <GrClose className="queue-item__icon" />

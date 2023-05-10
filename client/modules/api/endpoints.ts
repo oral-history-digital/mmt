@@ -11,6 +11,7 @@ export const filesEndPoint = `${apiBasePath}/files`;
 export const uploadEndPoint = `${apiBasePath}/upload`;
 export const submitChecksumEndPoint = `${apiBasePath}/checksum`;
 export const deleteFilesEndPoint = (id: string) => `${apiBasePath}/files/${id}`;
+export const abortUploadEndPoint = (id: string) => `${apiBasePath}/abort-upload/${id}`;
 
 // Download
 export const downloadEndPoint = `${apiBasePath}/download`;

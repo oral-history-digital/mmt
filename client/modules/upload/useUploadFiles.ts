@@ -10,12 +10,13 @@ import {
   ACTIVITY_TYPE_CHECKSUM,
   ACTIVITY_TYPE_UPLOAD,
 } from '../activities/index.js';
+import { useUploadQueue } from '../upload_queue';
 import registerFiles from './registerFiles';
 import createClientChecksum from './createClientChecksum';
 import submitChecksum from './submitChecksum';
 import addFile from './addFile';
 import storedRequests from './requests';
-import { useUploadQueue } from '../upload_queue';
+import abortUpload from './abortUpload';
 
 export default function useUploadFiles() {
   const { mutate } = useSWRConfig();
@@ -83,6 +84,7 @@ export default function useUploadFiles() {
             mutate(filesEndPoint);
           },
           onAbort: () => {
+            abortUpload(fileId);
           },
         });
 

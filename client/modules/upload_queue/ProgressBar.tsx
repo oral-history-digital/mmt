@@ -11,7 +11,7 @@ const ProgressBar: FC<ProgressBarProps> = ({
   percentage,
   className,
 }) => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const lang = i18n.language;
 
   const percentageStr = percentage.toLocaleString(lang, {

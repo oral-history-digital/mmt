@@ -10,6 +10,7 @@ import {
   FILE_STATE_PENDING,
   FILE_STATE_UPLOADING,
   FILE_STATE_COMPLETE,
+  FILE_STATE_ABORTED,
   FILE_STATE_MISSING,
 } from './constants';
 import { UploadedFile } from './types';
@@ -101,6 +102,7 @@ export default function UploadedFiles({
                       'is-lite': file.state === FILE_STATE_PENDING,
                       'is-info': file.state === FILE_STATE_UPLOADING,
                       'is-success': file.state === FILE_STATE_COMPLETE,
+                      'is-danger': file.state === FILE_STATE_ABORTED,
                       'is-warning': file.state === FILE_STATE_MISSING,
                     })}
                     title={t(`modules.files.states.${file.state}_explanation`)}
@@ -132,7 +134,8 @@ export default function UploadedFiles({
                     )}
                     onClick={() => handleDelete(file)}
                     disabled={file.state !== FILE_STATE_COMPLETE
-                      && file.state !== FILE_STATE_MISSING}
+                      && file.state !== FILE_STATE_MISSING
+                      && file.state !== FILE_STATE_ABORTED}
                   >
                     {file.state === FILE_STATE_MISSING ? t('modules.files.actions.remove')
                       : t('modules.files.actions.delete')}
