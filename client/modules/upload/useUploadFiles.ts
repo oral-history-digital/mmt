@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, useContext } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSWRConfig } from 'swr';
 
@@ -15,11 +15,11 @@ import createClientChecksum from './createClientChecksum';
 import submitChecksum from './submitChecksum';
 import addFile from './addFile';
 import storedRequests from './requests';
-import UploadsContext from './UploadsContext';
+import { useUploadQueue } from '../upload_queue';
 
 export default function useUploadFiles() {
   const { mutate } = useSWRConfig();
-  const { setUploadQueue } = useContext(UploadsContext);
+  const { setUploadQueue } = useUploadQueue();
   const [errors, setErrors] = useState(null);
 
   const dispatch = useDispatch();

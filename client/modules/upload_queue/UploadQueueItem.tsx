@@ -4,17 +4,11 @@ import { GrClose } from 'react-icons/gr';
 import { useTranslation } from 'react-i18next';
 
 import { formatBytes } from '../files/index.js';
+import { Upload } from './types';
 
 type UploadQueueItemProps = {
   upload: Upload,
   className?: string;
-};
-
-type Upload = {
-  id: string,
-  filename: string,
-  size: number,
-  transferred: number,
 };
 
 const UploadQueueItem: FC<UploadQueueItemProps> = ({
@@ -22,8 +16,11 @@ const UploadQueueItem: FC<UploadQueueItemProps> = ({
   className,
 }) => {
   const { t, i18n } = useTranslation();
-
   const lang = i18n.language;
+
+  function handleCancelClick() {
+    upload.request.abort();
+  }
 
   return (
     <li className={classNames('queue-item', className)}>
@@ -36,7 +33,13 @@ const UploadQueueItem: FC<UploadQueueItemProps> = ({
         </p>
       </div>
       <div className="queue-item__actions">
-        <button className="queue-item__button" type="button">
+        <button
+          type="button"
+          className="queue-item__button"
+          aria-label="Cancel upload"
+          title="Cancel upload"
+          onClick={handleCancelClick}
+        >
           <GrClose className="queue-item__icon" />
         </button>
       </div>

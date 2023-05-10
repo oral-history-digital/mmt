@@ -28,16 +28,27 @@
 
 .queue-item__actions {
   flex-shrink: 0;
+  margin-left: calc(var(--base-unit) / 2);
 }
 
 .queue-item__button {
-  border: none;
-  padding: 0;
+  border: 1px solid var(--danger-color);
+  border-radius: 2px;
+  padding: 0.25rem;
   background-color: transparent;
+  transition: filter var(--transition-duration);
   cursor: pointer;
 }
 
+.queue-item__button:hover {
+  filter: brightness(2);
+}
+
 .queue-item__icon {
-  font-size: 2rem;
-  vertical-align: bottom;
+  display: block;
+  font-size: 1rem;
+}
+
+.queue-item__icon path {
+  stroke: var(--danger-color);
 }

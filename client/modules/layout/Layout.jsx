@@ -6,20 +6,18 @@ import classNames from 'classnames';
 
 import { CheckUser } from '../auth/index.js';
 import { PrimaryNav } from '../nav/index.js';
-import { UploadsContext } from '../upload';
 import Footer from './Footer.jsx';
 import UploadTray from './UploadTray.tsx';
-import useUploadQueue from './useUploadQueue.ts';
+import { UploadQueueProvider } from '../upload_queue';
 
 export default function Layout() {
   const { i18n } = useTranslation();
   const match = useMatch('/');
-  const { uploadQueue, setUploadQueue } = useUploadQueue();
 
   const isHomepage = match ? true : false;
 
   return (
-    <UploadsContext.Provider value={{ uploadQueue, setUploadQueue }}>
+    <UploadQueueProvider>
       <CheckUser>
         <div className="layout">
           <Helmet>
@@ -45,6 +43,6 @@ export default function Layout() {
           <UploadTray />
         </div>
       </CheckUser>
-    </UploadsContext.Provider>
+    </UploadQueueProvider>
   );
 }

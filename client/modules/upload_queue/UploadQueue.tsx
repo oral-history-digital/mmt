@@ -1,26 +1,20 @@
-import { useContext, useEffect, FC } from 'react';
+import { useEffect, FC } from 'react';
 
-import UploadsContext from './UploadsContext';
 import UploadQueueItem from './UploadQueueItem';
 import usePrevious from './usePrevious';
+import { Upload } from './types';
+import useUploadQueue from './useUploadQueue';
 
 type UploadQueueProps = {
   className?: string;
   onChange?: (diff: number) => void;
 };
 
-type Upload = {
-  id: string,
-  filename: string,
-  size: number,
-  transferred: number,
-};
-
 const UploadQueue: FC<UploadQueueProps> = ({
   className,
   onChange,
 }) => {
-  const { uploadQueue } = useContext(UploadsContext);
+  const { uploadQueue } = useUploadQueue();
   const previousQueue = usePrevious(uploadQueue) as Array<Upload>;
 
   useEffect(() => {

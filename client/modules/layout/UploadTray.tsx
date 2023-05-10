@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import classNames from 'classnames';
 
-import { UploadQueue } from '../upload';
+import { UploadQueue } from '../upload_queue';
 
 export default function UploadTray() {
   const [isOpen, setIsOpen] = useState(false);
