@@ -1,7 +1,7 @@
 import { abortUploadEndPoint } from '../api';
 
-export default async function abortUpload(fileId: string) {
-  await fetch(abortUploadEndPoint(fileId), {
+export default function abortUpload(fileId: string) {
+  return fetch(abortUploadEndPoint(fileId), {
     method: 'PUT',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },

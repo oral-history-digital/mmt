@@ -72,8 +72,9 @@ export default function useUploadFiles() {
           removeUploadQueueItem(fileId);
           mutate(filesEndPoint);
         },
-        onAbort: () => {
-          abortUpload(fileId);
+        onAbort: async () => {
+          await abortUpload(fileId);
+          mutate(filesEndPoint);
         },
       });
 
