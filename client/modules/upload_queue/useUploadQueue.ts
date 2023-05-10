@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 
 import UploadQueueContext from './UploadQueueContext';
-import { Upload } from './types';
+import { Upload, UploadChangeset } from './types';
 
 export default function useUploadQueue() {
   const { uploadQueue, setUploadQueue } = useContext(UploadQueueContext);
@@ -13,7 +13,8 @@ export default function useUploadQueue() {
     ]);
   }
 
-  function updateUploadQueueItem(fileId: string, newItemProperties: any) {
+  function updateUploadQueueItem(fileId: string,
+    newItemProperties: UploadChangeset) {
     setUploadQueue((prev: Array<Upload>) => {
       const index = prev.findIndex((item: Upload) => item.id === fileId);
 

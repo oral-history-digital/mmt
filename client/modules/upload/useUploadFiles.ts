@@ -7,7 +7,6 @@ import { filesEndPoint } from '../api/index.js';
 import {
   addActivity,
   updateActivity,
-  ACTIVITY_TYPE_CHECKSUM,
   ACTIVITY_TYPE_UPLOAD,
 } from '../activities/index.js';
 import { useUploadQueue } from '../upload_queue';
@@ -63,56 +62,61 @@ export default function useUploadFiles() {
 
     for (let i = 0; i < files.length; i += 1) {
       const file = files.item(i);
-      if (file.size <= FILESIZE_LIMIT) {
-        const fileId = registeredFiles[i].id;
-        const updatedFilename = registeredFiles[i].filename;
-
-        dispatch(addActivity(`upload${fileId}`, updatedFilename,
-          ACTIVITY_TYPE_UPLOAD, file.size));
-
-        const xmlHttpRequest = addFile({
-          fileId,
-          file,
-          filename: updatedFilename,
-          onProgress: (transferred) => {
-            dispatch(updateActivity(`upload${fileId}`, transferred));
-            updateUploadQueueItem(fileId, { transferred });
-          },
-          onEnd: () => {
-            dispatch(updateActivity(`upload${fileId}`, file.size));
-            removeUploadQueueItem(fileId);
-            mutate(filesEndPoint);
-          },
-          onAbort: () => {
-            abortUpload(fileId);
-          },
-        });
-
-        addItemToUploadQueue({
-          id: fileId,
-          filename: updatedFilename,
-          size: file.size,
-          transferred: 0,
-          startDate: new Date(),
-          request: xmlHttpRequest,
-        });
+      if (file.size > FILESIZE_LIMIT) {
+        continue;
       }
+
+      const fileId = registeredFiles[i].id;
+      const updatedFilename = registeredFiles[i].filename;
+
+      dispatch(addActivity(`upload${fileId}`, updatedFilename,
+        ACTIVITY_TYPE_UPLOAD, file.size));
+
+      const xmlHttpRequest = addFile({
+        fileId,
+        file,
+        filename: updatedFilename,
+        onProgress: (transferred) => {
+          dispatch(updateActivity(`upload${fileId}`, transferred));
+          updateUploadQueueItem(fileId, { transferred });
+        },
+        onEnd: () => {
+          dispatch(updateActivity(`upload${fileId}`, file.size));
+          removeUploadQueueItem(fileId);
+          mutate(filesEndPoint);
+        },
+        onAbort: () => {
+          abortUpload(fileId);
+        },
+      });
+
+      addItemToUploadQueue({
+        id: fileId,
+        filename: updatedFilename,
+        size: file.size,
+        transferred: 0,
+        checksumProcessed: 0,
+        startDate: new Date(),
+        request: xmlHttpRequest,
+      });
     }
 
     for (let i = 0; i < files.length; i += 1) {
       const file = files.item(i);
-      if (file.size <= FILESIZE_LIMIT) {
-        const { id, filename } = registeredFiles[i];
-
-        dispatch(addActivity(`checksum${id}`, filename, ACTIVITY_TYPE_CHECKSUM, 1));
-        const checksum = await createClientChecksum(file, (progress: number): void => {
-          dispatch(updateActivity(`checksum${id}`, progress));
-        });
-
-        dispatch(updateActivity(`checksum${id}`, 1));
-
-        const updatedFileData = await submitChecksum(registeredFiles[i].id, checksum);
+      if (file.size > FILESIZE_LIMIT) {
+        continue;
       }
+
+      const { id, filename } = registeredFiles[i];
+
+      updateUploadQueueItem(id, { checksumProcessed: 0 });
+
+      const checksum = await createClientChecksum(file, (progress) => {
+        updateUploadQueueItem(id, { checksumProcessed: progress });
+      });
+
+      const updatedFileData = await submitChecksum(registeredFiles[i].id, checksum);
+      updateUploadQueueItem(id, { checksumProcessed: 1 });
     }
 
     mutate(filesEndPoint);

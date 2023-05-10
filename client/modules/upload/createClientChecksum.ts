@@ -1,7 +1,7 @@
 import { createMD5 } from 'hash-wasm';
 import { IHasher } from 'hash-wasm/dist/lib/WASMInterface';
 
-const chunkSize = 64 * 1024 * 1024;
+const CHUNK_SIZE = 64 * 1024 * 1024;
 const fileReader = new FileReader();
 
 function hashChunk(hasher: IHasher, chunk: Blob) {
@@ -17,16 +17,15 @@ function hashChunk(hasher: IHasher, chunk: Blob) {
   });
 }
 
-const readFile = async (file: File,
-  progressCallback: (progress: number) => void) => {
+const readFile = async (file: File, progressCallback: (progress: number) => void) => {
   const hasher = await createMD5();
 
-  const numChunks = Math.floor(file.size / chunkSize);
+  const numChunks = Math.ceil(file.size / CHUNK_SIZE);
 
-  for (let i = 0; i <= numChunks; i += 1) {
+  for (let i = 0; i < numChunks; i += 1) {
     const chunk = file.slice(
-      chunkSize * i,
-      Math.min(chunkSize * (i + 1), file.size)
+      CHUNK_SIZE * i,
+      Math.min(CHUNK_SIZE * (i + 1), file.size)
     );
     await hashChunk(hasher, chunk);
 

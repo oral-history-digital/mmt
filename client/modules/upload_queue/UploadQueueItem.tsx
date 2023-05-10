@@ -45,6 +45,7 @@ const UploadQueueItem: FC<UploadQueueItemProps> = ({
   });
 
   const percentage = upload.transferred / upload.size * 100;
+  const percentageChecksum = upload.checksumProcessed / 1 * 100;
 
   function handleCancelClick() {
     upload.request.abort();
@@ -59,6 +60,7 @@ const UploadQueueItem: FC<UploadQueueItemProps> = ({
           {showRemainingTime ? ` – ${timeToGo}` : ''}
         </p>
         <ProgressBar percentage={percentage} />
+        <ProgressBar alt percentage={percentageChecksum} />
       </div>
       <div className="queue-item__actions">
         <button
