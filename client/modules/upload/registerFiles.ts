@@ -1,4 +1,4 @@
-import { filesEndPoint } from '../api/index.js';
+import { filesEndPoint } from '../api';
 import { UploadedFile } from './types.js';
 
 export default async function registerFiles(files: Array<UploadedFile>) {

@@ -1,8 +1,8 @@
 import { ChangeEvent, useState } from 'react';
 import { useSWRConfig } from 'swr';
 
-import { FILESIZE_LIMIT } from '../files/index.js';
-import { filesEndPoint } from '../api/index.js';
+import { FILESIZE_LIMIT } from '../files';
+import { filesEndPoint } from '../api';
 import { useUploadQueue } from '../upload_queue';
 import registerFiles from './registerFiles';
 import createClientChecksum from './createClientChecksum';

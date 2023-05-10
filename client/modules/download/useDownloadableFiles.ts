@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 
-import { fetcher, downloadableFilesEndPoint } from '../api/index.js';
+import { fetcher, downloadableFilesEndPoint } from '../api';
 
 export default function useDownloadableFiles() {
   const { data, error } = useSWR(downloadableFilesEndPoint, fetcher);

@@ -1,4 +1,4 @@
-import { submitChecksumEndPoint } from '../api/index.js';
+import { submitChecksumEndPoint } from '../api';
 
 export default function submitChecksum(id: string, checksum: string) {
   const req = fetch(submitChecksumEndPoint, {

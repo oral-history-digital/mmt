@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { GrUpload } from 'react-icons/gr';
 
-import { Message } from '../ui/index.js';
-import { formatBytes, FILESIZE_LIMIT } from '../files/index.js';
+import { Message } from '../ui/index';
+import { formatBytes, FILESIZE_LIMIT } from '../files';
 import useUploadFiles from './useUploadFiles';
 
 export default function UploadButton() {

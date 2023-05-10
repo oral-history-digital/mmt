@@ -2,8 +2,8 @@ import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { GrCheckmark } from 'react-icons/gr';
 
-import { formatBytes } from '../files/index.js';
-import { Message } from '../ui/index.js';
+import { formatBytes } from '../files';
+import { Message } from '../ui/index';
 import useFiles from './useFiles';
 import useHandleDeleteFile from './useHandleDeleteFile';
 import {

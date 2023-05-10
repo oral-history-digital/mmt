@@ -15,7 +15,7 @@ export default (env, argv) => {
     || argv.mode === 'production');
 
   return {
-    entry: path.resolve(__dirname, './client/index.js'),
+    entry: path.resolve(__dirname, './client/index.tsx'),
     module: {
       rules: [
         {
@@ -76,7 +76,7 @@ export default (env, argv) => {
         ],
       }),
       new webpack.DefinePlugin({
-        VERSION: JSON.stringify(version),
+        __VERSION__: JSON.stringify(version),
       }),
     ].concat(isDevMode ? [] : [new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',

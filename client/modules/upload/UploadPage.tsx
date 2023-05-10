@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import { RequireAuth } from '../auth/index.js';
+import { RequireAuth } from '../auth';
 import UploadButton from './UploadButton';
 import UploadedFiles from './UploadedFiles';
 

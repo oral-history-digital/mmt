@@ -1,7 +1,7 @@
 import { useSWRConfig } from 'swr';
 import { useTranslation } from 'react-i18next';
 
-import { filesEndPoint, deleteFilesEndPoint } from '../api/index.js';
+import { filesEndPoint, deleteFilesEndPoint } from '../api';
 import { FILE_STATE_MISSING } from './constants';
 import { UploadedFile } from './types';
 

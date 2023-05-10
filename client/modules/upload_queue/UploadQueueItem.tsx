@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { formatDistance, addMilliseconds } from 'date-fns';
 import { de } from 'date-fns/locale';
 
-import { formatBytes } from '../files/index.js';
+import { formatBytes } from '../files';
 import { Upload } from './types';
 import ProgressBar from './ProgressBar';
 import remainingTime from './remainingTime';
