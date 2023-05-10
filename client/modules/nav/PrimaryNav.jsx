@@ -7,7 +7,6 @@ import classNames from 'classnames';
 
 import { Avatar, getIsLoggedIn, logout } from '../auth/index.js';
 import { logoutEndPoint } from '../api/index.js';
-import { getNumActivities } from '../activities/index.js';
 
 export default function PrimaryNav({
   navbarClassName,
@@ -15,7 +14,6 @@ export default function PrimaryNav({
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(getIsLoggedIn);
-  const numActivities = useSelector(getNumActivities);
   const { t } = useTranslation();
 
   function handleLogoutRequest() {
@@ -62,21 +60,6 @@ export default function PrimaryNav({
 
             <Link className="navbar-item" to="/download">
               {t('modules.layout.primary-nav.download')}
-            </Link>
-
-            <Link className="navbar-item" to="/activities">
-              {t('modules.layout.primary-nav.activities')}
-              {numActivities > 0 && (
-                <span
-                  className="tag is-warning ml-1"
-                  title={t(
-                    'modules.layout.primary-nav.ongoing_processes',
-                    { count: numActivities },
-                  )}
-                >
-                  {numActivities}
-                </span>
-              )}
             </Link>
           </div>
 

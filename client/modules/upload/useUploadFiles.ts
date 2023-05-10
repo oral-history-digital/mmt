@@ -1,14 +1,8 @@
 import { ChangeEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useSWRConfig } from 'swr';
 
 import { FILESIZE_LIMIT } from '../files/index.js';
 import { filesEndPoint } from '../api/index.js';
-import {
-  addActivity,
-  updateActivity,
-  ACTIVITY_TYPE_UPLOAD,
-} from '../activities/index.js';
 import { useUploadQueue } from '../upload_queue';
 import registerFiles from './registerFiles';
 import createClientChecksum from './createClientChecksum';
@@ -25,8 +19,6 @@ export default function useUploadFiles() {
     removeUploadQueueItem,
   } = useUploadQueue();
   const [errors, setErrors] = useState(null);
-
-  const dispatch = useDispatch();
 
   async function handleFileChange(event: ChangeEvent) {
     const target = event.target as HTMLInputElement;
@@ -69,19 +61,14 @@ export default function useUploadFiles() {
       const fileId = registeredFiles[i].id;
       const updatedFilename = registeredFiles[i].filename;
 
-      dispatch(addActivity(`upload${fileId}`, updatedFilename,
-        ACTIVITY_TYPE_UPLOAD, file.size));
-
       const xmlHttpRequest = addFile({
         fileId,
         file,
         filename: updatedFilename,
         onProgress: (transferred) => {
-          dispatch(updateActivity(`upload${fileId}`, transferred));
           updateUploadQueueItem(fileId, { transferred });
         },
         onEnd: () => {
-          dispatch(updateActivity(`upload${fileId}`, file.size));
           removeUploadQueueItem(fileId);
           mutate(filesEndPoint);
         },
