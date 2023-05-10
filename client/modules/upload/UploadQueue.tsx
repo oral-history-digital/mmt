@@ -3,7 +3,7 @@ import { useContext, FC } from 'react';
 import UploadsContext from './UploadsContext';
 import UploadQueueItem from './UploadQueueItem';
 
-type UploadsListProps = {
+type UploadQueueProps = {
   className?: string;
 };
 
@@ -14,18 +14,18 @@ type Upload = {
   transferred: number,
 };
 
-const UploadsList: FC<UploadsListProps> = ({
+const UploadQueue: FC<UploadQueueProps> = ({
   className,
 }) => {
-  const uploads = useContext(UploadsContext);
+  const { uploadQueue } = useContext(UploadsContext);
 
   return (
     <ul className={className}>
-      {uploads.map((upload: Upload) => (
+      {uploadQueue.map((upload: Upload) => (
         <UploadQueueItem key={upload.id} upload={upload} />
       ))}
     </ul>
   );
 }
 
-export default UploadsList;
+export default UploadQueue;

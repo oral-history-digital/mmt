@@ -6,7 +6,6 @@
   border: 1px solid #007bff;
   bottom: 0;
   box-shadow: 0 0 10px rgba(0, 0, 255, 0.2), 0 4px 10px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
   filter: brightness(0.5);
   opacity: 0.5;
   height: var(--base-unit);
@@ -24,9 +23,39 @@
   opacity: initial;
 }
 
-.tray__heading {
+.tray__header {
+  position: relative;
+}
+
+.tray__title {
+  background-color: var(--primary-color);
+  color: white;
   font-size: 1rem;
   font-weight: bold;
   line-height: var(--base-unit);
   padding: 0 calc(var(--base-unit) / 2);
+}
+
+.tray__header {
+  position: relative;
+}
+
+.tray__handle {
+  background-color: transparent;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+  border: none;
+  cursor: n-resize;
+  display: block;
+  height: var(--base-unit);
+  left: 0;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.tray--is-open .tray__handle {
+  cursor: s-resize;
 }

@@ -1,5 +1,7 @@
 :root {
   --base-unit: 1.5rem;
   --border-radius: calc(var(--base-unit) / 4);
+  --primary-color: #0c6d82;
+  --danger-color: hsl(348, 86%, 61%);
   --transition-duration: 125ms;
 }

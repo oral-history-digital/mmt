@@ -9,7 +9,7 @@ interface AddFileOptions {
   onEnd?: () => void;
 }
 
-export default function addFile(options: AddFileOptions) {
+export default function addFile(options: AddFileOptions): XMLHttpRequest {
   const { fileId, file, filename, onProgress, onEnd } = options;
 
   const request = new XMLHttpRequest();
@@ -37,4 +37,6 @@ export default function addFile(options: AddFileOptions) {
   });
 
   request.send(formData);
+
+  return request;
 }

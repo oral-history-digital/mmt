@@ -23,6 +23,14 @@
 
 }
 
+.queue-item__button {
+  border: none;
+  padding: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+
 .queue-item__icon {
   font-size: 2rem;
+  vertical-align: bottom;
 }

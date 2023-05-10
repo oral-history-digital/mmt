@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSWRConfig } from 'swr';
 
@@ -14,10 +14,12 @@ import registerFiles from './registerFiles';
 import createClientChecksum from './createClientChecksum';
 import submitChecksum from './submitChecksum';
 import addFile from './addFile';
-import requests from './requests';
+import storedRequests from './requests';
+import UploadsContext from './UploadsContext';
 
 export default function useUploadFiles() {
   const { mutate } = useSWRConfig();
+  const { setUploadQueue } = useContext(UploadsContext);
   const [errors, setErrors] = useState(null);
 
   const dispatch = useDispatch();
@@ -61,7 +63,7 @@ export default function useUploadFiles() {
         dispatch(addActivity(`upload${registeredFiles[i].id}`, updatedFilename,
           ACTIVITY_TYPE_UPLOAD, file.size));
 
-        addFile({
+        const xmlHttpRequest = addFile({
           fileId: registeredFiles[i].id,
           file,
           filename: updatedFilename,
@@ -71,6 +73,16 @@ export default function useUploadFiles() {
             mutate(filesEndPoint);
           },
         });
+        setUploadQueue(prev => [
+          ...prev,
+          {
+            id: registeredFiles[i].id,
+            filename: updatedFilename,
+            size: file.size,
+            transferred: 0,
+            request: xmlHttpRequest,
+          },
+        ]);
       }
     }
 
@@ -95,7 +107,7 @@ export default function useUploadFiles() {
 
 
   function handleAbort(id: string) {
-    requests[id]?.abort();
+    storedRequests[id]?.abort();
   }
 
   return {

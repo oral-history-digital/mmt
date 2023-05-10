@@ -9,30 +9,17 @@ import { PrimaryNav } from '../nav/index.js';
 import { UploadsContext } from '../upload';
 import Footer from './Footer.jsx';
 import UploadTray from './UploadTray.tsx';
-
-const dummyUploads = [
-  {
-    id: '123',
-    filename: 'bach-video.mp4',
-    size: 2343425,
-    transferred: 3443,
-  },
-  {
-    id: '223',
-    filename: 'mozart-video.mp4',
-    size: 234325,
-    transferred: 3443,
-  },
-];
+import useUploadQueue from './useUploadQueue.ts';
 
 export default function Layout() {
   const { i18n } = useTranslation();
   const match = useMatch('/');
+  const { uploadQueue, setUploadQueue } = useUploadQueue();
 
   const isHomepage = match ? true : false;
 
   return (
-    <UploadsContext.Provider value={dummyUploads}>
+    <UploadsContext.Provider value={{ uploadQueue, setUploadQueue }}>
       <CheckUser>
         <div className="layout">
           <Helmet>
