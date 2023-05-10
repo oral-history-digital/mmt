@@ -7,10 +7,11 @@ interface AddFileOptions {
   filename: string;
   onProgress?: (loaded: number) => void;
   onEnd?: () => void;
+  onAbort?: () => void;
 }
 
 export default function addFile(options: AddFileOptions): XMLHttpRequest {
-  const { fileId, file, filename, onProgress, onEnd } = options;
+  const { fileId, file, filename, onProgress, onEnd, onAbort } = options;
 
   const request = new XMLHttpRequest();
   request.withCredentials = true;
@@ -26,6 +27,12 @@ export default function addFile(options: AddFileOptions): XMLHttpRequest {
   request.addEventListener('loadend', () => {
     if (typeof onEnd === 'function') {
       onEnd();
+    }
+  });
+
+  request.addEventListener('abort', () => {
+    if (typeof onAbort === 'function') {
+      onAbort();
     }
   });
 

@@ -6,9 +6,9 @@ import classNames from 'classnames';
 
 import { CheckUser } from '../auth/index.js';
 import { PrimaryNav } from '../nav/index.js';
-import Footer from './Footer.jsx';
-import UploadTray from './UploadTray.tsx';
 import { UploadQueueProvider } from '../upload_queue';
+import Footer from './Footer.jsx';
+import UploadTray from './UploadTray';
 
 export default function Layout() {
   const { i18n } = useTranslation();

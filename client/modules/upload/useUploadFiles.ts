@@ -19,7 +19,11 @@ import { useUploadQueue } from '../upload_queue';
 
 export default function useUploadFiles() {
   const { mutate } = useSWRConfig();
-  const { setUploadQueue } = useUploadQueue();
+  const {
+    addItemToUploadQueue,
+    updateUploadQueueItem,
+    removeUploadQueueItem,
+  } = useUploadQueue();
   const [errors, setErrors] = useState(null);
 
   const dispatch = useDispatch();
@@ -59,30 +63,36 @@ export default function useUploadFiles() {
     for (let i = 0; i < files.length; i += 1) {
       const file = files.item(i);
       if (file.size <= FILESIZE_LIMIT) {
+        const fileId = registeredFiles[i].id;
         const updatedFilename = registeredFiles[i].filename;
-        dispatch(addActivity(`upload${registeredFiles[i].id}`, updatedFilename,
+
+        dispatch(addActivity(`upload${fileId}`, updatedFilename,
           ACTIVITY_TYPE_UPLOAD, file.size));
 
         const xmlHttpRequest = addFile({
-          fileId: registeredFiles[i].id,
+          fileId,
           file,
           filename: updatedFilename,
-          onProgress: (amount) => dispatch(updateActivity(`upload${registeredFiles[i].id}`, amount)),
+          onProgress: (transferred) => {
+            dispatch(updateActivity(`upload${fileId}`, transferred));
+            updateUploadQueueItem(fileId, { transferred });
+          },
           onEnd: () => {
-            dispatch(updateActivity(`upload${registeredFiles[i].id}`, file.size));
+            dispatch(updateActivity(`upload${fileId}`, file.size));
+            removeUploadQueueItem(fileId);
             mutate(filesEndPoint);
           },
-        });
-        setUploadQueue(prev => [
-          ...prev,
-          {
-            id: registeredFiles[i].id,
-            filename: updatedFilename,
-            size: file.size,
-            transferred: 0,
-            request: xmlHttpRequest,
+          onAbort: () => {
           },
-        ]);
+        });
+
+        addItemToUploadQueue({
+          id: fileId,
+          filename: updatedFilename,
+          size: file.size,
+          transferred: 0,
+          request: xmlHttpRequest,
+        });
       }
     }
 

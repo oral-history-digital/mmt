@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import classNames from 'classnames';
 
-import { UploadQueue } from '../upload_queue';
+import { UploadQueue, useUploadQueue } from '../upload_queue';
 
 export default function UploadTray() {
   const [isOpen, setIsOpen] = useState(false);
+  const { uploadQueue } = useUploadQueue();
 
   function handleQueueChange(diff: number) {
     if (diff > 0) {
@@ -17,7 +18,7 @@ export default function UploadTray() {
     <div className={classNames('tray', { 'tray--is-open': isOpen })}>
       <header className="tray__header">
         <h3 className="tray__title">
-          Uploads
+          {uploadQueue.length > 0 ? `Uploads (${uploadQueue.length})` : 'Uploads'}
         </h3>
         <button
           type="button"
