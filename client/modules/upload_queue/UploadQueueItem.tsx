@@ -39,8 +39,6 @@ const UploadQueueItem: FC<UploadQueueItemProps> = ({
   }
 
   const timeToGo = formatDistance(futureDate, now, {
-    addSuffix: true,
-    includeSeconds: true,
     ...localeOptions,
   });
 

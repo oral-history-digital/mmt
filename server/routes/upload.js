@@ -136,7 +136,7 @@ router.post('/api/upload', requireAuth, async (req, res) => {
 
       createServerChecksum(path.join(dir, filename), (err, checksum) => {
         if (err) {
-          console.log(err);
+          console.log(`There was an error: ${err}`);
         } else if (checksum) {
           db.updateFileAttribute(user._id, id, 'checksum_server', checksum);
         }
