@@ -1,4 +1,4 @@
-export type Upload = {
+export type UploadType = {
   id: string,
   filename: string,
   size: number,

@@ -2,7 +2,7 @@ import { useEffect, FC } from 'react';
 
 import UploadQueueItem from './UploadQueueItem';
 import usePrevious from './usePrevious';
-import { Upload } from './types';
+import { UploadType } from './types';
 import useUploadQueue from './useUploadQueue';
 
 type UploadQueueProps = {
@@ -15,7 +15,7 @@ const UploadQueue: FC<UploadQueueProps> = ({
   onChange,
 }) => {
   const { uploadQueue } = useUploadQueue();
-  const previousQueue = usePrevious(uploadQueue) as Array<Upload>;
+  const previousQueue = usePrevious(uploadQueue) as Array<UploadType>;
 
   useEffect(() => {
     const previousLength = previousQueue ? previousQueue.length : 0;
@@ -28,7 +28,7 @@ const UploadQueue: FC<UploadQueueProps> = ({
 
   return (
     <ul className={className}>
-      {uploadQueue.map((upload: Upload) => (
+      {uploadQueue.map((upload: UploadType) => (
         <UploadQueueItem key={upload.id} upload={upload} />
       ))}
     </ul>
