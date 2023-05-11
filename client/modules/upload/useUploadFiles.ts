@@ -3,63 +3,50 @@ import { useSWRConfig } from 'swr';
 
 import { FILESIZE_LIMIT } from '../files';
 import { filesEndPoint } from '../api';
+import { RegisteredFile } from './types';
 import { useUploadQueue } from '../upload_queue';
 import registerFiles from './registerFiles';
 import createClientChecksum from './createClientChecksum';
 import submitChecksum from './submitChecksum';
 import addFile from './addFile';
-import storedRequests from './requests';
 import abortUpload from './abortUpload';
 
 export default function useUploadFiles() {
   const { mutate } = useSWRConfig();
   const {
     addItemToUploadQueue,
+    addItemsToUploadQueue,
     updateUploadQueueItem,
     removeUploadQueueItem,
   } = useUploadQueue();
   const [errors, setErrors] = useState(null);
 
   async function handleFileChange(event: ChangeEvent) {
+    // Get and convert files from input element.
     const target = event.target as HTMLInputElement;
-    const files = target.files as FileList;
-    const fileData = [];
+    const fileList = target.files as FileList;
+    const files = Array.from(fileList);
 
-    const aboveLimitFiles = [];
-
-    for (let i = 0; i < files.length; i += 1) {
-      const file = files.item(i);
-
-      if (file.size > FILESIZE_LIMIT) {
-        aboveLimitFiles.push(file.name);
-      } else {
-        fileData.push({
-          name: file.name,
-          size: file.size,
-          type: file.type,
-          lastModified: file.lastModified,
-        });
-      }
-    }
-
+    // Error handling.
+    const aboveLimitFiles = files.filter((file) => file.size > FILESIZE_LIMIT);
+    const withinLimitFiles = files.filter((file) => file.size <= FILESIZE_LIMIT);
     if (aboveLimitFiles.length > 0) {
       setErrors(aboveLimitFiles);
     }
-
-    if (fileData.length === 0) {
+    if (withinLimitFiles.length === 0) {
       return;
     }
 
-    const registeredFiles = await registerFiles(fileData);
+    const registeredFiles = await registerFiles(withinLimitFiles);
+    addFilesToQueue(registeredFiles);
 
-    for (let i = 0; i < files.length; i += 1) {
-      const file = files.item(i);
-      if (file.size > FILESIZE_LIMIT) {
-        continue;
-      }
+    // Wanted: Add all items to the queue (at once).
+    // Do not start anything here. There could be running processes.
 
-      const fileId = registeredFiles[i].id;
-      const updatedFilename = registeredFiles[i].filename;
+    // Mixed: Start upload and add to queue.
+    withinLimitFiles.forEach((file, index) => {
+      const fileId = registeredFiles[index].id;
+      const updatedFilename = registeredFiles[index].filename;
 
       const xmlHttpRequest = addFile({
         fileId,
@@ -87,32 +74,33 @@ export default function useUploadFiles() {
         startDate: new Date(),
         request: xmlHttpRequest,
       });
-    }
+    });
 
-    for (let i = 0; i < files.length; i += 1) {
-      const file = files.item(i);
-      if (file.size > FILESIZE_LIMIT) {
-        continue;
-      }
-
-      const { id, filename } = registeredFiles[i];
-
-      updateUploadQueueItem(id, { checksumProcessed: 0 });
+    // Mixed?: Start checksum creation and update queue item.
+    withinLimitFiles.forEach(async (file, index) => {
+      const { id } = registeredFiles[index];
 
       const checksum = await createClientChecksum(file, (progress) => {
         updateUploadQueueItem(id, { checksumProcessed: progress });
       });
 
-      const updatedFileData = await submitChecksum(registeredFiles[i].id, checksum);
       updateUploadQueueItem(id, { checksumProcessed: 1 });
-    }
+      await submitChecksum(id, checksum);
+    });
 
     mutate(filesEndPoint);
   }
 
-
-  function handleAbort(id: string) {
-    storedRequests[id]?.abort();
+  function addFilesToQueue(files: Array<RegisteredFile>) {
+    addItemsToUploadQueue(files.map((file) => ({
+      id: file.id,
+      filename: file.filename,
+      size: file.size,
+      transferred: 0,
+      checksumProcessed: 0,
+      startDate: null,
+      request: null,
+    })));
   }
 
   return {

@@ -13,6 +13,13 @@ export default function useUploadQueue() {
     ]);
   }
 
+  function addItemsToUploadQueue(items: Array<UploadType>) {
+    setUploadQueue((prev: Array<UploadType>) => [
+      ...prev,
+      ...items,
+    ]);
+  }
+
   function updateUploadQueueItem(fileId: string,
     newItemProperties: UploadChangeset) {
     setUploadQueue((prev: Array<UploadType>) => {
@@ -51,6 +58,7 @@ export default function useUploadQueue() {
   return {
     uploadQueue,
     addItemToUploadQueue,
+    addItemsToUploadQueue,
     updateUploadQueueItem,
     removeUploadQueueItem,
   };

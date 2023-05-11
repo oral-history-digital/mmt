@@ -9,11 +9,11 @@
   "main": "server/server.js",
   "scripts": {
     "build": "vite build",
-    "dev": "vite serve",
+    "dev": "vite serve --host",
     "preview": "vite preview",
     "server": "node server/server.js",
-    "client": "vite serve",
-    "start": "vite serve",
+    "client": "vite serve --host",
+    "start": "vite serve --host",
     "stylelint": "stylelint '**/*.scss'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
