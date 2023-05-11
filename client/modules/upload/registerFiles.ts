@@ -1,6 +1,8 @@
 import { filesEndPoint } from '../api';
+import { RegisteredFile } from './types';
 
-export default async function registerFiles(files: Array<File>) {
+export default async function registerFiles(files: Array<File>):
+  Promise<Array<RegisteredFile>> {
   const fileData = files.map((file) => ({
     name: file.name,
     size: file.size,

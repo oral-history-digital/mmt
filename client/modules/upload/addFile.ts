@@ -1,5 +1,4 @@
 import { uploadEndPoint } from '../api';
-import storedRequests from './requests';
 
 interface AddFileOptions {
   fileId: string;
@@ -15,8 +14,6 @@ export default function addFile(options: AddFileOptions): XMLHttpRequest {
 
   const request = new XMLHttpRequest();
   request.withCredentials = true;
-
-  storedRequests[fileId] = request;
 
   request.open('POST', uploadEndPoint);
 

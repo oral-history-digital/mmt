@@ -1,7 +1,7 @@
 import { useEffect, FC } from 'react';
 
+import { usePrevious } from '../react_tools';
 import UploadQueueItem from './UploadQueueItem';
-import usePrevious from './usePrevious';
 import { UploadType } from './types';
 import useUploadQueue from './useUploadQueue';
 
