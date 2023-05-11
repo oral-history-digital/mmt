@@ -15,6 +15,7 @@ dist-ssr
 *.local
 .exit
 *.log
+*.tar
 
 # Editor directories and files
 .vscode/*
