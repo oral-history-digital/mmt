@@ -12,7 +12,6 @@ user_files
 node_modules
 dist
 dist-ssr
-public
 *.local
 .exit
 *.log
