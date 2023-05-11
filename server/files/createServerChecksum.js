@@ -9,8 +9,8 @@ export default function createServerChecksum(filePath, cb) {
       const match = stdout.match(regex);
 
       // DEBUG: the *entire* stdout and stderr (buffered)
-      console.log(`stdout: ${stdout}`);
-      console.log(`stderr: ${stderr}`);
+      //console.log(`stdout: ${stdout}`);
+      //console.log(`stderr: ${stderr}`);
 
       if (match) {
         const checksum = match[0];

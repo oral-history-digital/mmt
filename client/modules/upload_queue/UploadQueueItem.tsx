@@ -6,12 +6,12 @@ import { formatDistance, addMilliseconds } from 'date-fns';
 import { de } from 'date-fns/locale';
 
 import { formatBytes } from '../files';
-import { Upload } from './types';
+import { UploadType } from './types';
 import ProgressBar from './ProgressBar';
 import remainingTime from './remainingTime';
 
 type UploadQueueItemProps = {
-  upload: Upload,
+  upload: UploadType,
   className?: string;
 };
 
@@ -39,8 +39,6 @@ const UploadQueueItem: FC<UploadQueueItemProps> = ({
   }
 
   const timeToGo = formatDistance(futureDate, now, {
-    addSuffix: true,
-    includeSeconds: true,
     ...localeOptions,
   });
 

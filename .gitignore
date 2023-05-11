@@ -12,10 +12,10 @@ user_files
 node_modules
 dist
 dist-ssr
-public
 *.local
 .exit
 *.log
+*.tar
 
 # Editor directories and files
 .vscode/*

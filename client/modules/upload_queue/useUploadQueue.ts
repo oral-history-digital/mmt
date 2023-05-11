@@ -1,13 +1,13 @@
 import { useContext } from 'react';
 
 import UploadQueueContext from './UploadQueueContext';
-import { Upload, UploadChangeset } from './types';
+import { UploadType, UploadChangeset } from './types';
 
 export default function useUploadQueue() {
   const { uploadQueue, setUploadQueue } = useContext(UploadQueueContext);
 
-  function addItemToUploadQueue(item: Upload) {
-    setUploadQueue((prev: Array<Upload>) => [
+  function addItemToUploadQueue(item: UploadType) {
+    setUploadQueue((prev: Array<UploadType>) => [
       ...prev,
       item,
     ]);
@@ -15,8 +15,8 @@ export default function useUploadQueue() {
 
   function updateUploadQueueItem(fileId: string,
     newItemProperties: UploadChangeset) {
-    setUploadQueue((prev: Array<Upload>) => {
-      const index = prev.findIndex((item: Upload) => item.id === fileId);
+    setUploadQueue((prev: Array<UploadType>) => {
+      const index = prev.findIndex((item: UploadType) => item.id === fileId);
 
       if (index === -1) {
         return prev;
@@ -34,8 +34,8 @@ export default function useUploadQueue() {
   }
 
   function removeUploadQueueItem(fileId: string) {
-    setUploadQueue((prev: Array<Upload>) => {
-      const index = prev.findIndex((item: Upload) => item.id === fileId);
+    setUploadQueue((prev: Array<UploadType>) => {
+      const index = prev.findIndex((item: UploadType) => item.id === fileId);
 
       if (index === -1) {
         return prev;
