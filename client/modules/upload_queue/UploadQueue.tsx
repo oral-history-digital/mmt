@@ -7,12 +7,14 @@ import useUploadQueue from './useUploadQueue';
 
 type UploadQueueProps = {
   className?: string;
-  onChange?: (diff: number) => void;
+  onAdd?: (count: number) => void;
+  onRemove?: (count: number) => void;
 };
 
 const UploadQueue: FC<UploadQueueProps> = ({
   className,
-  onChange,
+  onAdd,
+  onRemove,
 }) => {
   const { uploadQueue } = useUploadQueue();
   const previousQueue = usePrevious(uploadQueue) as Array<UploadType>;
@@ -21,15 +23,21 @@ const UploadQueue: FC<UploadQueueProps> = ({
     const previousLength = previousQueue ? previousQueue.length : 0;
     const currentLength = uploadQueue.length;
 
-    if (typeof onChange === 'function') {
-      onChange(currentLength - previousLength);
+    if (currentLength > previousLength && typeof onAdd === 'function') {
+      onAdd(currentLength);
+    } else if (currentLength < previousLength && typeof onRemove === 'function') {
+      onRemove(currentLength);
     }
   }, [uploadQueue.length]);
 
   return (
     <ul className={className}>
       {uploadQueue.map((upload: UploadType) => (
-        <UploadQueueItem key={upload.id} upload={upload} />
+        <UploadQueueItem
+          key={upload.id}
+          upload={upload}
+          active={upload.transferred > 0}
+        />
       ))}
     </ul>
   );

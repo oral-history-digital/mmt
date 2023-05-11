@@ -9,10 +9,10 @@ export default function UploadTray() {
   const { t } = useTranslation();
   const { uploadQueue } = useUploadQueue();
 
-  function handleQueueChange(diff: number) {
-    if (diff > 0) {
-      // Queue has gotten bigger, open the tray if necessary.
-      setIsOpen(true);
+  function handleQueueRemove(count) {
+    if (count === 0) {
+      // Queue has been emptied, close the tray.
+      setIsOpen(false);
     }
   }
 
@@ -33,7 +33,10 @@ export default function UploadTray() {
         </button>
       </header>
       <div className="tray__body">
-        <UploadQueue onChange={handleQueueChange} />
+        <UploadQueue
+          onAdd={() => setIsOpen(true)}
+          onRemove={handleQueueRemove}
+        />
       </div>
     </div>
   );

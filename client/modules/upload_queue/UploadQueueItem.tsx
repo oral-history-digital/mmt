@@ -12,11 +12,13 @@ import remainingTime from './remainingTime';
 
 type UploadQueueItemProps = {
   upload: UploadType,
+  active: boolean,
   className?: string;
 };
 
 const UploadQueueItem: FC<UploadQueueItemProps> = ({
   upload,
+  active,
   className,
 }) => {
   const { t, i18n } = useTranslation();
@@ -50,7 +52,9 @@ const UploadQueueItem: FC<UploadQueueItemProps> = ({
   }
 
   return (
-    <li className={classNames('queue-item', className)}>
+    <li className={classNames('queue-item', className, {
+      'queue-item--is-active': active,
+    })}>
       <div className="queue-item__body">
         <h3 className="queue-item__name">{upload.filename}</h3>
         <p className="queue-item__details">
