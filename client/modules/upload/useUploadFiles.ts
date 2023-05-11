@@ -1,35 +1,12 @@
-import { ChangeEvent, useState, useEffect } from 'react';
-import { useSWRConfig } from 'swr';
+import { ChangeEvent, useState } from 'react';
 
 import { FILESIZE_LIMIT } from '../files';
-import { filesEndPoint } from '../api';
-import { useUploadQueue, UploadType } from '../upload_queue';
-import { usePrevious } from '../react_tools';
+import { useUploadQueue } from '../upload_queue';
 import registerFiles from './registerFiles';
-import createClientChecksum from './createClientChecksum';
-import submitChecksum from './submitChecksum';
-import addFile from './addFile';
-import abortUpload from './abortUpload';
-import UploadRepository from './upload_repository';
 
 export default function useUploadFiles() {
-  const { mutate } = useSWRConfig();
-  const {
-    uploadQueue,
-    addItemsToUploadQueue,
-    updateUploadQueueItem,
-    removeUploadQueueItem,
-  } = useUploadQueue();
+  const { addItemToUploadQueue } = useUploadQueue();
   const [errors, setErrors] = useState(null);
-  const previousQueue = usePrevious(uploadQueue) as Array<UploadType>;
-
-  useEffect(() => {
-    const previousFirstId = previousQueue?.[0]?.id;
-    const currentFirstId = uploadQueue[0]?.id;
-    if (currentFirstId && currentFirstId !== previousFirstId) {
-      startFirstItem();
-    }
-  }, [uploadQueue.length]);
 
   async function handleFileChange(event: ChangeEvent) {
     // Get and convert files from input element.
@@ -47,55 +24,23 @@ export default function useUploadFiles() {
       return;
     }
 
+    // Register files.
+    // TODO: Maybe do this not all at once.
     const registeredFiles = await registerFiles(withinLimitFiles);
 
-    registeredFiles.forEach((file, index) => {
-      UploadRepository.addFile(file.id, withinLimitFiles[index]);
+    // Add items to queue.
+    registeredFiles.forEach((registeredFile, index) => {
+      const file = withinLimitFiles[index];
+      const data = {
+        id: registeredFile.id,
+        filename: registeredFile.filename,
+        size: file.size,
+        transferred: 0,
+        checksumProcessed: 0,
+        startDate: null,
+      };
+      addItemToUploadQueue(data, file);
     });
-
-    addItemsToUploadQueue(registeredFiles.map((file) => ({
-      id: file.id,
-      filename: file.filename,
-      size: file.size,
-      transferred: 0,
-      checksumProcessed: 0,
-      startDate: null,
-    })));
-  }
-
-  async function startFirstItem() {
-    const file = uploadQueue[0];
-
-    const xmlHttpRequest = addFile({
-      fileId: file.id,
-      file: UploadRepository.getFile(file.id),
-      filename: file.filename,
-      onProgress: (transferred) => {
-        updateUploadQueueItem(file.id, { transferred });
-      },
-      onEnd: () => {
-        removeUploadQueueItem(file.id);
-        UploadRepository.removeRequest(file.id);
-        mutate(filesEndPoint);
-      },
-      onAbort: async () => {
-        await abortUpload(file.id);
-        mutate(filesEndPoint);
-      },
-    });
-
-    UploadRepository.addRequest(file.id, xmlHttpRequest);
-
-    const checksum = await createClientChecksum(
-      UploadRepository.getFile(file.id),
-      (progress) => updateUploadQueueItem(file.id, { checksumProcessed: progress })
-    );
-    UploadRepository.removeFile(file.id);
-
-    updateUploadQueueItem(file.id, { checksumProcessed: 1 });
-    await submitChecksum(file.id, checksum);
-
-    mutate(filesEndPoint);
   }
 
   return {

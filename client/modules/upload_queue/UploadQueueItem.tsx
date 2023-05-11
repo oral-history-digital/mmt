@@ -9,6 +9,7 @@ import { formatBytes } from '../files';
 import { UploadType } from './types';
 import ProgressBar from './ProgressBar';
 import remainingTime from './remainingTime';
+import useUploadQueue from './useUploadQueue';
 
 type UploadQueueItemProps = {
   upload: UploadType,
@@ -21,11 +22,11 @@ const UploadQueueItem: FC<UploadQueueItemProps> = ({
   active,
   className,
 }) => {
+  const { abortUpload } = useUploadQueue();
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
 
   const showRemainingTime = upload.transferred > 0;
-
 
   const localeOptions: any = {};
   if (lang === 'de') {
@@ -48,7 +49,7 @@ const UploadQueueItem: FC<UploadQueueItemProps> = ({
   const percentageChecksum = upload.checksumProcessed / 1 * 100;
 
   function handleCancelClick() {
-    upload.request.abort();
+    abortUpload(upload.id);
   }
 
   return (

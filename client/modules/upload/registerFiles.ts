@@ -14,7 +14,7 @@ export default async function registerFiles(files: Array<File>):
     method: 'POST',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ fileData }),
+    body: JSON.stringify({ files: fileData }),
   });
 
   const json = await res.json();
