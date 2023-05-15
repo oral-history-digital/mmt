@@ -22,49 +22,6 @@ import {
 const emailService = createEmailService();
 const router = express.Router();
 
-router.post('/api/files', bodyParser.json(), requireAuth, async (req, res) => {
-  const { username } = req.user;
-
-  const user = await db.getUser({ username });
-
-  const { files } = req.body;
-
-  if (!Array.isArray(files)) {
-    // TODO: Error
-  }
-
-  const ids = files.map((f) => {
-    const sanitizedFilename = sanitize(f.name);
-    let filenameWithExtension = sanitizedFilename;
-
-    // Test if filename already exists.
-    if (user.files.some((file) => file.name === sanitizedFilename)) {
-      const extension = getFilenameSuffix(new Date());
-      filenameWithExtension = `${sanitizedFilename}.${extension}`;
-    }
-
-    const newFile = {
-      name: filenameWithExtension,
-      size: f.size,
-      type: f.type,
-      lastModified: f.lastModified,
-      state: FILE_STATE_PENDING,
-    };
-
-    const file = user.files.create(newFile);
-    user.files.push(file);
-
-    return {
-      id: file._id,
-      filename: file.name,
-    };
-  });
-
-  await user.save();
-
-  res.json(ids);
-});
-
 router.post('/api/register-file', bodyParser.json(), requireAuth, async (req, res) => {
   const { username } = req.user;
   const user = await db.getUser({ username });
@@ -121,7 +78,6 @@ router.post('/api/upload', requireAuth, async (req, res) => {
   });
 
   bb.on('file', (name, file, info) => {
-    console.log(info);
     let calculatedLength = 0;
 
     const fileInDatabase = user.files.find((f) => {
@@ -143,7 +99,6 @@ router.post('/api/upload', requireAuth, async (req, res) => {
 
     file.on('data', (data) => {
       calculatedLength += data.length;
-      console.log(calculatedLength);
       db.updateFileAttribute(user._id, id, 'transferred', calculatedLength);
     });
 
@@ -151,8 +106,6 @@ router.post('/api/upload', requireAuth, async (req, res) => {
       // TODO: Check if file is complete.
 
       db.updateFileAttribute(user._id, id, 'state', FILE_STATE_COMPLETE);
-
-      console.log(`File ${filename} done`);
 
       emailService.sendMailToSupport(
         'File uploaded',
