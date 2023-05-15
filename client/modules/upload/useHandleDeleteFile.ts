@@ -2,16 +2,16 @@ import { useSWRConfig } from 'swr';
 import { useTranslation } from 'react-i18next';
 
 import { filesEndPoint, deleteFilesEndPoint } from '../api';
-import { FILE_STATE_MISSING } from './constants';
-import { UploadedFile } from './types';
+import { RegisteredFile } from '../upload_queue';
+import { FILE_STATE_COMPLETE } from './constants';
 
 export default function useHandleDeleteFile() {
   const { mutate } = useSWRConfig();
   const { t } = useTranslation();
 
-  return async function handleDelete(file: UploadedFile) {
+  return async function handleDelete(file: RegisteredFile) {
     let confirmed = true;
-    if (file.state !== FILE_STATE_MISSING) {
+    if (file.state === FILE_STATE_COMPLETE) {
       confirmed = confirm(t('modules.files.actions.delete_confirmation',
         { name: file.name }));
     }

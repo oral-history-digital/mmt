@@ -1,19 +1,19 @@
 import useSWR from 'swr';
 
 import { fetcher, filesEndPoint } from '../api';
+import { RegisteredFile } from '../upload_queue';
 import {
   FILE_STATE_PENDING,
   FILE_STATE_UPLOADING,
 } from './constants';
-import { UploadedFile } from './types';
 
 export default function useFiles() {
-  const { data, error } = useSWR(filesEndPoint, fetcher);
+  const { data, error, isLoading, isValidating } = useSWR(filesEndPoint, fetcher);
 
-  let files: Array<UploadedFile> | null = null;
+  let files: Array<RegisteredFile> | null = null;
 
   if (data) {
-    files = data.filter((file: UploadedFile) =>
+    files = data.filter((file: RegisteredFile) =>
       file.state !== FILE_STATE_PENDING
       && file.state !== FILE_STATE_UPLOADING
     );
@@ -22,5 +22,7 @@ export default function useFiles() {
   return {
     files,
     error,
+    isLoading,
+    isValidating,
   };
 }

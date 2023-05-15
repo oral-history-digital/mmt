@@ -3,30 +3,34 @@ import { FC } from 'react';
 import { GrClose } from 'react-icons/gr';
 import { useTranslation } from 'react-i18next';
 
+import { formatBytes } from '../files';
 import useUploadQueue from './useUploadQueue';
+import { UploadQueueItemType } from './types';
 
 type UploadQueueItemProps = {
-  upload: string,
-  index: number,
+  upload: UploadQueueItemType,
   className?: string;
 };
 
 const UploadQueueItem: FC<UploadQueueItemProps> = ({
   upload,
-  index,
   className,
 }) => {
   const { removeQueueItem } = useUploadQueue();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
 
   function handleCancelClick() {
-    removeQueueItem(upload);
+    removeQueueItem(upload.id);
   }
 
   return (
     <li className={classNames('queue-item', className)}>
       <div className="queue-item__body">
-        <h3 className="queue-item__name">{index}. {upload}</h3>
+        <h3 className="queue-item__name">{upload.filename}</h3>
+        <p className="queue-item__details">
+          {formatBytes(upload.size, lang)}
+        </p>
       </div>
       <div className="queue-item__actions">
         <button

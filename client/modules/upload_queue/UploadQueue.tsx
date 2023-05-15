@@ -3,6 +3,7 @@ import { FC } from 'react';
 import UploadQueueItem from './UploadQueueItem';
 import CurrentUpload from './CurrentUpload';
 import useUploadQueue from './useUploadQueue';
+import { UploadQueueItemType } from './types';
 
 type UploadQueueProps = {
   className?: string;
@@ -11,17 +12,16 @@ type UploadQueueProps = {
 const UploadQueue: FC<UploadQueueProps> = ({
   className,
 }) => {
-  const { currentUpload, uploadQueue } = useUploadQueue();
+  const { currentUpload, uploadQueueItems } = useUploadQueue();
 
   return (
     <ul className={className}>
       <>
         {currentUpload && <CurrentUpload upload={currentUpload} />}
-        {uploadQueue.map((upload: string, index: number) => (
+        {uploadQueueItems.map((item: UploadQueueItemType) => (
           <UploadQueueItem
-            key={upload}
-            index={index + 1}
-            upload={upload}
+            key={item.id}
+            upload={item}
           />
         ))}
       </>

@@ -1,7 +1,12 @@
 .uploaded-files {
   overflow-x: auto;
+  transition: filter var(--transition-duration);
 }
 
 .uploaded-files svg polyline {
   stroke: currentcolor;
+}
+
+.uploaded-files--is-loading {
+  filter: blur(2px) opacity(0.5);
 }

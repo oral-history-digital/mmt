@@ -7,6 +7,12 @@ export type UploadData = {
   startDate: Date
 };
 
+export type UploadQueueItemType = {
+  id: string,
+  filename: string,
+  size: number,
+};
+
 export interface RegisteredFile {
   _id: string,
   name: string,

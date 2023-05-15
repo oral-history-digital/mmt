@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { GrCheckmark } from 'react-icons/gr';
 
 import { formatBytes } from '../files';
-import { Message } from '../ui/index';
+import { Message } from '../ui';
+import { RegisteredFile } from '../upload_queue';
 import useFiles from './useFiles';
 import useHandleDeleteFile from './useHandleDeleteFile';
 import {
@@ -13,12 +14,11 @@ import {
   FILE_STATE_ABORTED,
   FILE_STATE_MISSING,
 } from './constants';
-import { UploadedFile } from './types';
 
 export default function UploadedFiles({
   className,
 }) {
-  const { files, error } = useFiles();
+  const { files, error, isLoading, isValidating } = useFiles();
   const { t, i18n } = useTranslation();
   const handleDelete = useHandleDeleteFile();
 
@@ -41,7 +41,8 @@ export default function UploadedFiles({
   }
 
   return (
-    <div className={classNames('uploaded-files', className)}>
+    <div className={classNames('uploaded-files', className, {
+      'uploaded-files--is-loading': isLoading || isValidating})}>
       <table className="table">
         <thead>
           <tr>
@@ -57,7 +58,7 @@ export default function UploadedFiles({
           </tr>
         </thead>
         <tbody>
-          {files.map((file: UploadedFile) => {
+          {files.map((file: RegisteredFile) => {
             let isVerified: boolean;
             const checksumsAreComplete = file.checksum_server && file.checksum_client;
             const checksumsMatch = file.checksum_client === file.checksum_server;

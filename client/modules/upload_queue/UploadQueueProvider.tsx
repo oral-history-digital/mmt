@@ -1,7 +1,9 @@
 import { FC, ReactNode, useState, useEffect, useRef } from 'react';
+import { useSWRConfig } from 'swr';
 
+import { filesEndPoint } from '../api';
 import UploadQueueContext from './UploadQueueContext';
-import { UploadData } from './types';
+import { UploadData, UploadQueueItemType } from './types';
 import addFile from './addFile';
 import abortUploadOnServer from './abortUpload';
 import submitChecksum from './submitChecksum';
@@ -26,12 +28,12 @@ const storedFiles = {
 const UploadQueueProvider: FC<UploadQueueProviderProps> = ({
   children,
 }) => {
+  const { mutate } = useSWRConfig();
   const [currentUpload, setCurrentUpload] = useState<UploadData | null>(null);
   const [uploadQueue, setUploadQueue] = useState<Array<string>>([]);
   const xhrRef = useRef(null);
 
   useEffect(() => {
-    console.log(currentUpload);
     // If currentUpload is null, and there are still items in the
     // queue, pop item off the queue.
     if (currentUpload === null) {
@@ -78,6 +80,8 @@ const UploadQueueProvider: FC<UploadQueueProviderProps> = ({
     const file = storedFiles[currentUpload.id];
     delete storedFiles[currentUpload.id];
 
+    // TODO: During registering, the cancel upload button can still
+    // be clicked. This should be handled appropriately.
     const registeredFile = await registerFile(file);
 
     setCurrentUpload((prev) => ({
@@ -98,9 +102,11 @@ const UploadQueueProvider: FC<UploadQueueProviderProps> = ({
       onEnd: () => {
         setCurrentUpload(null);
         xhrRef.current = null;
+        mutate(filesEndPoint);
       },
       onAbort: async () => {
         await abortUploadOnServer(registeredFile._id);
+        mutate(filesEndPoint);
       },
     });
     xhrRef.current = request;
@@ -148,9 +154,25 @@ const UploadQueueProvider: FC<UploadQueueProviderProps> = ({
     }
   }
 
+  const uploadQueueItems: Array<UploadQueueItemType> = uploadQueue.map((id) => {
+    const file: File = storedFiles[id];
+
+    return {
+      id,
+      filename: file.name,
+      size: file.size,
+    };
+  });
+
+  let combinedUploadCount = uploadQueue.length;
+  if (currentUpload) {
+    combinedUploadCount += 1;
+  }
+
   const contextValue = {
     currentUpload,
-    uploadQueue,
+    uploadQueueItems,
+    combinedUploadCount,
     addFilesToUploadQueue,
     abortUpload,
     removeQueueItem,
