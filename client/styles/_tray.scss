@@ -14,7 +14,7 @@
   position: fixed;
   right: var(--base-unit);
   transition-duration: var(--transition-duration);
-  transition-property: height, filter, opacity;
+  transition-property: height, bottom, filter, opacity;
   width: calc(var(--base-unit) * 20);
   z-index: 1;
 }
@@ -23,6 +23,10 @@
   height: calc(var(--base-unit) * 10);
   filter: initial;
   opacity: initial;
+}
+
+.tray--is-hidden {
+  bottom: calc(var(--base-unit) * -2);
 }
 
 .tray__header {
