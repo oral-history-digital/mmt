@@ -1,7 +1,7 @@
-import { FC, ReactNode, useState, useEffect } from 'react';
+import { FC, ReactNode, useState, useEffect, useRef } from 'react';
 
 import UploadQueueContext from './UploadQueueContext';
-import { UploadType, UploadChangeset } from './types';
+import { UploadData } from './types';
 import addFile from './addFile';
 import abortUploadOnServer from './abortUpload';
 import submitChecksum from './submitChecksum';
@@ -26,16 +26,27 @@ const storedFiles = {
 const UploadQueueProvider: FC<UploadQueueProviderProps> = ({
   children,
 }) => {
-  const [currentUpload, setCurrentUpload] = useState(null);
-  const [uploadQueue, setUploadQueue] = useState([]);
+  const [currentUpload, setCurrentUpload] = useState<UploadData | null>(null);
+  const [uploadQueue, setUploadQueue] = useState<Array<string>>([]);
+  const xhrRef = useRef(null);
 
   useEffect(() => {
+    console.log(currentUpload);
     // If currentUpload is null, and there are still items in the
     // queue, pop item off the queue.
     if (currentUpload === null) {
       popFileFromQueue();
+    } else {
+      handleFileUpload();
     }
-  }, [currentUpload]);
+    // On component unmount, the request should maybe be aborted.
+  }, [currentUpload?.id]);
+
+  useEffect(() => {
+    if (currentUpload === null) {
+      popFileFromQueue();
+    }
+  }, [JSON.stringify(uploadQueue)]);
 
   function addFilesToUploadQueue(files: Array<File>) {
     files.forEach((file) => {
@@ -51,59 +62,62 @@ const UploadQueueProvider: FC<UploadQueueProviderProps> = ({
     }
 
     const id = uploadQueue[0];
-    setCurrentUpload(id);
-    setUploadQueue((prev) => prev.slice(1));
-  }
-
-  async function handleFileUpload(id: string) {
     const file = storedFiles[id];
-    delete storedFiles[id];
-
-    const registeredFile = await registerFile(file);
-
-    const data = {
-      id: registeredFile.id,
-      filename: registeredFile.filename,
+    setCurrentUpload({
+      id,
+      filename: file.name,
       size: file.size,
       transferred: 0,
       checksumProcessed: 0,
-      startDate: new Date(),
-    };
+      startDate: null,
+    });
+    setUploadQueue((prev) => prev.slice(1));
   }
 
-  // Merge this with the function above.
-  function uploadFile(item: UploadType, file: File): XMLHttpRequest {
+  async function handleFileUpload() {
+    const file = storedFiles[currentUpload.id];
+    delete storedFiles[currentUpload.id];
+
+    const registeredFile = await registerFile(file);
+
+    setCurrentUpload((prev) => ({
+      ...prev,
+      _id: registeredFile._id, // Do we need this?
+      filename: registeredFile.name,
+      startDate: new Date(),
+    }));
+
     const request = addFile({
-      fileId: item.id,
+      fileId: registeredFile._id,
       file,
-      filename: item.filename,
-      onProgress: (transferred) => {
-        updateUploadQueueItem(item.id, { transferred });
-      },
+      filename: registeredFile.name,
+      onProgress: (transferred) => setCurrentUpload((prev) => ({
+        ...prev,
+        transferred,
+      })),
       onEnd: () => {
-        removeUploadQueueItem(item.id);
-        //mutate(filesEndPoint);
+        setCurrentUpload(null);
+        xhrRef.current = null;
       },
       onAbort: async () => {
-        await abortUploadOnServer(item.id);
-        //mutate(filesEndPoint);
+        await abortUploadOnServer(registeredFile._id);
       },
     });
+    xhrRef.current = request;
 
-    createClientChecksum(file, (progress) =>
-      updateUploadQueueItem(item.id, { checksumProcessed: progress })
+    createClientChecksum(file, (progress) => setCurrentUpload((prev) => ({
+        ...prev,
+        checksumProcessed: progress,
+      })),
     ).then((checksum) => {
-      updateUploadQueueItem(item.id, { checksumProcessed: 1 });
-      return submitChecksum(item.id, checksum);
+      setCurrentUpload((prev) => ({
+        ...prev,
+        checksumProcessed: 1,
+      }));
+      return submitChecksum(registeredFile._id, checksum);
     }).then(() => {
       // trigger reload of other data.
     });
-
-    return request;
-  }
-
-  function updateUploadData(newItemProperties: UploadChangeset) {
-    // Merge upload data with newItemProperties.
   }
 
   function removeQueueItem(fileId: string) {
@@ -114,6 +128,7 @@ const UploadQueueProvider: FC<UploadQueueProviderProps> = ({
         return prev;
       }
 
+      delete storedFiles[fileId];
       const firstPart = prev.slice(0, index);
       const lastPart = prev.slice(index + 1);
       return firstPart.concat(lastPart);
@@ -127,10 +142,10 @@ const UploadQueueProvider: FC<UploadQueueProviderProps> = ({
       return;
     }
 
-    // Find request and call abort:
-    //if (upload.request) {
-    //  upload.request.abort();
-    //}
+    const xhr = xhrRef.current;
+    if (xhr && xhr.readyState !== 4) {
+      xhr.abort();
+    }
   }
 
   const contextValue = {

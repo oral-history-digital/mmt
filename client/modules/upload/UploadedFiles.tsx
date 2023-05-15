@@ -32,7 +32,7 @@ export default function UploadedFiles({
     );
   }
 
-  if (files.length === 0) {
+  if (files === null || files.length === 0) {
     return (
       <Message type="info" className="mt-5">
         {t('modules.upload.no_files')}

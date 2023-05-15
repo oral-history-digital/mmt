@@ -2,68 +2,31 @@ import classNames from 'classnames';
 import { FC } from 'react';
 import { GrClose } from 'react-icons/gr';
 import { useTranslation } from 'react-i18next';
-import { formatDistance, addMilliseconds } from 'date-fns';
-import { de } from 'date-fns/locale';
 
-import { formatBytes } from '../files';
-import { UploadType } from './types';
-import ProgressBar from './ProgressBar';
-import remainingTime from './remainingTime';
 import useUploadQueue from './useUploadQueue';
 
 type UploadQueueItemProps = {
-  upload: UploadType,
-  active: boolean,
+  upload: string,
+  index: number,
   className?: string;
 };
 
 const UploadQueueItem: FC<UploadQueueItemProps> = ({
   upload,
-  active,
+  index,
   className,
 }) => {
-  const { abortUpload } = useUploadQueue();
-  const { t, i18n } = useTranslation();
-  const lang = i18n.language;
-
-  const showRemainingTime = upload.transferred > 0;
-
-  const localeOptions: any = {};
-  if (lang === 'de') {
-    localeOptions.locale = de;
-  }
-
-  let remainingMilliseconds: number;
-  let now = new Date();
-  let futureDate = new Date();
-  if (upload.transferred) {
-    remainingMilliseconds = remainingTime(upload.startDate, upload.size, upload.transferred);
-    futureDate = addMilliseconds(now, remainingMilliseconds);
-  }
-
-  const timeToGo = formatDistance(futureDate, now, {
-    ...localeOptions,
-  });
-
-  const percentage = upload.transferred / upload.size * 100;
-  const percentageChecksum = upload.checksumProcessed / 1 * 100;
+  const { removeQueueItem } = useUploadQueue();
+  const { t } = useTranslation();
 
   function handleCancelClick() {
-    abortUpload(upload.id);
+    removeQueueItem(upload);
   }
 
   return (
-    <li className={classNames('queue-item', className, {
-      'queue-item--is-active': active,
-    })}>
+    <li className={classNames('queue-item', className)}>
       <div className="queue-item__body">
-        <h3 className="queue-item__name">{upload.filename}</h3>
-        <p className="queue-item__details">
-          {formatBytes(upload.size, lang)}
-          {showRemainingTime ? ` – ${timeToGo}` : ''}
-        </p>
-        <ProgressBar percentage={percentage} />
-        <ProgressBar alt percentage={percentageChecksum} />
+        <h3 className="queue-item__name">{index}. {upload}</h3>
       </div>
       <div className="queue-item__actions">
         <button

@@ -65,6 +65,36 @@ router.post('/api/files', bodyParser.json(), requireAuth, async (req, res) => {
   res.json(ids);
 });
 
+router.post('/api/register-file', bodyParser.json(), requireAuth, async (req, res) => {
+  const { username } = req.user;
+  const user = await db.getUser({ username });
+
+  const { file } = req.body;
+
+  const sanitizedFilename = sanitize(file.name);
+  let filenameWithExtension = sanitizedFilename;
+
+  // Test if filename already exists.
+  if (user.files.some((f) => f.name === sanitizedFilename)) {
+    const extension = getFilenameSuffix(new Date());
+    filenameWithExtension = `${sanitizedFilename}.${extension}`;
+  }
+
+  const newFile = {
+    name: filenameWithExtension,
+    size: file.size,
+    type: file.type,
+    lastModified: file.lastModified,
+    state: FILE_STATE_PENDING,
+  };
+
+  const savedFile = user.files.create(newFile);
+  user.files.push(savedFile);
+  await user.save();
+
+  res.json(savedFile);
+});
+
 router.post('/api/checksum', bodyParser.json(), requireAuth, async (req, res) => {
   const { username } = req.user;
   const { id, checksum } = req.body;
