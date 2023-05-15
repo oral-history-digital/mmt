@@ -8,6 +8,7 @@ export const userEndPoint = `${apiBasePath}/user`;
 
 // Upload
 export const filesEndPoint = `${apiBasePath}/files`;
+export const registerFileEndPoint = `${apiBasePath}/register-file`;
 export const uploadEndPoint = `${apiBasePath}/upload`;
 export const submitChecksumEndPoint = `${apiBasePath}/checksum`;
 export const deleteFilesEndPoint = (id: string) => `${apiBasePath}/files/${id}`;

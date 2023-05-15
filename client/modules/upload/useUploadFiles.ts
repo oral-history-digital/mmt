@@ -2,10 +2,9 @@ import { ChangeEvent, useState } from 'react';
 
 import { FILESIZE_LIMIT } from '../files';
 import { useUploadQueue } from '../upload_queue';
-import registerFiles from './registerFiles';
 
 export default function useUploadFiles() {
-  const { addItemToUploadQueue } = useUploadQueue();
+  const { addFilesToUploadQueue } = useUploadQueue();
   const [errors, setErrors] = useState(null);
 
   async function handleFileChange(event: ChangeEvent) {
@@ -24,23 +23,7 @@ export default function useUploadFiles() {
       return;
     }
 
-    // Register files.
-    // TODO: Maybe do this not all at once.
-    const registeredFiles = await registerFiles(withinLimitFiles);
-
-    // Add items to queue.
-    registeredFiles.forEach((registeredFile, index) => {
-      const file = withinLimitFiles[index];
-      const data = {
-        id: registeredFile.id,
-        filename: registeredFile.filename,
-        size: file.size,
-        transferred: 0,
-        checksumProcessed: 0,
-        startDate: null,
-      };
-      addItemToUploadQueue(data, file);
-    });
+    addFilesToUploadQueue(withinLimitFiles);
   }
 
   return {

@@ -3,6 +3,7 @@ export { default as fetcher } from './fetcher';
 export {
   downloadEndPoint,
   filesEndPoint,
+  registerFileEndPoint,
   uploadEndPoint,
   deleteFilesEndPoint,
   abortUploadEndPoint,
