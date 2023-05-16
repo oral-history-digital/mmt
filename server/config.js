@@ -26,6 +26,12 @@ const adminConfig = {
   password: process.env.MMT_ADMIN_PASSWORD || 'password',
 };
 
+// Monitoring
+
+const monitoringConfig = {
+  rollbarAccessToken: process.env.MMT_ROLLBAR_ACCESS_TOKEN || '',
+};
+
 // Mail
 
 const mailConfig = {
@@ -74,6 +80,7 @@ export default {
   server: serverConfig,
   mongo: mongoConfig,
   admin: adminConfig,
+  monitoring: monitoringConfig,
   mail: mailConfig,
   mailServiceConfigured,
   userFilesDir,

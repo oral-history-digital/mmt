@@ -18,6 +18,7 @@ import setupLogging from './logging.js';
 import setupRoutes from './routing.js';
 import getSessionOptions from './sessionOptions.js';
 import createAdminRouter from './admin/index.js';
+import monitoring from './monitoring.js';
 import './db.js';
 
 watchFiles();
@@ -33,6 +34,7 @@ const start = async () => {
     }));
   }
   app.use(helmet({ contentSecurityPolicy: false }));
+  app.use(monitoring());
   setupLogging(app);
   app.use(bodyParser.json());
   app.use(cookieParser());

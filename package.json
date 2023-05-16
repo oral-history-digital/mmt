@@ -1,6 +1,6 @@
 {
   "name": "media-management-tool",
-  "version": "0.9.1",
+  "version": "0.10.0",
   "engines": {
     "node": "^18 || ^20"
   },
@@ -60,6 +60,7 @@
     "react-router-dom": "^6.11.1",
     "redux": "^4.2.1",
     "reselect": "^4.1.8",
+    "rollbar": "^2.26.1",
     "sanitize-filename": "^1.6.3",
     "sass": "^1.62.1",
     "swr": "^2.1.5",
