@@ -4,13 +4,15 @@ import { useTranslation } from 'react-i18next';
 
 type ProgressBarProps = {
   percentage: number;
-  alt?: boolean,
+  color: string,
+  label: string,
   className?: string;
 };
 
 const ProgressBar: FC<ProgressBarProps> = ({
   percentage,
-  alt,
+  color,
+  label,
   className,
 }) => {
   const { i18n } = useTranslation();
@@ -22,13 +24,12 @@ const ProgressBar: FC<ProgressBarProps> = ({
 
   return (
     <progress
-      className={classNames('progress-bar', className, {
-        'progress-bar--alt': alt,
-      })}
+      className={classNames('progress-bar', className)}
+      style={{['--bar-color' as any]: color}}
       value={percentage}
       max={100}
-      aria-label={`${percentageStr} %`}
-      title={`${percentageStr} %`}
+      aria-label={`${label}: ${percentageStr} %`}
+      title={`${label}: ${percentageStr} %`}
     >
       {percentageStr} %
     </progress>

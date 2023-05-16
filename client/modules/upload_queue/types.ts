@@ -24,5 +24,6 @@ export interface RegisteredFile {
   checksum_server: string,
   checksum_client: string,
   createdAt: string,
-  updatedAt: string
+  updatedAt: string,
+  verified?: boolean,
 }

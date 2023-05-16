@@ -79,9 +79,9 @@
                     "size": "Size",
                     "transferred": "Transferred",
                     "type": "Type",
-                    "updated_at": "Updated at",
-                    "checksum_server": "Server checksum",
-                    "checksum_client": "Client checksum",
+                    "last_modified": "Last modified",
+                    "uploaded_at": "Uploaded at",
+                    "checksum": "Checksum",
                     "state": "State",
                     "actions": "Actions"
                 },
@@ -128,7 +128,9 @@
                 "fileSizeError_other": "{{count}} files exceed the file size limit of {{limit}}:"
             },
             "upload_queue": {
-                "cancel_upload": "Cancel upload"
+                "cancel_upload": "Cancel upload",
+                "upload": "Upload",
+                "checksum": "Checksum"
             }
         }
     }

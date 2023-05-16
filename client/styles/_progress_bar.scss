@@ -12,10 +12,5 @@
 
 .progress-bar::-webkit-progress-value,
 .progress-bar::-moz-progress-bar {
-  background-color: #007bff;
-}
-
-.progress-bar--alt::-webkit-progress-value,
-.progress-bar--alt::-moz-progress-bar {
-  background-color: yellowgreen;
+  background-color: var(--bar-color);
 }

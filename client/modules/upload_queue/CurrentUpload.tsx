@@ -59,8 +59,16 @@ const CurrentUpload: FC<CurrentUploadProps> = ({
           {formatBytes(upload.size, lang)}
           {showRemainingTime ? ` – ${timeToGo}` : ''}
         </p>
-        <ProgressBar percentage={percentage} />
-        <ProgressBar alt percentage={percentageChecksum} />
+        <ProgressBar
+          percentage={percentage}
+          color="#007bff"
+          label={t('modules.upload_queue.upload')}
+        />
+        <ProgressBar
+          percentage={percentageChecksum}
+          color="yellowgreen"
+          label={t('modules.upload_queue.checksum')}
+        />
       </div>
       <div className="queue-item__actions">
         <button

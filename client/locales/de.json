@@ -79,9 +79,9 @@
                     "size": "Größe",
                     "transferred": "Übertragen",
                     "type": "Typ",
-                    "updated_at": "Zuletzt geändert",
-                    "checksum_server": "Server-Prüfs.",
-                    "checksum_client": "Client-Prüfs.",
+                    "last_modified": "Zuletzt geändert",
+                    "uploaded_at": "Hochgeladen",
+                    "checksum": "Prüfsumme",
                     "state": "Zustand",
                     "actions": "Aktionen"
                 },
@@ -128,7 +128,9 @@
                 "fileSizeError_other": "{{count}} Dateien überschreiten die Größenbeschränkung von {{limit}}:"
             },
             "upload_queue": {
-                "cancel_upload": "Abbrechen"
+                "cancel_upload": "Abbrechen",
+                "upload": "Hochladen",
+                "checksum": "Prüfsumme"
             }
         }
     }

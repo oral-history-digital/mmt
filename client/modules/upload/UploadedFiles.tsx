@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { GrCheckmark } from 'react-icons/gr';
+import { GrCheckmark, GrAlert } from 'react-icons/gr';
 
 import { formatBytes } from '../files';
 import { Message } from '../ui';
@@ -50,33 +50,17 @@ export default function UploadedFiles({
             <td><b>{t('modules.files.table.size')}</b></td>
             <td><b>{t('modules.files.table.transferred')}</b></td>
             <td><b>{t('modules.files.table.type')}</b></td>
-            <td><b>{t('modules.files.table.updated_at')}</b></td>
+            <td><b>{t('modules.files.table.last_modified')}</b></td>
+            <td><b>{t('modules.files.table.uploaded_at')}</b></td>
             <td><b>{t('modules.files.table.state')}</b></td>
-            <td><b>{t('modules.files.table.checksum_server')}</b></td>
-            <td><b>{t('modules.files.table.checksum_client')}</b></td>
+            <td><b>{t('modules.files.table.checksum')}</b></td>
             <td><b>{t('modules.files.table.actions')}</b></td>
           </tr>
         </thead>
         <tbody>
           {files.map((file: RegisteredFile) => {
-            let isVerified: boolean;
-            const checksumsAreComplete = file.checksum_server && file.checksum_client;
-            const checksumsMatch = file.checksum_client === file.checksum_server;
-
-            if (checksumsAreComplete) {
-              isVerified = checksumsMatch;
-            }
-
-            let verifiedClass: string;
-            if (isVerified === true) {
-              verifiedClass = 'has-text-success';
-            } else if (isVerified === false) {
-              verifiedClass = 'has-text-danger';
-            } else {
-              verifiedClass = 'has-text-warning';
-            }
-
             const lastModified = new Date(file.lastModified);
+            const createdAt = new Date(file.createdAt);
 
             return (
               <tr id={file._id} key={file._id}>
@@ -98,6 +82,11 @@ export default function UploadedFiles({
                   </span>
                 </td>
                 <td>
+                  <span title={`${createdAt.toLocaleDateString(lang)} ${createdAt.toLocaleTimeString(lang)}`}>
+                    {createdAt.toLocaleDateString(lang)}
+                  </span>
+                </td>
+                <td>
                   <span
                     className={classNames('tag', {
                       'is-lite': file.state === FILE_STATE_PENDING,
@@ -112,16 +101,12 @@ export default function UploadedFiles({
                   </span>
                 </td>
                 <td>
-                  {file.checksum_server && (
-                    <abbr title={file.checksum_server}>
-                      <GrCheckmark className={verifiedClass} />
-                    </abbr>
-                  )}
-                </td>
-                <td>
-                  {file.checksum_client && (
-                    <abbr title={file.checksum_client}>
-                      <GrCheckmark className={verifiedClass} />
+                  {typeof file.verified !== 'undefined' && (
+                    <abbr>
+                      {file.verified ?
+                        <GrCheckmark className="has-text-success" /> :
+                        <GrAlert className="has-text-danger" />
+                      }
                     </abbr>
                   )}
                 </td>

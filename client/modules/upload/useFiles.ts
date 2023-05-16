@@ -16,7 +16,19 @@ export default function useFiles() {
     files = data.filter((file: RegisteredFile) =>
       file.state !== FILE_STATE_PENDING
       && file.state !== FILE_STATE_UPLOADING
-    );
+    ).map((file: RegisteredFile) => {
+      if (!file.checksum_server || !file.checksum_client) {
+        return {
+          ...file,
+          verified: undefined,
+        };
+      }
+
+      return {
+        ...file,
+        verified: file.checksum_client === file.checksum_server,
+      };
+    });
   }
 
   return {
