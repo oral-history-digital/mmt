@@ -20,65 +20,60 @@ Run Docker containers
 
 `docker compose up`
 
-
 ## Deployment
 
-Anbei eine kurze Dokumentation, wie Du deployen kannst. Dazu einige Anmerkungen.
+The following is a basic documentation on how to deploy at the moment.
 
-### Grundsätzliches Vorgehen
+### Basic procedure
 
-- Image lokal bauen, exportieren, hochladen, importieren.
-- Alten Container stoppen, neuen Container starten
-- Ich benutze im Image- und Containernamen jeweils das Datum des master-Commits,
-  damit sich die Sachen zuordnen lassen. Commit-Hash wäre präziser, aber
-  Datum reicht normalerweise, und ist sortierbar. Der aktuellste Commit
-  auf dem react-Branch des mmt-Projektes ist beispielsweise 20220915. Zur Not
-  kann man noch -1, -2, etc. dranhängen.
-- Auf dem Server heisst das Kommando podman, nicht docker. Verwendung ist sonst dieselbe.
+- Build image locally, export, upload and import it.
+- Stop old container, start new container
+- I usually create a git tag before deploying a new version. The same
+  tag is then used in the image and container names.
+- On the server the command is podman, not docker. The usage is the same.
 
-### Konkretes Vorgehen
+### Step-by-step guide
 
-#### Auf Deinem Laptop
+#### On your local computer
 
 ```console
 $ git clone git@gitlab.cedis.fu-berlin.de:dis/mmt.git
 $ cd mmt
 ```
 
-Image bauen. Als Tag nutze ich aktuell das Datum des Commits, da sich
-dieses sortieren laesst. Ggf. -1, -2, etc. anhaengen.
+Build image. You can use the git tag as image tag, e.g.
 
 ```console
-$ docker build -t mmt:20220915 .
+$ docker build -t mmt:v0.9.0 .
 ```
 
-Image exportieren.
+Export image.
 
 ```console
-$ docker image save -o mmt-20220915.tar mmt:20220915
+$ docker image save -o mmt-v0.9.0.tar mmt:v0.9.0
 ```
 
-Image auf den Server kopieren, importieren und Archiv wieder löschen.
-Achtung: podman, nicht docker.
+Copy the image to the server, import it and delete the archive.
+Attention: podman, not docker.
 
 ```console
-$ scp mmt-20220915.tar deploy@ohd-av.cedis.fu-berlin.de:
+$ scp mmt-v0.9.0.tar deploy@ohd-av.cedis.fu-berlin.de:
 ```
 
-#### Auf dem Server
+#### On the server
 
 ```console
 $ ssh deploy@ohd-av.cedis.fu-berlin.de
-$ podman image load -i mmt-20220915.tar
-$ rm mmt-20220915.tar
+$ podman image load -i mmt-v0.9.0.tar
+$ rm mmt-v0.9.0.tar
 ```
 
-Im Verzeichnis /home/deploy/podman/mmt liegt ein Shell-Skript zum Starten des Containers.
-Vorher muss der laufende Container beendet werden.
+In the directory /home/deploy/podman/mmt there is a shell script to start
+the container. Before, you have to stop the running container.
 
 ```console
-$ podman ps    # -> Alter container: mmt-20221130
-$ podman stop mmt-20221130
+$ podman ps    # -> Old container: mmt-v0.8.1
+$ podman stop mmt-v0.8.1
 $ cd podman/mmt
-$ ./create-mmt 20220915
+$ ./create-mmt v0.9.0
 ```
