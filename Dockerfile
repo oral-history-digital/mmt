@@ -1,20 +1,17 @@
-FROM node:18-alpine
+FROM node:18-bullseye-slim
 
-RUN mkdir /home/node/app/ && chown -R node:node /home/node/app
-WORKDIR /home/node/app
+WORKDIR /app
 
-COPY --chown=node:node package*.json ./
-
-USER node
+COPY package*.json ./
 
 RUN npm ci --omit=dev && npm cache clean --force --loglevel=error
 
-COPY --chown=node:node server ./server/
-COPY --chown=node:node client ./client/
-COPY --chown=node:node public ./public/
-COPY --chown=node:node .adminjs ./.adminjs/
-COPY --chown=node:node vite.config.js ./
-COPY --chown=node:node tsconfig.json ./
+COPY server ./server/
+COPY client ./client/
+COPY public ./public/
+COPY .adminjs ./.adminjs/
+COPY vite.config.js ./
+COPY tsconfig.json ./
 RUN npm run build && mv ./dist/* ./public/ && rm -rf ./dist
 
 ENV MMT_LISTEN_HOST=0.0.0.0 \
