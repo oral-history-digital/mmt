@@ -2,11 +2,15 @@
 
 $primary: #0c6d82;
 
-@import "~bulma/bulma";
+@import "bulma/bulma";
 
 /* Components */
 
 @import "icon";
 @import "layout";
+@import "queue_item";
+@import "progress_bar";
+@import "tray";
 @import "uploaded_files";
 @import "utilities";
+@import "variables";

@@ -68,6 +68,8 @@
                     "uploading_explanation": "Die Datei wird im Moment auf unseren Server übertragen.",
                     "complete": "vollständig",
                     "complete_explanation": "Die Datei wurde vollständig auf unseren Server übertragen.",
+                    "aborted": "abgebrochen",
+                    "aborted_explanation": "Die Übertragung wurde abgebrochen, die Datei ist nicht vollständig.",
                     "missing": "fehlt",
                     "missing_explanation": "Die Datei wurde in der Datenbank registriert, ist aber auf unserem Server nicht mehr vorhanden."
                 },
@@ -75,10 +77,11 @@
                     "id": "ID",
                     "filename": "Dateiname",
                     "size": "Größe",
+                    "transferred": "Übertragen",
                     "type": "Typ",
-                    "updated_at": "Zuletzt geändert",
-                    "checksum_server": "Server-Prüfs.",
-                    "checksum_client": "Client-Prüfs.",
+                    "last_modified": "Zuletzt geändert",
+                    "uploaded_at": "Hochgeladen",
+                    "checksum": "Prüfsumme",
                     "state": "Zustand",
                     "actions": "Aktionen"
                 },
@@ -112,6 +115,9 @@
                     "logout": "Abmelden",
                     "uploadWithCount_one": "{{count}} Upload",
                     "uploadWithCount_other": "{{count}} Uploads"
+                },
+                "upload-tray": {
+                    "title": "Hochzuladene Dateien"
                 }
             },
             "upload": {
@@ -120,6 +126,11 @@
                 "no_files": "Sie haben noch keine Dateien hochgeladen.",
                 "fileSizeError_one": "Eine Datei überschreitet die Größenbeschränkung von {{limit}}:",
                 "fileSizeError_other": "{{count}} Dateien überschreiten die Größenbeschränkung von {{limit}}:"
+            },
+            "upload_queue": {
+                "cancel_upload": "Abbrechen",
+                "upload": "Hochladen",
+                "checksum": "Prüfsumme"
             }
         }
     }

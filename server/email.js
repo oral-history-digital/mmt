@@ -13,6 +13,8 @@ function sendMail(transport, to, subject, text) {
     return;
   }
 
+  // TODO: This can crash! Errors need to be
+  // caught in the future.
   transport.sendMail({
     from: config.mail.from,
     to,

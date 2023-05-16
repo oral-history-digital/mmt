@@ -11,55 +11,45 @@ import getDirectoryName from '../utilities/getDirectoryName.js';
 import getFilenameSuffix from '../utilities/getFilenameSuffix.js';
 import requireAuth from '../middleware/requireAuth.js';
 import db from '../db.js';
+import {
+  FILE_STATE_PENDING,
+  FILE_STATE_UPLOADING,
+  FILE_STATE_COMPLETE,
+  FILE_STATE_ABORTED,
+  FILE_STATE_MISSING,
+} from '../constants.js';
 
 const emailService = createEmailService();
 const router = express.Router();
 
-const FILE_STATE_UPLOADING = 'uploading';
-const FILE_STATE_COMPLETE = 'complete';
-const FILE_STATE_MISSING = 'missing';
-
-router.post('/api/files', bodyParser.json(), requireAuth, async (req, res) => {
+router.post('/api/register-file', bodyParser.json(), requireAuth, async (req, res) => {
   const { username } = req.user;
-
   const user = await db.getUser({ username });
 
-  const { files } = req.body;
+  const { file } = req.body;
 
-  if (!Array.isArray(files)) {
-    // TODO: Error
+  const sanitizedFilename = sanitize(file.name);
+  let filenameWithExtension = sanitizedFilename;
+
+  // Test if filename already exists.
+  if (user.files.some((f) => f.name === sanitizedFilename)) {
+    const extension = getFilenameSuffix(new Date());
+    filenameWithExtension = `${sanitizedFilename}.${extension}`;
   }
 
-  const ids = files.map((f) => {
-    const sanitizedFilename = sanitize(f.name);
-    let filenameWithExtension = sanitizedFilename;
+  const newFile = {
+    name: filenameWithExtension,
+    size: file.size,
+    type: file.type,
+    lastModified: file.lastModified,
+    state: FILE_STATE_PENDING,
+  };
 
-    // Test if filename already exists.
-    if (user.files.some((file) => file.name === sanitizedFilename)) {
-      const extension = getFilenameSuffix(new Date());
-      filenameWithExtension = `${sanitizedFilename}.${extension}`;
-    }
-
-    const newFile = {
-      name: filenameWithExtension,
-      size: f.size,
-      type: f.type,
-      lastModified: f.lastModified,
-      state: 'pending',
-    };
-
-    const file = user.files.create(newFile);
-    user.files.push(file);
-
-    return {
-      id: file._id,
-      filename: file.name,
-    };
-  });
-
+  const savedFile = user.files.create(newFile);
+  user.files.push(savedFile);
   await user.save();
 
-  res.json(ids);
+  res.json(savedFile);
 });
 
 router.post('/api/checksum', bodyParser.json(), requireAuth, async (req, res) => {
@@ -88,6 +78,8 @@ router.post('/api/upload', requireAuth, async (req, res) => {
   });
 
   bb.on('file', (name, file, info) => {
+    let calculatedLength = 0;
+
     const fileInDatabase = user.files.find((f) => {
       return f._id.toString() === id;
     });
@@ -106,14 +98,14 @@ router.post('/api/upload', requireAuth, async (req, res) => {
     file.pipe(stream);
 
     file.on('data', (data) => {
+      calculatedLength += data.length;
+      db.updateFileAttribute(user._id, id, 'transferred', calculatedLength);
     });
 
     file.on('close', () => {
       // TODO: Check if file is complete.
 
       db.updateFileAttribute(user._id, id, 'state', FILE_STATE_COMPLETE);
-
-      console.log(`File ${filename} done`);
 
       emailService.sendMailToSupport(
         'File uploaded',
@@ -127,7 +119,7 @@ router.post('/api/upload', requireAuth, async (req, res) => {
 
       createServerChecksum(path.join(dir, filename), (err, checksum) => {
         if (err) {
-          console.log(err);
+          console.log(`There was an error: ${err}`);
         } else if (checksum) {
           db.updateFileAttribute(user._id, id, 'checksum_server', checksum);
         }
@@ -141,6 +133,26 @@ router.post('/api/upload', requireAuth, async (req, res) => {
   });
 
   req.pipe(bb);
+});
+
+router.put('/api/abort-upload/:id', requireAuth, async (req, res) => {
+  const { id } = req.params;
+  const { email } = req.user;
+  const user = await db.getUser({ email });
+
+  const fileInDatabase = user.files.find((f) => {
+    return f._id.toString() === id;
+  });
+
+  if (fileInDatabase.state === FILE_STATE_UPLOADING) {
+    db.updateFileAttribute(user._id, id, 'state', FILE_STATE_ABORTED);
+  }
+
+  // TODO: Error handling.
+  // If the file state is cannot be changed, there should be no 204 response.
+
+  res.writeHead(204);
+  res.end();
 });
 
 router.delete('/api/files/:id', requireAuth, async (req, res) => {
