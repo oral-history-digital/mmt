@@ -4,6 +4,7 @@ WORKDIR /app
 
 COPY package*.json ./
 
+ENV NODE_ENV=production
 RUN npm ci --omit=dev && npm cache clean --force --loglevel=error
 
 COPY server ./server/
