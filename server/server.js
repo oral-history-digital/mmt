@@ -1,5 +1,6 @@
 // Express modules
 import express from 'express';
+import http from 'http';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -46,7 +47,10 @@ const start = async () => {
   app.use(admin.options.rootPath, adminRouter);
   setupRoutes(app);
 
-  app.listen(config.server.port, config.server.host, () => {
+  // From Node 18 on, this option needs to be set.
+  const serverOptions = { requestTimeout: 7 * 24 * 60 * 60 * 1000 };  // 7 days.
+  const server = http.createServer(serverOptions, app);
+  server.listen(config.server.port, config.server.host, () => {
     console.log(`Express started in ${app.get('env')} mode at http://${config.server.host}:${config.server.port}; press Ctrl-C to terminate.`);
     console.log(`AdminJS started on http://localhost:${config.server.port}${admin.options.rootPath}`);
   });
