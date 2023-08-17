@@ -95,41 +95,48 @@ router.post('/api/upload', requireAuth, async (req, res) => {
 
     const stream = fs.createWriteStream(path.join(dir, filename));
 
-    file.pipe(stream);
+    file
+      .pipe(stream)
+      .on('error', () => {
+        console.error('failed upload', e);
+        res.sendStatus(500);
+      })
+      .on('finish', () => {
+        // TODO: Check if file is complete.
+        db.updateFileAttribute(user._id, id, 'state', FILE_STATE_COMPLETE);
+
+        emailService.sendMailToSupport(
+          'File uploaded',
+          `User ${user.username} has uploaded the file ${filename}.`,
+        );
+        emailService.sendMailToUser(
+          email,
+          'File uploaded',
+          `Your file ${filename} has been uploaded.`,
+        );
+
+        createServerChecksum(path.join(dir, filename), (err, checksum) => {
+          if (err) {
+            console.log(`There was an error: ${err}`);
+          } else if (checksum) {
+            db.updateFileAttribute(user._id, id, 'checksum_server', checksum);
+          }
+        });
+      });
 
     file.on('data', (data) => {
       calculatedLength += data.length;
       db.updateFileAttribute(user._id, id, 'transferred', calculatedLength);
     });
-
-    file.on('close', () => {
-      // TODO: Check if file is complete.
-
-      db.updateFileAttribute(user._id, id, 'state', FILE_STATE_COMPLETE);
-
-      emailService.sendMailToSupport(
-        'File uploaded',
-        `User ${user.username} has uploaded the file ${filename}.`,
-      );
-      emailService.sendMailToUser(
-        email,
-        'File uploaded',
-        `Your file ${filename} has been uploaded.`,
-      );
-
-      createServerChecksum(path.join(dir, filename), (err, checksum) => {
-        if (err) {
-          console.log(`There was an error: ${err}`);
-        } else if (checksum) {
-          db.updateFileAttribute(user._id, id, 'checksum_server', checksum);
-        }
-      });
-    });
   });
 
-  bb.on('close', () => {
-    res.writeHead(303, { Connection: 'close', Location: '/api/files' });
-    res.end();
+  bb.on('error', () => {
+    console.error('failed upload', e);
+    res.sendStatus(500);
+  });
+
+  bb.on('finish', () => {
+    res.sendStatus(200);
   });
 
   req.pipe(bb);
