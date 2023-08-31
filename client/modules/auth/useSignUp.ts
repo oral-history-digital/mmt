@@ -13,6 +13,8 @@ export default function useSignUp() {
   const [signedUp, setSignedUp] = useState(false);
 
   async function signUpUser(userData: UserData) {
+    setError(null);
+
     const response = await fetch(signUpEndPoint, {
       method: 'POST',
       credentials: 'include',

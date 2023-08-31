@@ -1,20 +1,24 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Message } from '../ui';
 import useSignUp, { UserData } from './useSignUp';
 
 export default function SignUp() {
+  const [frontendError, setFrontendError] = useState(null);
   const { t } = useTranslation();
 
-  const { signedUp, error, signUpUser } = useSignUp();
+  const { signedUp, error: backendError, signUpUser } = useSignUp();
 
   function handleFormSubmit(event: Event) {
     event.preventDefault();
+    setFrontendError(null);
 
     const form = event.target;
     const formElements = form.elements;
 
     if (formElements.password.value !== formElements.repeatPassword.value) {
+      setFrontendError('passwords_must_match');
       return;
     }
 
@@ -52,9 +56,15 @@ export default function SignUp() {
               {t('modules.auth.sign_up.title')}
             </h1>
 
-            {error && (
+            {backendError && (
               <Message type="error">
-                {t(`modules.auth.sign_up.errors.${error}`)}
+                {t(`modules.auth.sign_up.errors.${backendError}`)}
+              </Message>
+            )}
+
+            {frontendError && (
+              <Message type="error">
+                {t(`modules.auth.sign_up.errors.${frontendError}`)}
               </Message>
             )}
 

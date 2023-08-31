@@ -75,9 +75,10 @@ router.put('/api/user', requireAuth, async (req, res) => {
 router.post(
   '/api/login',
   passport.authenticate('local'),
-  (req, res) => {
+  async (req, res) => {
     const { user } = req.session.passport;
-    res.json(user);
+    const completeUser = await db.getUser({ username: user.username });
+    res.json(completeUser);
   },
 );
 

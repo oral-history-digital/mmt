@@ -55,7 +55,8 @@
                         "activation": "You have been signed up successfully. Please wait for our admins to review your registration and activate your account."
                     },
                     "errors": {
-                        "already registered": "Username or email already taken."
+                        "already registered": "Username or email already taken.",
+                        "passwords_must_match": "Passwords do not match."
                     }
                 }
             },
