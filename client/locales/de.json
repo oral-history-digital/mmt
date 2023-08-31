@@ -52,6 +52,9 @@
                     "success": {
                         "title": "Sie sind registriert",
                         "activation": "Sie wurden bei uns registriert. Bitte warten Sie, bis unsere Admins Ihre Registrierung überprüft und Ihr Konto freigeschaltet haben."
+                    },
+                    "errors": {
+                        "already registered": "Nutzername oder E-Mail-Adresse bereits vergeben."
                     }
                 }
             },

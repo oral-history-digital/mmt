@@ -1,15 +1,14 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Message } from '../ui';
-import { signUpEndPoint } from '../api';
+import useSignUp, { UserData } from './useSignUp';
 
 export default function SignUp() {
   const { t } = useTranslation();
-  const [error, setError] = useState(null);
-  const [signedUp, setSignedUp] = useState(false);
 
-  function handleFormSubmit(event) {
+  const { signedUp, error, signUpUser } = useSignUp();
+
+  function handleFormSubmit(event: Event) {
     event.preventDefault();
 
     const form = event.target;
@@ -19,32 +18,13 @@ export default function SignUp() {
       return;
     }
 
-    const userData = {
+    const userData: UserData = {
       username: formElements.username.value,
       email: formElements.email.value,
       password: formElements.password.value,
     };
 
-    fetch(signUpEndPoint, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userData),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(response.statusText);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setSignedUp(true);
-      })
-      .catch((err) => {
-        setError({
-          message: err.message,
-        });
-      });
+    signUpUser(userData);
   }
 
   if (signedUp) {
@@ -74,9 +54,7 @@ export default function SignUp() {
 
             {error && (
               <Message type="error">
-                <b>{error.code}</b>
-                {' '}
-                {error.message}
+                {t(`modules.auth.sign_up.errors.${error}`)}
               </Message>
             )}
 
