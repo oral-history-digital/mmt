@@ -1,0 +1,23 @@
+#!/bin/bash
+
+[[ $# -eq 1 ]] || {
+    echo "usage: create-mmt TAG"
+    exit 1
+}
+
+tag="$1"
+image="mmt:$tag"
+container="mmt-$tag"
+echo "Running image $image as $container ..."
+
+podman run --restart always --init -d \
+	   -e MMT_MONGODB_CONNECTION_STRING=mongodb://160.45.170.119:27017/mmt \
+           -e MMT_MONGODB_SESSION_CONNECTION_STRING=mongodb://160.45.170.119:27017/session \
+	   -e MMT_USER_FILES_DIR=/app/user_files \
+	   -e MMT_ADMIN_EMAIL=admin@example.com \
+	   -e MMT_ADMIN_PASSWORD=Ahbae5pa \
+	   -e MMT_MAIL_HOST=mail.fu-berlin.de \
+           -e MMT_MAIL_PORT=25 \
+           -e MMT_MAIL_SUPPORT_ADDRESS=tobias.kilgus@cedis.fu-berlin.de \
+	   -e MMT_ROLLBAR_ACCESS_TOKEN=d9511e4a9a774ec4851cae444725ba47 \
+	   -p 3000:3000 -v /data/ohd-file-upload:/app/user_files --name="$container" "$image"
