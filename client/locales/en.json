@@ -23,6 +23,7 @@
                 "not_calculable": "unknown"
             },
             "auth": {
+                "not_authorized": "Not Authorized",
                 "login": {
                     "title": "Login",
                     "email": "Email address",

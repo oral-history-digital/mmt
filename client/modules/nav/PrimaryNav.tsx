@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { GrMultimedia } from 'react-icons/gr';
 import classNames from 'classnames';
 
-import { Avatar, getIsLoggedIn, logout } from '../auth';
+import { Avatar, getIsLoggedIn, getUser, logout } from '../auth';
 import { logoutEndPoint } from '../api';
 
 export default function PrimaryNav({
@@ -13,6 +13,7 @@ export default function PrimaryNav({
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(getIsLoggedIn);
+  const user = useSelector(getUser);
   const { t } = useTranslation();
 
   function handleLogoutRequest() {
@@ -22,10 +23,13 @@ export default function PrimaryNav({
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         dispatch(logout());
         navigate('/');
       });
+  }
+
+  function showUploadMenuItem() {
+    return user?.canUpload;
   }
 
   return (
@@ -53,9 +57,11 @@ export default function PrimaryNav({
 
         <div id="navbarBasicExample" className="navbar-menu">
           <div className="navbar-start">
-            <Link className="navbar-item" to="/upload">
-              {t('modules.layout.primary-nav.upload')}
-            </Link>
+            {showUploadMenuItem() && (
+              <Link className="navbar-item" to="/upload">
+                {t('modules.layout.primary-nav.upload')}
+              </Link>
+            )}
 
             <Link className="navbar-item" to="/download">
               {t('modules.layout.primary-nav.download')}

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { getIsLoggedOut } from './selectors';
 
-export default function RequireAuth({
+export default function Authenticated({
   children,
 }) {
   const isLoggedOut = useSelector(getIsLoggedOut);
@@ -27,7 +27,7 @@ export default function RequireAuth({
   return children;
 }
 
-RequireAuth.propTypes = {
+Authenticated.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,

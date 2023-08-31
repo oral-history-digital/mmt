@@ -1,13 +1,13 @@
 import { useTranslation } from 'react-i18next';
 
-import { RequireAuth } from '../auth';
+import { Authenticated } from '../auth';
 import DownloadableFiles from './DownloadableFiles';
 
 export default function DownloadPage() {
   const { t } = useTranslation();
 
   return (
-    <RequireAuth>
+    <Authenticated>
       <section className="section">
         <div className="container">
           <div className="columns">
@@ -21,6 +21,6 @@ export default function DownloadPage() {
           </div>
         </div>
       </section>
-    </RequireAuth>
+    </Authenticated>
   );
 }

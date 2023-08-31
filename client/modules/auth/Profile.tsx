@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSWRConfig } from 'swr';
 
 import { userEndPoint } from '../api/index';
-import RequireAuth from './RequireAuth';
+import Authenticated from './Authenticated';
 import { getUser } from './selectors';
 
 export default function Profile() {
@@ -22,13 +22,12 @@ export default function Profile() {
     });
 
     const json = await res.json();
-    console.log(json);
 
     i18n.changeLanguage(language);
   }
 
   return (
-    <RequireAuth>
+    <Authenticated>
       <section className="section">
         <div className="container">
           <h1 className="title is-spaced">
@@ -74,6 +73,6 @@ export default function Profile() {
           )}
         </div>
       </section>
-    </RequireAuth>
+    </Authenticated>
   );
 }

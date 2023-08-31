@@ -35,7 +35,6 @@ export default function CheckUser({
       })
       .catch((error) => {
         dispatch(logout());
-        console.log(error.message);
       });
   }, []);
 
