@@ -107,7 +107,7 @@ router.post('/api/upload', requireAuth, async (req, res) => {
 
         emailService.sendMailToSupport(
           'File uploaded',
-          `User ${user.username} has uploaded the file ${filename}.`,
+          `User ${user.username} (${user.email}) has uploaded the file ${filename}.`,
         );
         emailService.sendMailToUser(
           email,
