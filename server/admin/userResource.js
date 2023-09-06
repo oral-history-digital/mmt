@@ -1,4 +1,8 @@
+import passwordsFeature from '@adminjs/passwords';
+
 import { User } from '../models/user.js';
+import { componentLoader } from './components.js';
+import getHashedPassword from '../utilities/getHashedPassword.js';
 
 export const userResource = {
   resource: User,
@@ -18,6 +22,7 @@ export const userResource = {
       activated: {
         description: 'Users have to be activated by an admin before they can log in.',
       },
+      password: { isVisible: false },
       language: {
         availableValues: [
           { value: 'en', label: 'English' },
@@ -98,4 +103,14 @@ export const userResource = {
       },
     },
   },
+  features: [
+    passwordsFeature({
+      componentLoader,
+      properties: {
+        encryptedPassword: 'password',
+        password: 'newPassword'
+      },
+      hash: getHashedPassword,
+  }),
+  ],
 };
