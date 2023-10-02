@@ -4,7 +4,7 @@
   border-top-left-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
   border: 1px solid #007bff;
-  bottom: 0;
+  bottom: calc(var(--base-unit) * -2);
   box-shadow: 0 0 10px rgba(0, 0, 255, 0.2), 0 4px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -20,13 +20,10 @@
 }
 
 .tray--is-open {
+  bottom: 0;
   height: calc(var(--base-unit) * 10);
   filter: initial;
   opacity: initial;
-}
-
-.tray--is-hidden {
-  bottom: calc(var(--base-unit) * -2);
 }
 
 .tray__header {

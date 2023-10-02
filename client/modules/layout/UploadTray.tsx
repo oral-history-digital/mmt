@@ -1,15 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 
 import { UploadQueue, useUploadQueue } from '../upload_queue';
 import { usePrevious } from '../react_tools';
-import { getIsLoggedIn } from '../auth';
 
 export default function UploadTray() {
   const [isOpen, setIsOpen] = useState(false);
-  const isLoggedIn = useSelector(getIsLoggedIn);
   const { t } = useTranslation();
   const { combinedUploadCount } = useUploadQueue();
   const previousUploadCount = usePrevious(combinedUploadCount);
@@ -28,7 +25,6 @@ export default function UploadTray() {
   return (
     <div className={classNames('tray', {
       'tray--is-open': isOpen,
-      'tray--is-hidden': !isLoggedIn,
     })}>
       <header className="tray__header">
         <h3 className="tray__title">
