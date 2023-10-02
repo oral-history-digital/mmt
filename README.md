@@ -30,14 +30,14 @@ The following is a basic documentation on how to deploy at the moment.
 - Stop old container, start new container
 - I usually create a git tag before deploying a new version. The same
   tag is then used in the image and container names.
-- On the server the command is podman, not docker. The usage is the same.
+- On our server the command is podman, not docker. The usage is the same.
 
 ### Step-by-step guide
 
 #### On your local computer
 
 ```console
-$ git clone git@gitlab.cedis.fu-berlin.de:dis/mmt.git
+$ git clone git@github.com:oral-history-digital/mmt.git
 $ cd mmt
 ```
 
@@ -57,19 +57,19 @@ Copy the image to the server, import it and delete the archive.
 Attention: podman, not docker.
 
 ```console
-$ scp mmt-v0.9.0.tar deploy@ohd-av.cedis.fu-berlin.de:
+$ scp mmt-v0.9.0.tar deploy@example.com:
 ```
 
 #### On the server
 
 ```console
-$ ssh deploy@ohd-av.cedis.fu-berlin.de
+$ ssh deploy@example.com
 $ podman image load -i mmt-v0.9.0.tar
 $ rm mmt-v0.9.0.tar
 ```
 
-In the directory /home/deploy/podman/mmt there is a shell script to start
-the container. Before, you have to stop the running container.
+On our server, in the directory /home/deploy/podman/mmt there is a shell
+script to start the container. Before, you have to stop the running container.
 
 ```console
 $ podman ps    # -> Old container: mmt-v0.8.1
