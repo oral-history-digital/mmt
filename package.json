@@ -18,7 +18,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Marc Altmann <marc.altmann@cedis.fu-berlin.de>",
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "dependencies": {
     "@adminjs/express": "^6.0.1",
     "@adminjs/mongoose": "^4.0.0",
