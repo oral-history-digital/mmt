@@ -112,8 +112,11 @@ router.post('/api/upload', requireAuth, async (req, res) => {
         emailService.sendMailToUser(
           email,
           'File uploaded',
-          `Your file ${filename} has been uploaded.`,
-        );
+          `Your file ${filename} has been uploaded.
+
+The file will now undergo a technical review and will subsequently be accessible within the oh.d system.
+
+The technical review and transcoding process may take several working days, depending on the scope, complexity, and workload. You will receive an email notification as soon as the file becomes available in the oh.d system.`);
 
         createServerChecksum(path.join(dir, filename), (err, checksum) => {
           if (err) {
