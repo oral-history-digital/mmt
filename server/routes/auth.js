@@ -85,14 +85,10 @@ router.post(
 router.post('/api/logout', (req, res) => {
   req.logout((err) => {
     if (err) {
-      res.json({
-        message: 'failure',
-      });
+      res.json({ message: 'failure' });
     }
 
-    res.json({
-      message: 'success',
-    });
+    res.json({ message: 'success' });
   });
 });
 
@@ -106,9 +102,7 @@ router.post('/api/sign-up', async (req, res) => {
   const existingEmail = await db.getUser({ email });
   if (existingUsername || existingEmail) {
     res.status(400)
-      .json({
-        message: 'already registered',
-      });
+      .json({ message: 'already registered' });
     return;
   }
 
@@ -121,14 +115,7 @@ router.post('/api/sign-up', async (req, res) => {
     `The user ${username} (${email}) has just registered and needs to be activated.`,
   );
 
-  req.login(user, (err) => {
-    if (err) {
-      return next(err);
-    }
-
-    const { user } = req.session.passport;
-    return res.json(user);
-  });
+  res.json({ message: 'success' });
 });
 
 export default router;
