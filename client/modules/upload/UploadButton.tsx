@@ -5,6 +5,14 @@ import { Message } from '../ui/index';
 import { formatBytes, FILESIZE_LIMIT } from '../files';
 import useUploadFiles from './useUploadFiles';
 
+const ACCEPTED_FILES = [
+  'video/*',
+  'audio/*',
+  'image/*',
+  'model/vnd.mts',
+  'application/mxf',
+];
+
 export default function UploadButton() {
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
@@ -34,7 +42,7 @@ export default function UploadButton() {
             type="file"
             name="files"
             id="file-input"
-            accept="video/*,audio/*,image/*"
+            accept={ACCEPTED_FILES.join(',')}
             multiple
             onChange={handleFileChange}
           />
